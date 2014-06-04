@@ -2,14 +2,21 @@
 <head>
 <title> FIFA World Cup 2014 - Choose Your Own Adventure</title>
 <link rel='stylesheet' href='worldcup/world_cup.css' />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
 </head>
 <body>
-	<div id="main">
+	<div id="matches">
+	</div>
+	<div id="groupTable">
 	</div>
 	<script src="worldcup/world_cup.js"></script>
 	<script>
-		document.getElementById("main").innerHTML+="<p>"+Groups[0].drawMatches()+"</p>";
-		$(document).on('blur', '.score1, .score2', updateScore());
+		Groups[0].drawMatches();
+		Groups[0].drawTable();
+		$(document).on('blur', '.score1, .score2', function() {
+			//alert(this.parentNode.parentNode.id[5]+", "+this.parentNode.firstChild.value+", "+this.parentNode.lastChild.value);
+			Groups[0].play(this.parentNode.parentNode.id[5], this.parentNode.firstChild.value, this.parentNode.lastChild.value);
+		});
 	</script>
 </body>
 </html>

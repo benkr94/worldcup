@@ -1,10 +1,10 @@
-/* TeamCompare
+/* teamCompare
  * The comparison function used to order groups' team arrays by how the teams have performed,
  * using the appropriate tiebreak rules. It looks backwards (ie, better performance = "less than") 
  * so that I can just use it in Array.sort() without reversing it and get them from first to last.
  */ 
 
-function TeamCompare(a, b) {
+function teamCompare(a, b) {
     if (a.getPoints() > b.getPoints()) {
         return -1;
     }
@@ -30,20 +30,20 @@ function TeamCompare(a, b) {
     return 0;
 }
 
-/* AdvancedTiebreak
+/* advancedTiebreak
  * If teams have identical points, goal difference, and goals scored, the rules dictate that you compare them
  * again using only the matches between the teams in question. Yet to be implemented is the case where they are
  * still tied after this, and the rules call for a drawing of lots by FIFA (!).
  */
-function AdvancedTiebreak(teams, matches) {
-    for (var m = 0; m < matches.length; i++) {
+function advancedTiebreak(teams, matches) {
+    for (var m = 0; m < matches.length; m++) {
         var matched1 = -1;
         var matched2 = -1;
-        for (var t = 0; t < teams.length; teams++) {
-            if (m.team1.id === t.id) {
+        for (var t = 0; t < teams.length; t++) {
+            if (matches[m].team1.id === t.id) {
                 matched1 = t;
             }
-            if (m.team2.id === t.id) {
+            if (matches[m].team2.id === t.id) {
                 matched2 = t;
             }
         }
@@ -81,15 +81,20 @@ function Match(id, team1, team2) {
         return (isNonNegativeNumber(score1) && isNonNegativeNumber(score2)); 
     };
     this.play = function (goals1, goals2) {
+        var updateTable = false;
+        if (this.played()) {
+            team1.unplay(score1, score2);
+            team2.unplay(score2, score1);
+            updateTable = true;
+        }
         if (isNonNegativeNumber(goals1) && isNonNegativeNumber(goals2)) {
-            team1.play(goals1, goals2);
-            team2.play(goals2, goals1);
-        } else if (played) {
-            team1.unplay(goals1, goals2);
-            team2.unplay(goals2, goals1);
+            team1.play(parseInt(goals1), parseInt(goals2));
+            team2.play(parseInt(goals2), parseInt(goals1));
+            updateTable = true;
         }
         score1 = goals1;
         score2 = goals2;
+        return updateTable;
     };
 }
 
@@ -190,14 +195,13 @@ function Group(id, teams) {
     matches[3] = new Match(16 + 2 * id + 2, teams[3], teams[1]);
     matches[4] = new Match(32 + 2 * id + 1, teams[3], teams[0]);
     matches[5] = new Match(32 + 2 * id + 2, teams[1], teams[2]);
-    this.play = function (match, goals1, goals2) {
-        matches[match].play(goals1, goals2);
-    };
-    this.unplay = function (match, goals1, goals2) {
-        matches[match].unplay(goals1, goals2);
+    this.play = function (matchIndex, goals1, goals2) {
+        if (matches[matchIndex].play(goals1, goals2)) {
+            this.drawTable();
+        }
     };
     this.rankAll = function () {
-        teams.sort(TeamCompare);
+        teams.sort(teamCompare);
         for (var i = 0; i < teams.length; i++) {
             if (teams[i].requiresAdvancedTiebreak !== -1) {
                 saves = {};
@@ -212,7 +216,7 @@ function Group(id, teams) {
                         break;
                     }
                 }
-                var correctOrder = AdvancedTiebreak(minigroup, matches);
+                var correctOrder = advancedTiebreak(minigroup, matches);
                 for (var k = 0; k < minigroup.length; k++) {
                     teams[i+k] = minigroup[k];
                     teams[i+k].loadSave(saves[teams[i+k].id]);
@@ -249,18 +253,18 @@ function Group(id, teams) {
                    '</tr>';
         }
         html += "</table>";
-        return html;
+        $("#groupTable").html(html);
     };
     this.drawMatches = function () {
         var html = '';
         for (var i = 0; i < matches.length; i++) {
-            html += '<div id="match'+matches[i].id+'" class="matchRow">'+
+            html += '<div id="match'+i+'" class="matchRow">'+
                         '<p class="team1">'+matches[i].team1.countryName+'</p>'+
                         '<p class="result"><input class="score1" maxlength="1"> - <input class="score2" maxlength="1"></p>'+
                         '<p class="team2">'+matches[i].team2.countryName+'</p>'+
                     '</div>';
         }
-        return html;
+        $("#matches").html(html);
     };
 }
 
