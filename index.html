@@ -1,25 +1,15 @@
 <html>
 <head>
 <title> FIFA World Cup 2014 - Choose Your Own Adventure</title>
-<script src="world_cup.js"></script>
+<link rel='stylesheet' href='worldcup/world_cup.css' />
 </head>
 <body>
 	<div id="main">
-		<p> Nothing's happened yet.</p>
 	</div>
+	<script src="worldcup/world_cup.js"></script>
 	<script>
-		countrynames = ["Brazil", "Croatia", "Mexico", "Cameroon", "Spain", "Netherlands", "Chile", "Australia", "Colombia", "Greece", "Ivory Coast", "Japan", "Uruguay", "Costa Rica", "England", "Italy", "Switzerland", "Ecuador", "France", "Honduras", "Argentina", "Bosnia & Herz.", "Iran", "Nigeria", "Germany", "Portugal", "Ghana", "United States", "Belgium", "Algeria", "Russia", "Korea Republic"];
-		Groups = [];
-		for (var group=0; group<8; group++) {
-			var Teams = [];
-			for (var i=0; i<=4; i++) {
-				Teams[i] = new Team(4*group+i, countrynames[4*group+i]);
-			}
-			Groups[group] = new Group(String.fromCharCode(group+65), Teams);
-		}
-		for (var j=0; j<8; j++) {
-			document.getElementById("main").innerHTML+="<p>"+Groups[j].Teams[0].countryName+"</p>";
-		}
+		document.getElementById("main").innerHTML+="<p>"+Groups[0].drawMatches()+"</p>";
+		$(document).on('blur', '.score1, .score2', updateScore());
 	</script>
 </body>
 </html>
