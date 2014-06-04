@@ -1,0 +1,32 @@
+.team1 {
+    float: left;
+    text-align:right;
+    width:33.33333%;
+}
+.result {
+    float: left;
+    text-align:center;
+    width:33.33333%;
+}
+.team2 {
+    float: right;
+    text-align:left;
+    width: 33.33333%;
+}
+
+.matchRow {
+    width:70%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.matchRow::after {
+    visibility:hidden;
+    display:block;
+    content:"";
+    clear:both;   
+}
+
+.score1, .score2 {
+    width:20px;
+}
