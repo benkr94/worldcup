@@ -1,8 +1,8 @@
 <html>
 <head>
 <title> FIFA World Cup 2014 - Choose Your Own Adventure</title>
-<link rel='stylesheet' href='worldcup/world_cup.css' />
-<link rel='stylesheet' href='worldcup/tabs.css' />
+<link rel='stylesheet' href='world_cup.css' />
+<link rel='stylesheet' href='tabs.css' />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
 </head>
 <body>
@@ -13,15 +13,22 @@
 		<div class="tab-content">
 		</div>
 	</div>
-	<script src="worldcup/world_cup.js"></script>
+	<script src="world_cup.js"></script>
 	<script>
 		for (var i = 0; i < 8; i++) {
-			$('.tab-links').append('<li><a href="#'+Groups[i].id+'">Group '+Groups[i].id+'</a></li>');
-			var groupTab = '<div id="'+Groups[i].id+'" class="tab">'+
+			var groupTab = '<li><a href="#'+Groups[i].id+'">'+
+								'<img src="flags/'+Groups[i].teams[0].id+'.png">'+
+								'<img src="flags/'+Groups[i].teams[1].id+'.png">'+
+								Groups[i].id+
+								'<img src="flags/'+Groups[i].teams[2].id+'.png">'+
+								'<img src="flags/'+Groups[i].teams[3].id+'.png">'+
+						   '</a></li>';
+			$('.tab-links').append(groupTab);
+			var groupContent = '<div id="'+Groups[i].id+'" class="tab">'+
 								'<div class="matches"></div>'+
 								'<div class="groupTable"></div>'+
 						   '</div>';
-			$('.tab-content').append(groupTab);
+			$('.tab-content').append(groupContent);
 			Groups[i].drawMatches();
 			Groups[i].drawTable();
 		}

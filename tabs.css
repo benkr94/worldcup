@@ -33,6 +33,10 @@
             background:#a7cce5;
             text-decoration:none;
         }
+        
+        .tab-links img {
+        	vertical-align:middle;
+        }
  
     li.active a, li.active a:hover {
         background:#fff;

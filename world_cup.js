@@ -259,9 +259,9 @@ function Group(id, teams) {
         var html = '';
         for (var i = 0; i < matches.length; i++) {
             html += '<div class="match'+i+' matchRow">'+
-                        '<p class="team1">'+matches[i].team1.countryName+'</p>'+
+                        '<p class="team1">'+matches[i].team1.countryName+'<img src="flags/'+matches[i].team1.id+'.png"></p>'+
                         '<p class="result"><input class="score1" maxlength="1"> - <input class="score2" maxlength="1"></p>'+
-                        '<p class="team2">'+matches[i].team2.countryName+'</p>'+
+                        '<p class="team2"><img src="flags/'+matches[i].team2.id+'.png">'+matches[i].team2.countryName+'</p>'+
                     '</div>';
         }
         $("#"+this.id+" .matches").html(html);
