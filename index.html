@@ -2,20 +2,43 @@
 <head>
 <title> FIFA World Cup 2014 - Choose Your Own Adventure</title>
 <link rel='stylesheet' href='worldcup/world_cup.css' />
+<link rel='stylesheet' href='worldcup/tabs.css' />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
 </head>
 <body>
-	<div id="matches">
-	</div>
-	<div id="groupTable">
+	<div class="tabs">
+		<ul class="tab-links">
+		</ul>
+		
+		<div class="tab-content">
+		</div>
 	</div>
 	<script src="worldcup/world_cup.js"></script>
 	<script>
-		Groups[0].drawMatches();
-		Groups[0].drawTable();
+		for (var i = 0; i < 8; i++) {
+			$('.tab-links').append('<li><a href="#'+Groups[i].id+'">Group '+Groups[i].id+'</a></li>');
+			var groupTab = '<div id="'+Groups[i].id+'" class="tab">'+
+								'<div class="matches"></div>'+
+								'<div class="groupTable"></div>'+
+						   '</div>';
+			$('.tab-content').append(groupTab);
+			Groups[i].drawMatches();
+			Groups[i].drawTable();
+		}
+        $('.tabs .tab-links a').on('click', function(e)  {
+            var currentAttrValue = $(this).attr('href');
+     
+            // Show/Hide Tabs
+            $('.tabs ' + currentAttrValue).show().siblings().hide();
+     
+            // Change/remove current tab to active
+            $(this).parent('li').addClass('active').siblings().removeClass('active');
+     
+            e.preventDefault();
+        });
 		$(document).on('blur', '.score1, .score2', function() {
-			//alert(this.parentNode.parentNode.id[5]+", "+this.parentNode.firstChild.value+", "+this.parentNode.lastChild.value);
-			Groups[0].play(this.parentNode.parentNode.id[5], this.parentNode.firstChild.value, this.parentNode.lastChild.value);
+			var groupIndex = $(this).parents('.tab').attr('id').charCodeAt(0)-65;
+			Groups[groupIndex].play(this.parentNode.parentNode.className[5], this.parentNode.firstChild.value, this.parentNode.lastChild.value);
 		});
 	</script>
 </body>

@@ -253,18 +253,18 @@ function Group(id, teams) {
                    '</tr>';
         }
         html += "</table>";
-        $("#groupTable").html(html);
+        $("#"+this.id+" .groupTable").html(html);
     };
     this.drawMatches = function () {
         var html = '';
         for (var i = 0; i < matches.length; i++) {
-            html += '<div id="match'+i+'" class="matchRow">'+
+            html += '<div class="match'+i+' matchRow">'+
                         '<p class="team1">'+matches[i].team1.countryName+'</p>'+
                         '<p class="result"><input class="score1" maxlength="1"> - <input class="score2" maxlength="1"></p>'+
                         '<p class="team2">'+matches[i].team2.countryName+'</p>'+
                     '</div>';
         }
-        $("#matches").html(html);
+        $("#"+this.id+" .matches").html(html);
     };
 }
 
