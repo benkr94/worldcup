@@ -1,0 +1,29 @@
+.hs {
+	height:5;
+}
+
+.round {
+	border:1px solid #aaa;
+	background-color:#F2F2F2;
+	text-align:center;
+}
+
+.line {
+	border-color:black;
+	border-style:solid;
+}
+.from-above {
+	border-width:0 0 1px 0;
+}
+
+.two-borders {
+	border-width:2px 0 1px 0;
+}
+
+.three-borders {
+	border-width:2px 3px 1px 0;
+}
+
+.from-below {
+	border-width:2px 0 0 0;
+}
