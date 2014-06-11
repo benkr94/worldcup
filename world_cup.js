@@ -17,10 +17,10 @@ function teamCompare(a, b) {
     else if (b.getGoalDifference() > a.getGoalDifference()) {
         return 1;   
     }
-    else if (a.getPoints() > b.getPoints()) {
+    else if (a.getGoalsFor() > b.getGoalsFor()) {
         return -1;
     }
-    else if (b.getPoints() > a.getPoints()) {
+    else if (b.getGoalsFor() > a.getGoalsFor()) {
         return 1;
     }
     else if (a.getPlayed() > 0) {
