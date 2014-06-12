@@ -30,7 +30,7 @@
 						   '</div>';
 			$('.tab-content').append(groupContent);
 			Groups[i].drawMatches();
-			Groups[i].drawTable();
+			Groups[i].firstTable();
 		}
         $('.tabs .tab-links a').on('click', function(e)  {
             var currentAttrValue = $(this).attr('href');
@@ -45,7 +45,9 @@
         });
 		$(document).on('blur', '.score1, .score2', function() {
 			var groupIndex = $(this).parents('.tab').attr('id').charCodeAt(0)-65;
-			Groups[groupIndex].play(this.parentNode.parentNode.className[5], this.parentNode.firstChild.value, this.parentNode.lastChild.value);
+			//alert("Match: "+$(this).parents(".matchRow").attr('class')[5] + " Score1: " + $(this).parent(".result").children(".score1").val() + " Score2: " + $(this).parent(".result").children(".score2").val());
+			Groups[groupIndex].play($(this).parents(".matchRow").attr('class')[5], $(this).parent(".result").children(".score1").val(), $(this).parent(".result").children(".score2").val());
+			//alert(Groups[groupIndex].teams[0].getStat("points"));
 		});
 	</script>
 </body>

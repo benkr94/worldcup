@@ -5,27 +5,27 @@
  */ 
 
 function teamCompare(a, b) {
-    if (a.getPoints() > b.getPoints()) {
+    if (a.getStat("points") > b.getStat("points")) {
         return -1;
     }
-    else if (b.getPoints() > a.getPoints()) {
+    else if (b.getStat("points") > a.getStat("points")) {
         return 1;
     }
-    else if (a.getGoalDifference() > b.getGoalDifference()) {
+    else if (a.getStat("goalDifference") > b.getStat("goalDifference")) {
         return -1;
     }
-    else if (b.getGoalDifference() > a.getGoalDifference()) {
+    else if (b.getStat("goalDifference") > a.getStat("goalDifference")) {
         return 1;   
     }
-    else if (a.getGoalsFor() > b.getGoalsFor()) {
+    else if (a.getStat("goalsFor") > b.getStat("goalsFor")) {
         return -1;
     }
-    else if (b.getGoalsFor() > a.getGoalsFor()) {
+    else if (b.getStat("goalsFor") > a.getStat("goalsFor")) {
         return 1;
     }
-    else if (a.getPlayed() > 0) {
-        a.requiresAdvancedTiebreak = a.getPoints();
-        b.requiresAdvancedTiebreak = b.getPoints();
+    else if (a.getStat("played") > 0) {
+        a.requiresAdvancedTiebreak = a.getStat("points");
+        b.requiresAdvancedTiebreak = b.getStat("points");
     }
     return 0;
 }
@@ -104,13 +104,14 @@ function Match(id, team1, team2) {
  *  countryName: the name of the country, sometimes a bit FIFA-ized.
  *  requiresAdvancedTiebreak: marked during the first run of Group.rankAll(). Indicates whether teams need
  *    to be reevaluated on only the matches played against those they're tied with.
+ *  prevRank: used during league table animations to tell how much to move the team by
  *  play: Updates a team's stats given the score of a match. Only composite stats are stored in this object, not individual
  *    scores, to avoid having to constantly re-sum total, or unnecessarily storing both.
  *  unplay: Updates a team's stats (subtracts scores, decrements w/d/l) if the user decides to undo a match or change its score
       (implemented as unplay and then play with new scores)
- *  played, won, drawn, lost, goalsFor, goalsAgainst: stats for display in the table. Private, so that they can be modified
+ *  stats.played, won, drawn, lost, goalsFor, goalsAgainst: stats for display in the table. Private, so that they can be modified
  *    only by playing a match, resetting, or loading a save
- *  getPlayed, getWon, getDrawn, getGoalsFor, getGoalsAgainst, getGoalDifference: Getters for above stats.
+ *  getStat: Getter for above stats.
  *  reset: sets stats to zero, but returns them from before they are zeroed so that they may be reloaded if the resetting is
       just for advanced tiebreak. 
  *  loadSave: Sets the teams' stats to the values in the array passed as an argument.
@@ -119,33 +120,46 @@ function Team(id, countryName) {
     this.id = id;
     this.countryName = countryName;
     this.requiresAdvancedTiebreak = -1;
-    var played, won, drawn, lost, goalsFor, goalsAgainst;
-    played = won = drawn = lost = goalsFor = goalsAgainst = 0;
+    this.prevRank = id % 4;
+    var stats = {"played": 0, "won": 0, "drawn": 0, "lost": 0, "goalsFor": 0, "goalsAgainst": 0};
+    //var played, won, drawn, lost, goalsFor, goalsAgainst;
+    //played = won = drawn = lost = goalsFor = goalsAgainst = 0;
     this.play = function (gfor, against) {
-        played++;
-        goalsFor += gfor;
-        goalsAgainst += against;
+        stats.played++;
+        stats.goalsFor += gfor;
+        stats.goalsAgainst += against;
         if (gfor > against) {
-            won++;
+            stats.won++;
         } else if (gfor === against) {
-            drawn++;
+            stats.drawn++;
         } else {
-            lost++;
+            stats.lost++;
         }
     };
     this.unplay = function (gfor, against) {
-        played--;
-        goalsFor -= gfor;
-        goalsAgainst -= against;
+        stats.played--;
+        stats.goalsFor -= gfor;
+        stats.goalsAgainst -= against;
         if (gfor > against) {
-            won--;
+            stats.won--;
         } else if (gfor === against) {
-            drawn--;
+            stats.drawn--;
         } else {
-            lost--;
+            stats.lost--;
         }
     };
-    this.getPlayed = function () {
+    this.getStat = function (stat) {
+    	if (stat === "points") {
+    		return 3 * stats.won + stats.drawn;
+    	}
+    	else if (stat === "goalDifference") {
+    		return stats.goalsFor - stats.goalsAgainst;
+    	}
+    	else {
+    		return stats[stat];
+    	}
+    }
+    /*this.getPlayed = function () {
         return played;
     }
     this.getPoints = function () {
@@ -168,19 +182,14 @@ function Team(id, countryName) {
     };
     this.getGoalDifference = function () {
         return goalsFor - goalsAgainst;
-    };
+    };*/
     this.reset = function () {
-        var savedState = [played, won, drawn, lost, goalsFor, goalsAgainst];
-        played = won = drawn = lost = goalsFor = goalsAgainst = 0;
+        var savedState = stats;
+        stats = {"played": 0, "won": 0, "drawn": 0, "lost": 0, "goalsFor": 0, "goalsAgainst": 0};
         return savedState;
     }
     this.loadSave = function(save) {
-        played = save[0];
-        won = save[1];
-        drawn = save[2];
-        lost = save[3];
-        goalsFor = save[4];
-        goalsAgainst = save[5];
+        stats = save;
         requiresAdvancedTiebreak = -1;
     }
 }
@@ -197,7 +206,7 @@ function Group(id, teams) {
     matches[5] = new Match(32 + 2 * id + 2, teams[1], teams[2]);
     this.play = function (matchIndex, goals1, goals2) {
         if (matches[matchIndex].play(goals1, goals2)) {
-            this.drawTable();
+            this.reorderTable();
         }
     };
     this.rankAll = function () {
@@ -226,7 +235,9 @@ function Group(id, teams) {
         }
         return teams;
     };
-    this.drawTable = function () {
+    this.firstTable = function () {
+    	this.rankAll();
+    	var statKeys = ["played", "won", "drawn", "lost", "goalsFor", "goalsAgainst", "goalDifference", "points"]; //avoiding forEach for the benefit of IE8 users
         var html = '<table><tr>'+
                        '<th width="190">Team</th>'+
                        '<th width="28"><abbr title="Played">Pld</abbr></th>'+
@@ -238,23 +249,33 @@ function Group(id, teams) {
                        '<th width="28"><abbr title="Goal Difference">GD</abbr></th>'+
                        '<th width="28"><abbr title="Points">Pts</abbr></th>'+
                    '</tr>';
-        this.rankAll();
         for (var i = 0; i < teams.length; i++) {
             html += '<tr id="row'+teams[i].id+'">'+
-                       '<td>'+teams[i].countryName+'</td>'+
-                       '<td>'+teams[i].getPlayed()+'</td>'+
-                       '<td>'+teams[i].getWon()+'</td>'+
-                       '<td>'+teams[i].getDrawn()+'</td>'+
-                       '<td>'+teams[i].getLost()+'</td>'+
-                       '<td>'+teams[i].getGoalsFor()+'</td>'+
-                       '<td>'+teams[i].getGoalsAgainst()+'</td>'+
-                       '<td>'+teams[i].getGoalDifference()+'</td>'+
-                       '<td>'+teams[i].getPoints()+'</td>'+
-                   '</tr>';
+                       '<td><div class="countryName">'+teams[i].countryName+'</div></td>'; //wrapping div necessary for animations, which cannot work on table rows or cells
+            for (var j = 0; j < statKeys.length; j++) {
+            	html+= '<td><div class="'+statKeys[j]+'">'+teams[i].getStat(statKeys[j])+'</div></td>';
+            }
+            html += '</tr>';
         }
         html += "</table>";
+        //alert(html);
         $("#"+this.id+" .groupTable").html(html);
     };
+    this.reorderTable = function () {
+    	this.rankAll();
+    	var statKeys = ["played", "won", "drawn", "lost", "goalsFor", "goalsAgainst", "goalDifference", "points"];
+       	for (var i = 0; i < teams.length; i++) {
+    		for (var j = 0; j < statKeys.length; j++) {
+				//alert($("#"+this.id+" .groupTable #row"+teams[i].id+" ."+statKeys[j]).text());
+				$("#"+this.id+" .groupTable #row"+teams[i].id+" ."+statKeys[j]).text(teams[i].getStat(statKeys[j]));
+			}
+    	}
+    	for (var i = 0; i < teams.length; i++) { //two iterations over same array intentional; want to change stats before beginning animation
+    		var rankChange = i - teams[i].prevRank;
+       		$("#"+this.id+" .groupTable #row"+teams[i].id+" div").animate({"top":"+="+(rankChange*22)+"px"});
+       		teams[i].prevRank = i;
+    	}
+    }
     this.drawMatches = function () {
         var html = '';
         for (var i = 0; i < matches.length; i++) {

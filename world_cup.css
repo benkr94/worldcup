@@ -30,3 +30,7 @@
 .score1, .score2 {
     width:20px;
 }
+
+.groupTable td div {
+	position:relative;
+}
