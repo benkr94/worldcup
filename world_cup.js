@@ -1,3 +1,10 @@
+/* IsNonNegativeInteger
+ * Does what it says on the tin. Used to verify that both score inputs are valid before playing a match.
+ */
+function isNonNegativeNumber(n) {
+    return parseInt(n) === Number(n) && n >= 0;
+}
+
 /* teamCompare
  * The comparison function used to order groups' team arrays by how the teams have performed,
  * using the appropriate tiebreak rules. It looks backwards (ie, better performance = "less than") 
@@ -55,13 +62,6 @@ function advancedTiebreak(teams, matches) {
     return teams.sort(teamCompare);
 }
 
-/* IsNonNegativeInteger
- * Does what it says on the tin. Used to verify that both score inputs are valid before playing a match.
- */
-function isNonNegativeNumber(n) {
-    return parseInt(n) === Number(n) && n >= 0;
-}
-
 /* Match
  * Attributes:
  *  id: the number of the match as defined by FIFA, following the sequence 1 = A1 vs A2, 2 = B1 vs B2,
@@ -105,22 +105,42 @@ function Match(id, team1, team2) {
  *  requiresAdvancedTiebreak: marked during the first run of Group.rankAll(). Indicates whether teams need
  *    to be reevaluated on only the matches played against those they're tied with.
  *  prevRank: used during league table animations to tell how much to move the team by
- *  play: Updates a team's stats given the score of a match. Only composite stats are stored in this object, not individual
+ *  eliminated, clinched: whether the team can make the knockout stage, or can't not. -1 if known to be false, 0 if still
+      calculating, 1 if known to be true. 1 for one implies -1 for the other, but the converse is not true.
+ *  eliminate(), clinch(), resetGroupStatus(): methods to set eliminated and clinched at the same time.
+ *  play(): Updates a team's stats given the score of a match. Only composite stats are stored in this object, not individual
  *    scores, to avoid having to constantly re-sum total, or unnecessarily storing both.
- *  unplay: Updates a team's stats (subtracts scores, decrements w/d/l) if the user decides to undo a match or change its score
+ *  unplay(): Updates a team's stats (subtracts scores, decrements w/d/l) if the user decides to undo a match or change its score
       (implemented as unplay and then play with new scores)
  *  stats.played, won, drawn, lost, goalsFor, goalsAgainst: stats for display in the table. Private, so that they can be modified
  *    only by playing a match, resetting, or loading a save
- *  getStat: Getter for above stats.
- *  reset: sets stats to zero, but returns them from before they are zeroed so that they may be reloaded if the resetting is
+ *  getStat(stat): Getter for above stats.
+ *  reset(): sets stats to zero, but returns them from before they are zeroed so that they may be reloaded if the resetting is
       just for advanced tiebreak. 
- *  loadSave: Sets the teams' stats to the values in the array passed as an argument.
+ *  loadSave(): Sets the teams' stats to the values in the array passed as an argument.
  */
 function Team(id, countryName) {
     this.id = id;
     this.countryName = countryName;
     this.requiresAdvancedTiebreak = -1;
     this.prevRank = id % 4;
+    this.isEliminated = 0;
+    this.hasClinched = 0;
+    this.eliminate = function () {
+    	isEliminated = 1;
+    	hasClinched = -1;
+    };
+    this.clinch = function () {
+    	isEliminated = -1;
+    	hasClinched = 1;
+    }
+    this.resetGroupStatus = function() {
+    	isEliminated = 0;
+    	hasClinched = 0;
+    }
+    this.knownStatus = function() {
+    	return (isEliminated === 1 || hasClinched === 1);
+    }
     var stats = {"played": 0, "won": 0, "drawn": 0, "lost": 0, "goalsFor": 0, "goalsAgainst": 0};
     //var played, won, drawn, lost, goalsFor, goalsAgainst;
     //played = won = drawn = lost = goalsFor = goalsAgainst = 0;
@@ -159,30 +179,6 @@ function Team(id, countryName) {
     		return stats[stat];
     	}
     }
-    /*this.getPlayed = function () {
-        return played;
-    }
-    this.getPoints = function () {
-        return 3 * won + drawn;
-    };
-    this.getWon = function () {
-        return won;
-    };
-    this.getDrawn = function () {
-        return drawn;
-    };
-    this.getLost = function () {
-        return lost;
-    };
-    this.getGoalsFor = function () {
-        return goalsFor;
-    };
-    this.getGoalsAgainst = function () {
-        return goalsAgainst;
-    };
-    this.getGoalDifference = function () {
-        return goalsFor - goalsAgainst;
-    };*/
     this.reset = function () {
         var savedState = stats;
         stats = {"played": 0, "won": 0, "drawn": 0, "lost": 0, "goalsFor": 0, "goalsAgainst": 0};
@@ -207,7 +203,17 @@ function Group(id, teams) {
     this.play = function (matchIndex, goals1, goals2) {
         if (matches[matchIndex].play(goals1, goals2)) {
             this.reorderTable();
+            this.colorRows();
         }
+    };
+    this.played = function () {
+    	var matchesPlayed = 0;
+    	for (var i = 0; i < matches.length; i++) {
+    		if (matches[i].played) {
+    			matchesPlayed++;
+    		}
+    	return matchesPlayed;
+    	}
     };
     this.rankAll = function () {
         teams.sort(teamCompare);
@@ -286,6 +292,107 @@ function Group(id, teams) {
                     '</div>';
         }
         $("#"+this.id+" .matches").html(html);
+    };
+    
+    /* colorRows
+     * Colors the table green for teams that have clinched a berth in the knockout round, red for those that have been eliminated.
+     * Uses helper functions in groupStatus.js. I couldn't come up with a nice, graph-theoretic proof, so I just tried a bunch of
+     * scenarios and coded the heuristics that I, as a human, used to determine who had clinched and who was eliminated.
+     */
+    this.colorRows = function() {
+    	try { //Enclosed in a try block, for ease of skipping to the end once we know we're done.
+	    	for (var i = 0; i < teams.length; i++) {
+	    		teams[i].resetGroupStatus();
+	    	}
+	    	if (this.played() <= 2) { //If 2 or fewer games have been played, no team can have clinched or been eliminated.
+	    		throw "done";
+	    	}
+	    	if (this.played() === 6) {//If all games have been played, the top 2 teams have clinched and the bottom 2 are eliminated.
+	    		teams[0].clinch();
+	    		teams[1].clinch();
+	    		teams[2].eliminate();
+	    		teams[3].eliminate();
+	    		throw "done";
+	    	}
+	    	var teamsClinched = 0;
+	    	var teamsEliminated = 0;
+	    	for (var i = 0; i < teams.length; i++) {
+	    		if (teams[i].getStat("points") >= 7) { //7 points clinches. (There are only 18 points up for grabs.)
+	    			teams[i].clinch();
+	    			teamsClinched++;
+	    		}
+	    		else if (teams[i].getStat("played") === 3 && teams[i].getStat("points") <= 2) {
+	    			teams[i].eliminate(); //Finishing with 2 points eliminates.
+	    			teamsEliminated++;
+	    		}
+	    		else if (teams[i].getStat("played") <= 1) { //You cannot be eliminated, or clinch, after only one game.
+	    			teams[i].isEliminated = -1;
+	    			teams[i].hasClinched = -1;
+	    		}
+	    		else if (teams[i].getStat("played") === 2 && teams[i].getStat("points") >= 3) {
+	    			teams[i].isEliminated = -1; //If you've scored at least 3 points through 2 games, you aren't eliminated.
+	    		}
+	    	}
+	    	/* This is where it gets complicated. To decide the status of the remaining teams, we simulate the remaining matches.
+	    	 * To decide whether a team is eliminated, we make the sims as favorable to that team as possible and see if they can
+	       	 * finish in 1st or 2nd.  To determine whether a team has clinched, we make the sims as unfavorable to that team as
+	       	 * possible and see if they can finish in 3rd or 4th. More info is in groupStatus.js.
+	       	 */
+	    	for (var i = teams.length; i >= 0; i--) {
+				if (teamsEliminated === 2) { //If two teams are eliminated, the other two have clinched. No matches will be simmed.
+	    			throw "clinchRest";
+	    		}
+	    		if (!teams[i].knownStatus()) {
+	    			var matchesLeft = [];
+	    			var leagueTable = teams;
+	    			for (var i = 0; i < matches.length; i++) {
+	    				if (!this.matches[i].played()) {
+	    					if ((matches[i].team1.id === teams[i].id || matches[i].team2.id === teams[i].id) {
+	    						matchesLeft.unshift(matches[i]);	//when we pass to helper function, we want to sim
+	    					}										//the team in question's matches first.
+	    					else {
+	    						matchesLeft.push(matches[i]);
+	    					}
+	    				}
+	    			}
+	    			if(determineIfEliminated(i, leagueTable, matchesLeft)) {
+	    				teams[i].eliminate();
+	    				teamsEliminated++;
+	    			}
+	    		}
+	    	}
+	    	if (teamsEliminated === 2) { //in case the last iteration of the loop eliminates a team.
+	    		throw "clinchRest";
+	    	}
+	    	for (var i = 0; i < teams.length; i++) { //yes, I do want to loop twice and eliminate teams before checking clinching
+	       		if (!teams[i].knownStatus()) {
+	    			if(determineIfClinched(i, leagueTable, matchesLeft)) {
+	    				teams[i].clinch();
+	    				teamsClinched++;
+	    			}
+	    		}
+	    	}
+	    }
+	    catch (e) {		//If two teams are eliminated, the other two have clinched. This takes care of marking them as such.
+    		if (e === "clinchRest") {
+    			for (var i = 0; i < teams.length; i++) {
+    				if (!teams[i].knownStatus()) {
+    					teams[i].clinch();
+    				}
+    			}
+    		}
+    	}
+    	//Finally, after having decided the status of every team, color the rows.
+    	finally {
+			for (var i = 0; i < teams.length; i++) {
+				if (teams[i].hasClinched === 1) {
+					$("#"+this.id+" .groupTable #row"+teams[i].id+" div").addClass("clinched");
+				}
+				if (teams[i].isEliminated === 1) {
+					$("#"+this.id+" .groupTable #row"+teams[i].id+" div").addClass("eliminated");
+				}
+			}
+		}
     };
 }
 
