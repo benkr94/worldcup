@@ -298,9 +298,11 @@ function Group(id, teams) {
      * Colors the table green for teams that have clinched a berth in the knockout round, red for those that have been eliminated.
      * Uses helper functions in groupStatus.js. I couldn't come up with a nice, graph-theoretic proof, so I just tried a bunch of
      * scenarios and coded the heuristics that I, as a human, used to determine who had clinched and who was eliminated.
+     * Try/catch/finally statements are used as general control flow statements, rather than for error handling, to make skipping
+     * to the end easy.
      */
     this.colorRows = function() {
-    	try { //Enclosed in a try block, for ease of skipping to the end once we know we're done.
+    	try {
 	    	for (var i = 0; i < teams.length; i++) {
 	    		teams[i].resetGroupStatus();
 	    	}
@@ -316,21 +318,25 @@ function Group(id, teams) {
 	    	}
 	    	var teamsClinched = 0;
 	    	var teamsEliminated = 0;
+	    	var teamsKnownStatus = 0;
 	    	for (var i = 0; i < teams.length; i++) {
 	    		if (teams[i].getStat("points") >= 7) { //7 points clinches. (There are only 18 points up for grabs.)
 	    			teams[i].clinch();
 	    			teamsClinched++;
+	    			teamsKnownStatus++;
 	    		}
 	    		else if (teams[i].getStat("played") === 3 && teams[i].getStat("points") <= 2) {
 	    			teams[i].eliminate(); //Finishing with 2 points eliminates.
 	    			teamsEliminated++;
+	    			teamsKnownStatus++;
 	    		}
-	    		else if (teams[i].getStat("played") <= 1) { //You cannot be eliminated, or clinch, after only one game.
+	    		else if (teams[i].getStat("played") <= 1) { //You cannot be eliminated, or clinch, after only one match.
 	    			teams[i].isEliminated = -1;
 	    			teams[i].hasClinched = -1;
+	    			teamsKnownStatus++;
 	    		}
 	    		else if (teams[i].getStat("played") === 2 && teams[i].getStat("points") >= 3) {
-	    			teams[i].isEliminated = -1; //If you've scored at least 3 points through 2 games, you aren't eliminated.
+	    			teams[i].isEliminated = -1; //If you've scored at least 3 points through 2 matches, you aren't eliminated.
 	    		}
 	    	}
 	    	/* This is where it gets complicated. To decide the status of the remaining teams, we simulate the remaining matches.
@@ -339,9 +345,6 @@ function Group(id, teams) {
 	       	 * possible and see if they can finish in 3rd or 4th. More info is in groupStatus.js.
 	       	 */
 	    	for (var i = teams.length; i >= 0; i--) {
-				if (teamsEliminated === 2) { //If two teams are eliminated, the other two have clinched. No matches will be simmed.
-	    			throw "clinchRest";
-	    		}
 	    		if (!teams[i].knownStatus()) {
 	    			var matchesLeft = [];
 	    			var leagueTable = teams;
@@ -355,29 +358,40 @@ function Group(id, teams) {
 	    					}
 	    				}
 	    			}
-	    			if(determineIfEliminated(i, leagueTable, matchesLeft)) {
+	    			if (teams[i].isEliminated !== -1 && determineIfEliminated(i, leagueTable, matchesLeft)) {
 	    				teams[i].eliminate();
 	    				teamsEliminated++;
+	    				teamsKnownStatus++;
 	    			}
-	    		}
-	    	}
-	    	if (teamsEliminated === 2) { //in case the last iteration of the loop eliminates a team.
-	    		throw "clinchRest";
-	    	}
-	    	for (var i = 0; i < teams.length; i++) { //yes, I do want to loop twice and eliminate teams before checking clinching
-	       		if (!teams[i].knownStatus()) {
-	    			if(determineIfClinched(i, leagueTable, matchesLeft)) {
+	    			else if (determineIfClinched(i, leagueTable, matchesLeft)) {
 	    				teams[i].clinch();
 	    				teamsClinched++;
+	    				teamsKnownStatus++;
 	    			}
+	    		}
+	    		if (teamsEliminated === 2) {	//Perform checks again in case previous sims have made you cross a threshold
+	    			throw "clinchRest";
+	    		}
+	    		if (teamsClinched === 2) {		
+	    			throw "eliminateRest";
+	    		}
+	    		if (teamsKnownStatus === 4) {
+	    			throw "done";
 	    		}
 	    	}
 	    }
-	    catch (e) {		//If two teams are eliminated, the other two have clinched. This takes care of marking them as such.
-    		if (e === "clinchRest") {
+	    catch (e) {
+    		if (e === "clinchRest") {	//If two teams are eliminated, the other two have clinched.
     			for (var i = 0; i < teams.length; i++) {
     				if (!teams[i].knownStatus()) {
     					teams[i].clinch();
+    				}
+    			}
+    		}
+    		else if (e === "eliminateRest") {
+    			for (var i = 0; i < teams.length; i++) {
+    				if (!teams[i].knownStatus()) {
+    					teams[i].eliminate();
     				}
     			}
     		}
