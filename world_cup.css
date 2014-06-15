@@ -34,3 +34,11 @@
 .groupTable td div {
 	position:relative;
 }
+
+.clinched {
+	background:#ccffcc;
+}
+
+.eliminated {
+	background:#ffcccc;
+}
