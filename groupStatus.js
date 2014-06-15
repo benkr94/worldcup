@@ -122,13 +122,13 @@ function determineIfEliminated(teamIndex, matches, leagueTable) {
 		alreadyPlayed.push(matches.shift());
 	}
 	for (var j = 0; j < matches.length; j++) { //Next, make any non-contending teams win 99-0 to limit threat from their opponents.
-		if (!threat(matches[j].team1, leagueTable[teamIndex]) {
+		if (!threat(matches[j].team1, leagueTable[teamIndex])) {
 			matches[j].play(99,0);
 			alreadyPlayed.push(matches[j]);
 			matches.splice(j,1);
 			j--; //since we have removed the match at this index, need to retry this index on next iteration.
 		}
-		else if (!threat(matches[j].team2, leagueTable[teamIndex]) {
+		else if (!threat(matches[j].team2, leagueTable[teamIndex])) {
 			matches[j].play(0,99);
 			alreadyPlayed.push(matches[j]);
 			matches.splice(j,1);
@@ -136,15 +136,15 @@ function determineIfEliminated(teamIndex, matches, leagueTable) {
 		}
 	}
 	for (var j = 0; j < matches.length; j++) { //Finally, simulate remaining match(es) to minimize damage, per testEliminationMatch.
-		if (matches[j].team1.getStat("played") === 2)) {
+		if (matches[j].team1.getStat("played") === 2) {
 			var result = testEliminationMatch(matches[j].team1, leagueTable[teamIndex]);
 			matches[j].play(result[0], result[1]);
 			alreadyPlayed.push(matches[j]);
 			matches.splice(j,1);
 			j--;
 		}
-		else if (matches[j].team2.getStat("played") === 2)) {
-			var result = testEliminationMatch(matches[j].team1, leagueTable[teamIndex]);
+		else if (matches[j].team2.getStat("played") === 2) {
+			var result = testEliminationMatch(matches[j].team2, leagueTable[teamIndex]);
 			matches[j].play(result[1], result[0]);
 			alreadyPlayed.push(matches[j]);
 			matches.splice(j,1);
@@ -159,7 +159,7 @@ function determineIfEliminated(teamIndex, matches, leagueTable) {
 			finalStatus = true;
 		}
 	}
-	for (var j = 0; j < alreadyPlayed.length; j++)
+	for (var j = 0; j < alreadyPlayed.length; j++) {
 		alreadyPlayed[j].unplay();
 	}
 	return finalStatus;
@@ -180,13 +180,13 @@ function determineIfClinched(teamIndex, matches, leagueTable) {
 		alreadyPlayed.push(matches.shift());
 	}
 	for (var j = 0; j < matches.length; j++) { //Next, make any non-contending teams lose 99-0 to maximize threat from their opponents.
-		if (!threat(matches[j].team1, leagueTable[teamIndex]) {
+		if (!threat(matches[j].team1, leagueTable[teamIndex])) {
 			matches[j].play(0,99);
 			alreadyPlayed.push(matches[j]);
 			matches.splice(j,1);
 			j--; //since we have removed the match at this index, need to retry this index on next iteration.
 		}
-		else if (!threat(matches[j].team2, leagueTable[teamIndex]) {
+		else if (!threat(matches[j].team2, leagueTable[teamIndex])) {
 			matches[j].play(99,0);
 			alreadyPlayed.push(matches[j]);
 			matches.splice(j,1);
@@ -194,15 +194,15 @@ function determineIfClinched(teamIndex, matches, leagueTable) {
 		}
 	}
 	for (var j = 0; j < matches.length; j++) { //Finally, simulate remaining match(es) to maximize damage, per testClinchingMatch.
-		if (matches[j].team1.getStat("played") === 2)) {
+		if (matches[j].team1.getStat("played") === 2) {
 			var result = testClinchingMatch(matches[j].team1, leagueTable[teamIndex]);
 			matches[j].play(result[0], result[1]);
 			alreadyPlayed.push(matches[j]);
 			matches.splice(j,1);
 			j--;
 		}
-		else if (matches[j].team2.getStat("played") === 2)) {
-			var result = testClinchingMatch(matches[j].team1, leagueTable[teamIndex]);
+		else if (matches[j].team2.getStat("played") === 2) {
+			var result = testClinchingMatch(matches[j].team2, leagueTable[teamIndex]);
 			matches[j].play(result[1], result[0]);
 			alreadyPlayed.push(matches[j]);
 			matches.splice(j,1);
@@ -217,7 +217,7 @@ function determineIfClinched(teamIndex, matches, leagueTable) {
 			finalStatus = true;
 		}
 	}
-	for (var j = 0; j < alreadyPlayed.length; j++)
+	for (var j = 0; j < alreadyPlayed.length; j++) {
 		alreadyPlayed[i].unplay();
 	}
 	return finalStatus;

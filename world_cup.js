@@ -135,19 +135,19 @@ function Team(id, countryName) {
     this.isEliminated = 0;
     this.hasClinched = 0;
     this.eliminate = function () {
-    	isEliminated = 1;
-    	hasClinched = -1;
+    	this.isEliminated = 1;
+    	this.hasClinched = -1;
     };
     this.clinch = function () {
-    	isEliminated = -1;
-    	hasClinched = 1;
+    	this.isEliminated = -1;
+    	this.hasClinched = 1;
     }
     this.resetGroupStatus = function() {
-    	isEliminated = 0;
-    	hasClinched = 0;
+    	this.isEliminated = 0;
+    	this.hasClinched = 0;
     }
     this.knownStatus = function() {
-    	return (isEliminated !== 0 && hasClinched !== 0);
+    	return (this.isEliminated !== 0 && this.hasClinched !== 0);
     }
     var stats = {"played": 0, "won": 0, "drawn": 0, "lost": 0, "goalsFor": 0, "goalsAgainst": 0};
     //var played, won, drawn, lost, goalsFor, goalsAgainst;
@@ -216,12 +216,12 @@ function Group(id, teams) {
     };
     this.played = function () {
     	var matchesPlayed = 0;
-    	for (var i = 0; i < matches.length; i++) {
-    		if (matches[i].played) {
+    	for (var j = 0; j < matches.length; j++) {
+    		if (matches[j].played()) {
     			matchesPlayed++;
     		}
-    	return matchesPlayed;
     	}
+    	return matchesPlayed;
     };
     this.rankAll = function () {
         teams.sort(teamCompare);
@@ -315,35 +315,41 @@ function Group(id, teams) {
 	    		teams[i].resetGroupStatus();
 	    	}
 	    	if (this.played() <= 2) { //If 2 or fewer games have been played, no team can have clinched or been eliminated.
-	    		throw "done";
+	    		console.log("2 or fewer games played, not evaluating.");
+	    		throw this.played();
 	    	}
 	    	if (this.played() === 6) {//If all games have been played, the top 2 teams have clinched and the bottom 2 are eliminated.
+	    		console.log("All games played, clinching top 2 and eliminating bottom two.");
 	    		teams[0].clinch();
 	    		teams[1].clinch();
 	    		teams[2].eliminate();
 	    		teams[3].eliminate();
-	    		throw "done";
+	    		throw this.played();
 	    	}
 	    	var teamsClinched = 0;
 	    	var teamsEliminated = 0;
 	    	var teamsKnownStatus = 0;
 	    	for (var i = 0; i < teams.length; i++) {
 	    		if (teams[i].getStat("points") >= 7) { //7 points clinches. (There are only 18 points up for grabs.)
+	    			console.log("Clinching "+teams[i].countryName+" for having 7 or more points");
 	    			teams[i].clinch();
 	    			teamsClinched++;
 	    			teamsKnownStatus++;
 	    		}
-	    		else if (teams[i].getStat("played") === 3 && teams[i].getStat("points") <= 2) {
+	    		else if (teams[i].getStat("played") === 3 && teams[i].getStat("points") <= 1) {
+	    			console.log("Eliminating "+teams[i].countryName+" for finishing with 1 or fewer points");
 	    			teams[i].eliminate(); //Finishing with 2 points eliminates.
 	    			teamsEliminated++;
 	    			teamsKnownStatus++;
 	    		}
 	    		else if (teams[i].getStat("played") <= 1) { //You cannot be eliminated, or clinch, after only one match.
+	    			console.log(teams[i].countryName+" has played only one game, marking status known");
 	    			teams[i].isEliminated = -1;
 	    			teams[i].hasClinched = -1;
 	    			teamsKnownStatus++;
 	    		}
 	    		else if (teams[i].getStat("played") === 2 && teams[i].getStat("points") >= 3) {
+	    			console.log(teams[i].countryName+" has at least 3 points through 2 matches so is not eliminated");
 	    			teams[i].isEliminated = -1; //If you've scored at least 3 points through 2 matches, you aren't eliminated.
 	    		}
 	    	}
@@ -390,9 +396,11 @@ function Group(id, teams) {
 	    	}*/
 	    }
 	    catch (e) {
+	    	//alert(e);
     		if (e === "clinchRest") {	//If two teams are eliminated, the other two have clinched.
     			for (var i = 0; i < teams.length; i++) {
     				if (!teams[i].knownStatus()) {
+    					console.log("2 teams eliminated, clinching remainder (including "+teams[i].countryName+")");
     					teams[i].clinch();
     				}
     			}
@@ -400,6 +408,7 @@ function Group(id, teams) {
     		else if (e === "eliminateRest") {
     			for (var i = 0; i < teams.length; i++) {
     				if (!teams[i].knownStatus()) {
+    					console.log("2 teams clinched, eliminating remainder (including "+teams[i].countryName+")");
     					teams[i].eliminate();
     				}
     			}
@@ -409,16 +418,17 @@ function Group(id, teams) {
     	finally {
 			for (var i = 0; i < teams.length; i++) {
 				if (teams[i].hasClinched === 1) {
-					$("#"+this.id+" .groupTable #row"+teams[i].id).removeClass("eliminated");
-					$("#"+this.id+" .groupTable #row"+teams[i].id).addClass("clinched");
+					//alert("I got to here too!");
+					$("#"+this.id+" .groupTable #row"+teams[i].id+" div").removeClass("eliminated");
+					$("#"+this.id+" .groupTable #row"+teams[i].id+" div").addClass("clinched");
 				}
 				else if (teams[i].isEliminated === 1) {
-					$("#"+this.id+" .groupTable #row"+teams[i].id).removeClass("clinched");
-					$("#"+this.id+" .groupTable #row"+teams[i].id).addClass("eliminated");
+					$("#"+this.id+" .groupTable #row"+teams[i].id+" div").removeClass("clinched");
+					$("#"+this.id+" .groupTable #row"+teams[i].id+" div").addClass("eliminated");
 				}
 				else {
-					$("#"+this.id+" .groupTable #row"+teams[i].id).removeClass("clinched");
-					$("#"+this.id+" .groupTable #row"+teams[i].id).removeClass("eliminated");
+					$("#"+this.id+" .groupTable #row"+teams[i].id+" div").removeClass("clinched");
+					$("#"+this.id+" .groupTable #row"+teams[i].id+" div").removeClass("eliminated");
 				}
 			}
 		}
