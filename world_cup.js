@@ -147,7 +147,7 @@ function Team(id, countryName) {
     	hasClinched = 0;
     }
     this.knownStatus = function() {
-    	return (isEliminated === 1 || hasClinched === 1);
+    	return (isEliminated !== 0 && hasClinched !== 0);
     }
     var stats = {"played": 0, "won": 0, "drawn": 0, "lost": 0, "goalsFor": 0, "goalsAgainst": 0};
     //var played, won, drawn, lost, goalsFor, goalsAgainst;
@@ -352,7 +352,7 @@ function Group(id, teams) {
 	       	 * finish in 1st or 2nd.  To determine whether a team has clinched, we make the sims as unfavorable to that team as
 	       	 * possible and see if they can finish in 3rd or 4th. More info is in groupStatus.js.
 	       	 */
-	    	for (var i = teams.length; i >= 0; i--) {
+	    	/*for (var i = teams.length; i >= 0; i--) {
 	    		if (!teams[i].knownStatus()) {
 	    			var matchesLeft = [];
 	    			var leagueTable = teams.slice(0);
@@ -387,7 +387,7 @@ function Group(id, teams) {
 	    		if (teamsKnownStatus === 4) {
 	    			throw "done";
 	    		}
-	    	}
+	    	}*/
 	    }
 	    catch (e) {
     		if (e === "clinchRest") {	//If two teams are eliminated, the other two have clinched.
