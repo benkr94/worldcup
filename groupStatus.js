@@ -168,7 +168,7 @@ function determineIfEliminated(teamIndex, matches, leagueTable) {
 /* determineIfClinched(teamIndex, matches, leagueTable)
  * Determines if the team at teamIndex in the leagueTable has clinched a berth in the knockout stage based on the matches remaining.
  */
-function determineIfEliminated(teamIndex, matches, leagueTable) {
+function determineIfClinched(teamIndex, matches, leagueTable) {
 	var teamID = leagueTable[teamIndex].id;
 	var alreadyPlayed = [];
 	if (matches[0].team1.id === teamID) { //First, if the team has a match remaining, make it a landslide loss. 
