@@ -50,7 +50,7 @@ function testEliminationMatch(threatener, evalTeam) {
 	var loseBy = 0;
 	switch (ptsBetween) {
 		case 3: //If the threatener trails by 3 points, they can safely win by as many points as they are behind in goal difference.
-			winBy = (goalDifferenceBetween < goalsForBetween) ? goalDifferenceBetween : goalDifferenceBetween - 1;
+			winBy = (goalDifferenceBetween <= goalsForBetween) ? goalDifferenceBetween : goalDifferenceBetween - 1;
 			winBy = (winBy > 0) ? winBy : 0; //If the threatener leads in goal difference, they cannot safely win. Return 0-0 draw.
 			return [winBy, 0];
 			break;
@@ -58,7 +58,7 @@ function testEliminationMatch(threatener, evalTeam) {
 			return [0,0];
 			break;         
 		case 1: //If the threatener trails by one point, return a 0-0 draw, unless they would win the tiebreak. Then return 0-1 loss.
-			if (goalDifferenceBetween < 0 || (goalDifferenceBetween === 0 && goalsForBetween <= 0)) {
+			if (goalDifferenceBetween < 0 || (goalDifferenceBetween === 0 && goalsForBetween < 0)) {
 				return [0,1]
 			}
 			else {
@@ -68,7 +68,7 @@ function testEliminationMatch(threatener, evalTeam) {
 		case 0: //If the threatener is tied, in order to not finish above the evalTeam, they must lose by enough to lose the tiebreak.
 			if (goalDifferenceBetween < 0) {
 				loseBy = 0 - goalDifferenceBetween;
-				if (goalsForBetween <= 0) {
+				if (goalsForBetween < 0) {
 					loseBy++;
 				}
 			}
