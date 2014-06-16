@@ -1,17 +1,21 @@
 function threat(threatener, evalTeam) {
 	if (threatener.isEliminated === 1 || threatener.hasClinched === 1) {
+		console.log("Deciding non-threat based on known eliminated/clinching status.");
 		return false;
 	}
 	ptsBetween = evalTeam.getStat("points") - threatener.getStat("points");
 	goalDifferenceBetween = evalTeam.getStat("goalDifference") - threatener.getStat("goalDifference");
 	goalsForBetween = evalTeam.getStat("goalsFor") - threatener.getStat("goalsFor");
 	if (ptsBetween > 3 || ptsBetween < 0) {
+		console.log("Deciding non-threat based on points differential: "+threatener.countryName+" has "+threatener.getStat("points")+", "+evalTeam.countryName+" has "+evalTeam.getStat("points"));
 		return false;
 	} //below tests should never be entered; should not be evaluating team with no games to play. Will put in error handling.
 	if (ptsBetween === 3 && goalDifferenceBetween > 0 && threatener.getStat("played") === 3) {
+		console.log("You shouldn't be here!");
 		return false;
 	}
 	if (ptsBetween === 0 && goalDifferenceBetween < 0 && threatener.getStat("played") === 3) {
+		console.log("You shouldn't be here!");
 		return false;
 	}
 	return true;
@@ -102,6 +106,7 @@ function testClinchingMatch(threatener, evalTeam) {
 			break;
 		case 0: //If the threatener is tied, have them lose by enough to just win the tiebreak, or tie if that's not possible.
 			loseBy = (goalDifferenceBetween < 0) ? 0 - goalDifferenceBetween : 0
+			alert(loseBy);
 			return [99 - loseBy, 99];
 			break;
 	}
@@ -110,25 +115,31 @@ function testClinchingMatch(threatener, evalTeam) {
 /* determineIfEliminated(teamIndex, matches, leagueTable)
  * Determines if the team at teamIndex in the leagueTable has been eliminated based on the matches remaining.
  */
-function determineIfEliminated(teamIndex, matches, leagueTable) {
+function determineIfEliminated(teamIndex, matches, teams) {
+	var leagueTable = teams.slice(0);
+	console.log("Successfully called determineIfEliminated");
 	var teamID = leagueTable[teamIndex].id;
 	var alreadyPlayed = [];
 	if (matches[0].team1.id === teamID) { //First, if the team has a match remaining, make it a landslide win. 
+		console.log("Simming 99-0 win for team's remaining match");
 		matches[0].play(99,0);
 		alreadyPlayed.push(matches.shift());
 	}
 	else if (matches[0].team2.id === teamID) {
+		console.log("Simming 99-0 win for team's remaining match");
 		matches[0].play(0,99);
 		alreadyPlayed.push(matches.shift());
 	}
 	for (var j = 0; j < matches.length; j++) { //Next, make any non-contending teams win 99-0 to limit threat from their opponents.
 		if (!threat(matches[j].team1, leagueTable[teamIndex])) {
+			console.log(matches[j].team1.countryName+" doesn't threaten "+leagueTable[teamIndex].countryName+". Simming 99-0 win.");
 			matches[j].play(99,0);
 			alreadyPlayed.push(matches[j]);
 			matches.splice(j,1);
 			j--; //since we have removed the match at this index, need to retry this index on next iteration.
 		}
 		else if (!threat(matches[j].team2, leagueTable[teamIndex])) {
+			console.log(matches[j].team1.countryName+" doesn't threaten "+leagueTable[teamIndex].countryName+". Simming 99-0 win.");
 			matches[j].play(0,99);
 			alreadyPlayed.push(matches[j]);
 			matches.splice(j,1);
@@ -137,6 +148,7 @@ function determineIfEliminated(teamIndex, matches, leagueTable) {
 	}
 	for (var j = 0; j < matches.length; j++) { //Finally, simulate remaining match(es) to minimize damage, per testEliminationMatch.
 		if (matches[j].team1.getStat("played") === 2) {
+			console.log("Calling testEliminationMatch");
 			var result = testEliminationMatch(matches[j].team1, leagueTable[teamIndex]);
 			matches[j].play(result[0], result[1]);
 			alreadyPlayed.push(matches[j]);
@@ -144,6 +156,7 @@ function determineIfEliminated(teamIndex, matches, leagueTable) {
 			j--;
 		}
 		else if (matches[j].team2.getStat("played") === 2) {
+			console.log("Calling testEliminationMatch");
 			var result = testEliminationMatch(matches[j].team2, leagueTable[teamIndex]);
 			matches[j].play(result[1], result[0]);
 			alreadyPlayed.push(matches[j]);
@@ -155,12 +168,15 @@ function determineIfEliminated(teamIndex, matches, leagueTable) {
 	var finalStatus = false;
 	for (var i = 2; i < leagueTable.length; i++) {
 		if (leagueTable[i].id === teamID) {
-			leagueTable[i].eliminate();
+			teams[teamIndex].eliminate();
+			console.log("Eliminating "+teams[teamIndex].countryName);
 			finalStatus = true;
 		}
 	}
 	for (var j = 0; j < alreadyPlayed.length; j++) {
 		alreadyPlayed[j].unplay();
+		matches.push(alreadyPlayed[j]);
+		console.log("Unplaying the match between "+alreadyPlayed[j].team1.countryName+" and "+alreadyPlayed[j].team2.countryName);
 	}
 	return finalStatus;
 }
@@ -168,25 +184,36 @@ function determineIfEliminated(teamIndex, matches, leagueTable) {
 /* determineIfClinched(teamIndex, matches, leagueTable)
  * Determines if the team at teamIndex in the leagueTable has clinched a berth in the knockout stage based on the matches remaining.
  */
-function determineIfClinched(teamIndex, matches, leagueTable) {
+function determineIfClinched(teamIndex, matches, teams) {
+	var leagueTable = teams.slice(0);
+	//console.log(matches.length);
+	console.log("Successfully called determineIfClinched");
 	var teamID = leagueTable[teamIndex].id;
+	//console.log("TeamID being evaluated: "+leagueTable[teamIndex].id);
+	//console.log("First match is between "+matches[0].team1.id+" and "+matches[0].team2.id);
 	var alreadyPlayed = [];
 	if (matches[0].team1.id === teamID) { //First, if the team has a match remaining, make it a landslide loss. 
+		console.log("Simming 99-0 loss for "+matches[0].team1.countryName+"'s remaining match against "+matches[0].team2.countryName);
 		matches[0].play(0, 99);
 		alreadyPlayed.push(matches.shift());
 	}
 	else if (matches[0].team2.id === teamID) {
+		console.log("Simming 99-0 loss for "+matches[0].team2.countryName+"'s remaining match against "+matches[0].team1.countryName);
 		matches[0].play(99,0);
 		alreadyPlayed.push(matches.shift());
 	}
 	for (var j = 0; j < matches.length; j++) { //Next, make any non-contending teams lose 99-0 to maximize threat from their opponents.
 		if (!threat(matches[j].team1, leagueTable[teamIndex])) {
+			console.log(matches[j].team1.countryName+" doesn't threaten "+leagueTable[teamIndex].countryName+". Simming 99-0 loss.");
+			console.log("Before the sim, "+matches[j].team1.countryName+" has "+matches[j].team1.getStat("points")+" and "+matches[j].team2.countryName+" has "+matches[j].team2.getStat("points"));
 			matches[j].play(0,99);
+			console.log("After the sim, "+matches[j].team1.countryName+" has "+matches[j].team1.getStat("points")+" and "+matches[j].team2.countryName+" has "+matches[j].team2.getStat("points"));
 			alreadyPlayed.push(matches[j]);
 			matches.splice(j,1);
 			j--; //since we have removed the match at this index, need to retry this index on next iteration.
 		}
 		else if (!threat(matches[j].team2, leagueTable[teamIndex])) {
+			console.log(matches[j].team2.countryName+" doesn't threaten "+leagueTable[teamIndex].countryName+". Simming 99-0 loss.");
 			matches[j].play(99,0);
 			alreadyPlayed.push(matches[j]);
 			matches.splice(j,1);
@@ -196,6 +223,8 @@ function determineIfClinched(teamIndex, matches, leagueTable) {
 	for (var j = 0; j < matches.length; j++) { //Finally, simulate remaining match(es) to maximize damage, per testClinchingMatch.
 		if (matches[j].team1.getStat("played") === 2) {
 			var result = testClinchingMatch(matches[j].team1, leagueTable[teamIndex]);
+			alert(result);
+			//console.log("testClinchingMatch. The result of this sim is "+matches[j].team1.countryName+result[0]+matches[j].team2.countryName+result[1]);
 			matches[j].play(result[0], result[1]);
 			alreadyPlayed.push(matches[j]);
 			matches.splice(j,1);
@@ -203,22 +232,30 @@ function determineIfClinched(teamIndex, matches, leagueTable) {
 		}
 		else if (matches[j].team2.getStat("played") === 2) {
 			var result = testClinchingMatch(matches[j].team2, leagueTable[teamIndex]);
+			alert(result);
+			//console.log("testClinchingMatch. The result of this sim is "+matches[j].team1.countryName+result[0]+matches[j].team2.countryName+result[1]
 			matches[j].play(result[1], result[0]);
 			alreadyPlayed.push(matches[j]);
 			matches.splice(j,1);
 			j--;
 		}
 	}
+	console.log("In this simulation, "+leagueTable[teamIndex].countryName+" gets "+leagueTable[teamIndex].getStat("points")+" points");
 	leagueTable.sort(teamCompare);
 	var finalStatus = false;
 	for (var i = 0; i < 2; i++) {
 		if (leagueTable[i].id === teamID) {
-			leagueTable[i].clinch();
+			teams[teamIndex].clinch();
+			console.log("Clinching "+teams[teamIndex].countryName);
 			finalStatus = true;
 		}
 	}
 	for (var j = 0; j < alreadyPlayed.length; j++) {
-		alreadyPlayed[i].unplay();
+		console.log(teams[0].countryName+" has "+teams[0].getStat("points"));
+		alreadyPlayed[j].unplay();
+		console.log("Unplaying the match between "+alreadyPlayed[j].team1.countryName+" and "+alreadyPlayed[j].team2.countryName);
+		console.log(teams[0].countryName+" has "+teams[0].getStat("points"));
+		matches.push(alreadyPlayed[j]);
 	}
 	return finalStatus;
 }

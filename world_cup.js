@@ -98,10 +98,10 @@ function Match(id, team1, team2) {
         return updateTable;
     };
     this.unplay = function () {
-    	score1 = '';
-    	score2 = '';
     	team1.unplay(score1, score2);
         team2.unplay(score2, score1);
+    	score1 = '';
+    	score2 = '';
         //no updateTable since this is only used after simulations, which never updated the table in the first place
     }
 }
@@ -199,7 +199,7 @@ function Team(id, countryName) {
 }
 
 function Group(id, teams) {
-    this.id = id;
+    this.id = String.fromCharCode(id+65);
     this.teams = teams;
     var matches = [];
     matches[0] = new Match(2 * id + 1, teams[0], teams[1]);
@@ -211,6 +211,7 @@ function Group(id, teams) {
     this.play = function (matchIndex, goals1, goals2) {
         if (matches[matchIndex].play(goals1, goals2)) {
             this.reorderTable();
+            //alert("Current table: "+teams[0].countryName+teams[0].getStat("points")+teams[1].countryName+teams[1].getStat("points")+teams[2].countryName+teams[2].getStat("points")+teams[3].countryName+teams[3].getStat("points"));
             this.colorRows();
         }
     };
@@ -358,13 +359,15 @@ function Group(id, teams) {
 	       	 * finish in 1st or 2nd.  To determine whether a team has clinched, we make the sims as unfavorable to that team as
 	       	 * possible and see if they can finish in 3rd or 4th. More info is in groupStatus.js.
 	       	 */
-	    	/*for (var i = teams.length; i >= 0; i--) {
+	       	//alert("Reading this line");
+	    	for (var i = teams.length-1; i >= 0; i--) {
+	    		console.log("Evaluating team: "+teams[i].countryName+", which has "+teams[i].getStat("points")+" points");
 	    		if (!teams[i].knownStatus()) {
 	    			var matchesLeft = [];
-	    			var leagueTable = teams.slice(0);
+	    			//var leagueTable = teams.slice(0);
 	    			for (var j = 0; j < matches.length; j++) {
-	    				if (!this.matches[j].played()) {
-	    					if ((matches[j].team1.id === teams[i].id || matches[j].team2.id === teams[i].id) {
+	    				if (!matches[j].played()) {
+	    					if (matches[j].team1.id === teams[i].id || matches[j].team2.id === teams[i].id) {
 	    						matchesLeft.unshift(matches[j]);	//when we pass to helper function, we want to sim
 	    					}										//the team in question's matches first.
 	    					else {
@@ -372,10 +375,15 @@ function Group(id, teams) {
 	    					}
 	    				}
 	    			}
-	    			if (teams[i].isEliminated !== -1 && determineIfEliminated(i, matchesLeft, leagueTable)) {
+	    			//console.log("The team at leagueTable index i is: "+leagueTable[i].countryName);
+	    			if (teams[i].isEliminated !== -1 && determineIfEliminated(i, matchesLeft, teams)) {
+	    				//teams[i].eliminate();
+	    				console.log("Match sims have determined that "+teams[i].countryName+" is eliminated.");
 	    				teamsEliminated++;
 	    			}
-	    			else if (determineIfClinched(i, matchesLeft, leagueTable)) {
+	    			//console.log("The team at leagueTable index i is: "+leagueTable[i].countryName);
+	    			else if (determineIfClinched(i, matchesLeft, teams)) {
+	    				console.log("Match sims have determined that "+teams[i].countryName+" has clinched.");
 	    				teamsClinched++;
 	    			}
 	    			else {
@@ -393,7 +401,7 @@ function Group(id, teams) {
 	    		if (teamsKnownStatus === 4) {
 	    			throw "done";
 	    		}
-	    	}*/
+	    	}
 	    }
 	    catch (e) {
 	    	//alert(e);
@@ -442,5 +450,5 @@ for (var group=0; group<8; group++) {
     for (var i=0; i < 4; i++) {
         teams[i] = new Team(4*group+i, countrynames[4*group+i]);
     }
-    Groups[group] = new Group(String.fromCharCode(group+65), teams);
+    Groups[group] = new Group(group, teams);
 }
