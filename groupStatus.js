@@ -1,4 +1,13 @@
+function resetAdvancedTiebreak(leagueTable) {
+	for (var i = 0; i < leagueTable.length; i++) {
+		leagueTable[i].requiresAdvancedTiebreak = -1;
+	}
+}
+
 function threat(threatener, evalTeam) {
+	if (threatener.getStat("played") < 2) {	//Will have already filtered out teams that have > 6 points
+		return true;
+	}
 	if (threatener.isEliminated === 1 || threatener.hasClinched === 1) {
 		console.log("Deciding non-threat based on known eliminated/clinching status.");
 		return false;
@@ -66,7 +75,7 @@ function testEliminationMatch(threatener, evalTeam) {
 			else { //If the threatener is already losing the tiebreak, just lose by 1.
 				loseBy = 1;
 			}
-			return [loseBy, 0];
+			return [0, loseBy];
 			break;
 	}
 }
@@ -91,7 +100,7 @@ function testClinchingMatch(threatener, evalTeam) {
 	switch (ptsBetween) {
 		case 3: //If the threatener trails by 3 points, have them win by enough to win the GD tiebreak, while allowing tons of goals.
 			winBy = (goalDifferenceBetween < 1) ? 1 : goalDifferenceBetween;
-			return [99, 99-winBy];
+			return [99+winBy, 99];
 			break;
 		case 2: //If the threatener trails by 2 points, have them win by one and allow tons of goals.
 			return [99, 98];
@@ -106,8 +115,8 @@ function testClinchingMatch(threatener, evalTeam) {
 			break;
 		case 0: //If the threatener is tied, have them lose by enough to just win the tiebreak, or tie if that's not possible.
 			loseBy = (goalDifferenceBetween < 0) ? 0 - goalDifferenceBetween : 0
-			alert(loseBy);
-			return [99 - loseBy, 99];
+			//alert(loseBy);
+			return [99, 99+loseBy];
 			break;
 	}
 }
@@ -150,6 +159,7 @@ function determineIfEliminated(teamIndex, matches, teams) {
 		if (matches[j].team1.getStat("played") === 2) {
 			console.log("Calling testEliminationMatch");
 			var result = testEliminationMatch(matches[j].team1, leagueTable[teamIndex]);
+			console.log("testEliminationMatch. The result of this sim is "+matches[j].team1.countryName+result[0]+matches[j].team2.countryName+result[1]);
 			matches[j].play(result[0], result[1]);
 			alreadyPlayed.push(matches[j]);
 			matches.splice(j,1);
@@ -158,16 +168,21 @@ function determineIfEliminated(teamIndex, matches, teams) {
 		else if (matches[j].team2.getStat("played") === 2) {
 			console.log("Calling testEliminationMatch");
 			var result = testEliminationMatch(matches[j].team2, leagueTable[teamIndex]);
+			console.log("testEliminationMatch. The result of this sim is "+matches[j].team1.countryName+result[0]+matches[j].team2.countryName+result[1]);
 			matches[j].play(result[1], result[0]);
 			alreadyPlayed.push(matches[j]);
 			matches.splice(j,1);
 			j--;
 		}
 	}
+	resetAdvancedTiebreak(leagueTable);
 	leagueTable.sort(teamCompare);
 	var finalStatus = false;
 	for (var i = 2; i < leagueTable.length; i++) {
 		if (leagueTable[i].id === teamID) {
+			if (leagueTable[i].requiresAdvancedTiebreak === leagueTable[1].requiresAdvancedTiebreak && leagueTable[i].requiresAdvancedTiebreak > -1) {
+				break; //Do not want to mark teams relying on lot-drawing as eliminated.
+			}
 			teams[teamIndex].eliminate();
 			console.log("Eliminating "+teams[teamIndex].countryName);
 			finalStatus = true;
@@ -223,7 +238,7 @@ function determineIfClinched(teamIndex, matches, teams) {
 	for (var j = 0; j < matches.length; j++) { //Finally, simulate remaining match(es) to maximize damage, per testClinchingMatch.
 		if (matches[j].team1.getStat("played") === 2) {
 			var result = testClinchingMatch(matches[j].team1, leagueTable[teamIndex]);
-			alert(result);
+			//alert(result);
 			//console.log("testClinchingMatch. The result of this sim is "+matches[j].team1.countryName+result[0]+matches[j].team2.countryName+result[1]);
 			matches[j].play(result[0], result[1]);
 			alreadyPlayed.push(matches[j]);
@@ -232,7 +247,7 @@ function determineIfClinched(teamIndex, matches, teams) {
 		}
 		else if (matches[j].team2.getStat("played") === 2) {
 			var result = testClinchingMatch(matches[j].team2, leagueTable[teamIndex]);
-			alert(result);
+			//alert(result);
 			//console.log("testClinchingMatch. The result of this sim is "+matches[j].team1.countryName+result[0]+matches[j].team2.countryName+result[1]
 			matches[j].play(result[1], result[0]);
 			alreadyPlayed.push(matches[j]);
@@ -240,11 +255,18 @@ function determineIfClinched(teamIndex, matches, teams) {
 			j--;
 		}
 	}
+	if (matches.length != 0) {	//If all other teams have 2 games remaining and this team does not have 7 pts, they cannot have clinched 
+		return false;
+	}
 	console.log("In this simulation, "+leagueTable[teamIndex].countryName+" gets "+leagueTable[teamIndex].getStat("points")+" points");
+	resetAdvancedTiebreak(leagueTable);
 	leagueTable.sort(teamCompare);
 	var finalStatus = false;
 	for (var i = 0; i < 2; i++) {
 		if (leagueTable[i].id === teamID) {
+			if (leagueTable[i].requiresAdvancedTiebreak === leagueTable[2].requiresAdvancedTiebreak && leagueTable[i].requiresAdvancedTiebreak > -1) {
+				break; //Do not want to mark teams relying on lot-drawing as clinched.
+			}
 			teams[teamIndex].clinch();
 			console.log("Clinching "+teams[teamIndex].countryName);
 			finalStatus = true;
