@@ -175,6 +175,9 @@ function determineIfEliminated(teamIndex, matches, teams) {
 			j--;
 		}
 	}
+		if (matches.length != 0) {	//If all other teams have 2 games remaining and this team does not have <=1 pt, they cannot be eliminated 
+		return false;
+	}
 	resetAdvancedTiebreak(leagueTable);
 	leagueTable.sort(teamCompare);
 	var finalStatus = false;
@@ -220,9 +223,7 @@ function determineIfClinched(teamIndex, matches, teams) {
 	for (var j = 0; j < matches.length; j++) { //Next, make any non-contending teams lose 99-0 to maximize threat from their opponents.
 		if (!threat(matches[j].team1, leagueTable[teamIndex])) {
 			console.log(matches[j].team1.countryName+" doesn't threaten "+leagueTable[teamIndex].countryName+". Simming 99-0 loss.");
-			console.log("Before the sim, "+matches[j].team1.countryName+" has "+matches[j].team1.getStat("points")+" and "+matches[j].team2.countryName+" has "+matches[j].team2.getStat("points"));
 			matches[j].play(0,99);
-			console.log("After the sim, "+matches[j].team1.countryName+" has "+matches[j].team1.getStat("points")+" and "+matches[j].team2.countryName+" has "+matches[j].team2.getStat("points"));
 			alreadyPlayed.push(matches[j]);
 			matches.splice(j,1);
 			j--; //since we have removed the match at this index, need to retry this index on next iteration.
@@ -273,10 +274,8 @@ function determineIfClinched(teamIndex, matches, teams) {
 		}
 	}
 	for (var j = 0; j < alreadyPlayed.length; j++) {
-		console.log(teams[0].countryName+" has "+teams[0].getStat("points"));
 		alreadyPlayed[j].unplay();
 		console.log("Unplaying the match between "+alreadyPlayed[j].team1.countryName+" and "+alreadyPlayed[j].team2.countryName);
-		console.log(teams[0].countryName+" has "+teams[0].getStat("points"));
 		matches.push(alreadyPlayed[j]);
 	}
 	return finalStatus;
