@@ -47,16 +47,16 @@ function advancedTiebreak(teams, matches) {
         var matched1 = -1;
         var matched2 = -1;
         for (var t = 0; t < teams.length; t++) {
-            if (matches[m].team1.id === t.id) {
+            if (matches[m].team1.id === teams[t].id) {
                 matched1 = t;
             }
-            if (matches[m].team2.id === t.id) {
+            if (matches[m].team2.id === teams[t].id) {
                 matched2 = t;
             }
         }
         if (matched1 !== -1 && matched2 !== -1) {
-            teams[matched1].play(matches[m].score1, Matches[m].score2);
-            teams[matched2].play(matches[m].score2, Matches[m].score1);
+            teams[matched1].play(matches[m].getScore(1), matches[m].getScore(2));
+            teams[matched2].play(matches[m].getScore(2), matches[m].getScore(1));
         }
     }
     return teams.sort(teamCompare);
@@ -78,6 +78,14 @@ function Match(id, team1, team2) {
     this.team2 = team2;
     var score1 = '';
     var score2 = '';
+    this.getScore = function (which) {
+    	switch (which) {
+    		case 1:
+    			return score1;
+    		case 2:
+    			return score2;
+    	}
+    }
     this.played = function () {
         return (isNonNegativeNumber(score1) && isNonNegativeNumber(score2)); 
     };
