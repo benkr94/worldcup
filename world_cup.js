@@ -349,9 +349,18 @@ function Group(id, teams) {
 	    			teams[i].hasClinched = -1;
 	    			teamsKnownStatus++;
 	    		}
-	    		else if (teams[i].getStat("played") === 2 && teams[i].getStat("points") >= 3) {
-	    			console.log(teams[i].countryName+" has at least 3 points through 2 matches so is not eliminated");
-	    			teams[i].isEliminated = -1; //If you've scored at least 3 points through 2 matches, you aren't eliminated.
+	    		else if (teams[i].getStat("played") === 2) {
+	    			if (teams[i].getStat("points") <= 3) {
+	    				console.log(teams[i].countryName+" has at most 3 points through 2 matches so has not clinched");
+	    				teams[i].hasClinched = -1; //If you've only scored 3 points through 2 matches, you haven't clinched.	    				
+	    			}
+	    			if (teams[i].getStat("points") >= 3) {
+	    				console.log(teams[i].countryName+" has at least 3 points through 2 matches so is not eliminated");
+	    				teams[i].isEliminated = -1; //If you've scored at least 3 points through 2 matches, you aren't eliminated.
+	    			}
+	    			if (teams[i].isEliminated == -1 && teams[i].hasClinched == -1) {
+	    				teamsKnownStatus++;
+	    			}
 	    		}
 	    	}
 	    	/* This is where it gets complicated. To decide the status of the remaining teams, we simulate the remaining matches.
@@ -382,7 +391,7 @@ function Group(id, teams) {
 	    				teamsEliminated++;
 	    			}
 	    			//console.log("The team at leagueTable index i is: "+leagueTable[i].countryName);
-	    			else if (determineIfClinched(i, matchesLeft, teams)) {
+	    			else if (teams[i].hasClinched !== -1 && determineIfClinched(i, matchesLeft, teams)) {
 	    				console.log("Match sims have determined that "+teams[i].countryName+" has clinched.");
 	    				teamsClinched++;
 	    			}
