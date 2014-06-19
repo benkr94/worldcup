@@ -15,26 +15,29 @@
 	</div>
 	<div id="buttons">
 		<input type="button" id="save" value="Save scores"/>
+		<input type="button" id="load" value="Load scores"/>
 	</div>
+	<script src="toplevel.js"></script>
 	<script src="groupStatus.js"></script>
 	<script src="world_cup.js"></script>
+	<script src="loader.js"></script>
 	<script>
 		for (var i = 0; i < 8; i++) {
-			var groupTab = '<li><a href="#'+Groups[i].id+'">'+
-								'<img src="flags/'+Groups[i].teams[0].id+'.png">'+
-								'<img src="flags/'+Groups[i].teams[1].id+'.png">'+
-								Groups[i].id+
-								'<img src="flags/'+Groups[i].teams[2].id+'.png">'+
-								'<img src="flags/'+Groups[i].teams[3].id+'.png">'+
+			var groupTab = '<li><a href="#'+2014_Brazil.groups[i].id+'">'+
+								'<img src="flags/'+2014_Brazil.groups[i].teams[0].id+'.png">'+
+								'<img src="flags/'+2014_Brazil.groups[i].teams[1].id+'.png">'+
+								2014_Brazil.groups[i].id+
+								'<img src="flags/'+2014_Brazil.groups[i].teams[2].id+'.png">'+
+								'<img src="flags/'+2014_Brazil.groups[i].teams[3].id+'.png">'+
 						   '</a></li>';
 			$('.tab-links').append(groupTab);
-			var groupContent = '<div id="'+Groups[i].id+'" class="tab">'+
+			var groupContent = '<div id="'+2014_Brazil.groups[i].id+'" class="tab">'+
 								'<div class="matches"></div>'+
 								'<div class="groupTable"></div>'+
 						   '</div>';
 			$('.tab-content').append(groupContent);
-			Groups[i].drawMatches();
-			Groups[i].firstTable();
+			2014_Brazil.groups[i].drawMatches();
+			2014_Brazil.groups[i].firstTable();
 		}
         $('.tabs .tab-links a').on('click', function(e)  {
             var currentAttrValue = $(this).attr('href');
@@ -49,9 +52,13 @@
         });
 		$(document).on('blur', '.score1, .score2', function() {
 			var groupIndex = $(this).parents('.tab').attr('id').charCodeAt(0)-65;
-			//alert("Match: "+$(this).parents(".matchRow").attr('class')[5] + " Score1: " + $(this).parent(".result").children(".score1").val() + " Score2: " + $(this).parent(".result").children(".score2").val());
-			Groups[groupIndex].play($(this).parents(".matchRow").attr('class')[5], $(this).parent(".result").children(".score1").val(), $(this).parent(".result").children(".score2").val());
-			//alert(Groups[groupIndex].teams[0].getStat("points"));
+			2014_Brazil.groups[groupIndex].play($(this).parents(".matchRow").attr('class')[5], $(this).parent(".result").children(".score1").val(), $(this).parent(".result").children(".score2").val());
+		});
+		$("#buttons").on('click', "#save", function() {
+			readAll();
+		});
+		$("#buttons").on('click', "#load", function() {
+			loadTournament();
 		});
 	</script>
 </body>

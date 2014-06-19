@@ -84,6 +84,9 @@ function Match(id, team1, team2) {
     			return score1;
     		case 2:
     			return score2;
+    		default:
+    			console.log("Invalid score selection.");
+    			return false;
     	}
     }
     this.played = function () {
@@ -111,7 +114,7 @@ function Match(id, team1, team2) {
     	score1 = '';
     	score2 = '';
         //no updateTable since this is only used after simulations, which never updated the table in the first place
-    }
+    };
 }
 
 /* Team
@@ -149,14 +152,14 @@ function Team(id, countryName) {
     this.clinch = function () {
     	this.isEliminated = -1;
     	this.hasClinched = 1;
-    }
+    };
     this.resetGroupStatus = function() {
     	this.isEliminated = 0;
     	this.hasClinched = 0;
-    }
+    };
     this.knownStatus = function() {
     	return (this.isEliminated !== 0 && this.hasClinched !== 0);
-    }
+    };
     var stats = {"played": 0, "won": 0, "drawn": 0, "lost": 0, "goalsFor": 0, "goalsAgainst": 0};
     //var played, won, drawn, lost, goalsFor, goalsAgainst;
     //played = won = drawn = lost = goalsFor = goalsAgainst = 0;
@@ -194,16 +197,16 @@ function Team(id, countryName) {
     	else {
     		return stats[stat];
     	}
-    }
+    };
     this.reset = function () {
         var savedState = stats;
         stats = {"played": 0, "won": 0, "drawn": 0, "lost": 0, "goalsFor": 0, "goalsAgainst": 0};
         return savedState;
-    }
+    };
     this.loadSave = function(save) {
         stats = save;
         requiresAdvancedTiebreak = -1;
-    }
+    };
 }
 
 function Group(id, teams) {
@@ -231,6 +234,18 @@ function Group(id, teams) {
     		}
     	}
     	return matchesPlayed;
+    };
+    this.load = function (scores) {
+    	console.log("Group "+this.id+" is getting "+scores)
+    	for (var j = 0; j < matches.length; j++) {
+    		var score1 = (scores.charAt(j*2) !== '-') ? scores.charAt(j*2) : '';
+       		var score2 = (scores.charAt(j*2+1) !== '-') ? scores.charAt(j*2+1) : '';
+    		$("#"+this.id+" .match"+j+" .score1").val(score1);
+    		$("#"+this.id+" .match"+j+" .score2").val(score2);
+    		matches[j].play(score1, score2);
+    	}
+    	this.reorderTable();
+    	this.colorRows();
     };
     this.rankAll = function () {
         teams.sort(teamCompare);
@@ -458,14 +473,4 @@ function Group(id, teams) {
 			}
 		}
     };
-}
-
-countrynames = ["Brazil", "Croatia", "Mexico", "Cameroon", "Spain", "Netherlands", "Chile", "Australia", "Colombia", "Greece", "Ivory Coast", "Japan", "Uruguay", "Costa Rica", "England", "Italy", "Switzerland", "Ecuador", "France", "Honduras", "Argentina", "Bosnia & Herz.", "Iran", "Nigeria", "Germany", "Portugal", "Ghana", "United States", "Belgium", "Algeria", "Russia", "Korea Republic"];
-Groups = [];
-for (var group=0; group<8; group++) {
-    var teams = [];
-    for (var i=0; i < 4; i++) {
-        teams[i] = new Team(4*group+i, countrynames[4*group+i]);
-    }
-    Groups[group] = new Group(group, teams);
 }
