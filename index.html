@@ -17,28 +17,15 @@
 		<input type="button" id="save" value="Save scores"/>
 		<input type="button" id="load" value="Load scores"/>
 	</div>
-	<script src="toplevel.js"></script>
-	<script src="groupStatus.js"></script>
-	<script src="world_cup.js"></script>
-	<script src="loader.js"></script>
+	<script src="main.js"></script>
+	<script src="groupUtils.js"></script>
+	<script src="group.js"></script>
+	<script src="match.js"></script>
+	<script src="team.js"></script>
 	<script>
-		for (var i = 0; i < 8; i++) {
-			var groupTab = '<li><a href="#'+Brazil2014.groups[i].id+'">'+
-								'<img src="flags/'+Brazil2014.groups[i].teams[0].id+'.png">'+
-								'<img src="flags/'+Brazil2014.groups[i].teams[1].id+'.png">'+
-								Brazil2014.groups[i].id+
-								'<img src="flags/'+Brazil2014.groups[i].teams[2].id+'.png">'+
-								'<img src="flags/'+Brazil2014.groups[i].teams[3].id+'.png">'+
-						   '</a></li>';
-			$('.tab-links').append(groupTab);
-			var groupContent = '<div id="'+Brazil2014.groups[i].id+'" class="tab">'+
-								'<div class="matches"></div>'+
-								'<div class="groupTable"></div>'+
-						   '</div>';
-			$('.tab-content').append(groupContent);
-			Brazil2014.groups[i].drawMatches();
-			Brazil2014.groups[i].firstTable();
-		}
+		NAMES = ["Brazil", "Croatia", "Mexico", "Cameroon", "Spain", "Netherlands", "Chile", "Australia", "Colombia", "Greece", "Ivory Coast", "Japan", "Uruguay", "Costa Rica", "England", "Italy", "Switzerland", "Ecuador", "France", "Honduras", "Argentina", "Bosnia & Herz.", "Iran", "Nigeria", "Germany", "Portugal", "Ghana", "United States", "Belgium", "Algeria", "Russia", "Korea Republic"];
+		MATCH_DETAILS = new Array(48);
+		Brazil2014.init(NAMES, MATCH_DETAILS);
         $('.tabs .tab-links a').on('click', function(e)  {
             var currentAttrValue = $(this).attr('href');
      
