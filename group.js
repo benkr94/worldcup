@@ -1,7 +1,7 @@
 var Brazil2014 = (function (Tournament) {
 	Tournament.Group = function (id, teams) {
 		this.id = String.fromCharCode(id+65);
-		this.teams = teams;
+		//this.teams = teams;
 		var matches = [];
 		matches[0] = new Tournament.Match(2 * id + 1, teams[0], teams[1]);
 		matches[1] = new Tournament.Match(2 * id + 2, teams[2], teams[3]);
@@ -63,7 +63,22 @@ var Brazil2014 = (function (Tournament) {
 		    }
 		    return teams;
 		};
-		this.firstTable = function () {
+		this.drawTab = function() {
+			var groupTab = '<li><a href="#'+this.id+'">'+
+								'<img src="flags/'+teams[0].id+'.png">'+
+								'<img src="flags/'+teams[1].id+'.png">'+
+								this.id+
+								'<img src="flags/'+teams[2].id+'.png">'+
+								'<img src="flags/'+teams[3].id+'.png">'+
+						   '</a></li>';
+			$('.tab-links').append(groupTab);
+			var groupContent = '<div id="'+this.id+'" class="tab">'+
+										'<div class="matches"></div>'+
+									'<div class="groupTable"></div>'+
+						   		'</div>';
+			$('.tab-content').append(groupContent);
+		};
+		this.drawTable = function () {
 			this.rankAll();
 			var statKeys = ["played", "won", "drawn", "lost", "goalsFor", "goalsAgainst", "goalDifference", "points"]; //avoiding forEach for the benefit of IE8 users
 		    var html = '<table><tr>'+

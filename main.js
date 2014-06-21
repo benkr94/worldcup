@@ -29,21 +29,9 @@ var Brazil2014 = (function() {
 			this.groups[g] = new this.Group(g, teams);
 		}
 		for (var g = 0; g < 8; g++) {
-			var groupTab = '<li><a href="#'+this.groups[g].id+'">'+
-								'<img src="flags/'+this.groups[g].teams[0].id+'.png">'+
-								'<img src="flags/'+this.groups[g].teams[1].id+'.png">'+
-								this.groups[g].id+
-								'<img src="flags/'+this.groups[g].teams[2].id+'.png">'+
-								'<img src="flags/'+this.groups[g].teams[3].id+'.png">'+
-						   '</a></li>';
-			$('.tab-links').append(groupTab);
-			var groupContent = '<div id="'+this.groups[g].id+'" class="tab">'+
-								'<div class="matches"></div>'+
-								'<div class="groupTable"></div>'+
-						   '</div>';
-			$('.tab-content').append(groupContent);
+			this.groups[g].drawTab();
 			this.groups[g].drawMatches();
-			this.groups[g].firstTable();
+			this.groups[g].drawTable();
 		}		
 	};
 

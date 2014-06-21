@@ -1,3 +1,9 @@
+/* groupUtils
+ * Complex functions related to group reordering and clinching that I didn't want cluttering the group constructor or getting
+ * re-declared with each new instance.
+ */
+
+
 var Brazil2014 = (function (Tournament) {
 
 	/* teamCompare
@@ -56,13 +62,18 @@ var Brazil2014 = (function (Tournament) {
 		return teams.sort(teamCompare);
 	}
 
-
+	/* resetAdvancedTiebreak
+	 * Clears the advanced tiebreak marking. Not in use, set for deletion before go-live
+	 */
 	function resetAdvancedTiebreak(leagueTable) {
 		for (var i = 0; i < leagueTable.length; i++) {
 			leagueTable[i].requiresAdvancedTiebreak = -1;
 		}
 	}
-
+	
+	/* threat
+	 * Determines whether a team (threatener) is competing for qualification places with another team (evalTeam)
+	 */
 	function threat(threatener, evalTeam) {
 		if (threatener.getStat("played") < 2) {	//Will have already filtered out teams that have > 6 points
 			return true;
@@ -234,10 +245,10 @@ var Brazil2014 = (function (Tournament) {
 				j--;
 			}
 		}
-			if (matches.length != 0) {	//If all other teams have 2 games remaining and this team does not have <=1 pt, they cannot be eliminated 
+		if (matches.length != 0) {	//If all other teams have 2 games remaining and this team does not have <=1 pt, they cannot be eliminated 
 			return false;
 		}
-		resetAdvancedTiebreak(leagueTable);
+		//resetAdvancedTiebreak(leagueTable);
 		leagueTable.sort(teamCompare);
 		var finalStatus = false;
 		for (var i = 2; i < leagueTable.length; i++) {
@@ -319,7 +330,7 @@ var Brazil2014 = (function (Tournament) {
 			return false;
 		}
 		console.log("In this simulation, "+leagueTable[teamIndex].countryName+" gets "+leagueTable[teamIndex].getStat("points")+" points");
-		resetAdvancedTiebreak(leagueTable);
+		//resetAdvancedTiebreak(leagueTable);
 		leagueTable.sort(teamCompare);
 		var finalStatus = false;
 		for (var i = 0; i < 2; i++) {
@@ -341,8 +352,8 @@ var Brazil2014 = (function (Tournament) {
 	}
 	
 	Tournament.groupUtils = {
-		teamCompare: teamCompare,
-		advancedTiebreak: advancedTiebreak,
+		teamCompare: 			teamCompare,
+		advancedTiebreak: 		advancedTiebreak,
 		determineIfEliminated: 	determineIfEliminated,
 		determineIfClinched:	determineIfClinched
 	};
