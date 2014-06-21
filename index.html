@@ -26,6 +26,10 @@
 		NAMES = ["Brazil", "Croatia", "Mexico", "Cameroon", "Spain", "Netherlands", "Chile", "Australia", "Colombia", "Greece", "Ivory Coast", "Japan", "Uruguay", "Costa Rica", "England", "Italy", "Switzerland", "Ecuador", "France", "Honduras", "Argentina", "Bosnia & Herz.", "Iran", "Nigeria", "Germany", "Portugal", "Ghana", "United States", "Belgium", "Algeria", "Russia", "Korea Republic"];
 		MATCH_DETAILS = new Array(48);
 		Brazil2014.init(NAMES, MATCH_DETAILS);
+		
+		$('.tabs #A').show();
+		$('.tabs .tab-links a').first().parent('li').addClass('active');
+		
         $('.tabs .tab-links a').on('click', function(e)  {
             var currentAttrValue = $(this).attr('href');
      

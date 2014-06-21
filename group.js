@@ -63,47 +63,6 @@ var Brazil2014 = (function (Tournament) {
 		    }
 		    return teams;
 		};
-		this.drawTab = function() {
-			var groupTab = '<li><a href="#'+this.id+'">'+
-								'<img src="flags/'+teams[0].id+'.png">'+
-								'<img src="flags/'+teams[1].id+'.png">'+
-								this.id+
-								'<img src="flags/'+teams[2].id+'.png">'+
-								'<img src="flags/'+teams[3].id+'.png">'+
-						   '</a></li>';
-			$('.tab-links').append(groupTab);
-			var groupContent = '<div id="'+this.id+'" class="tab">'+
-										'<div class="matches"></div>'+
-									'<div class="groupTable"></div>'+
-						   		'</div>';
-			$('.tab-content').append(groupContent);
-		};
-		this.drawTable = function () {
-			this.rankAll();
-			var statKeys = ["played", "won", "drawn", "lost", "goalsFor", "goalsAgainst", "goalDifference", "points"]; //avoiding forEach for the benefit of IE8 users
-		    var html = '<table><tr>'+
-		                   '<th width="190">Team</th>'+
-		                   '<th width="28"><abbr title="Played">Pld</abbr></th>'+
-		                   '<th width="28"><abbr title="Won">W</abbr></th>'+
-		                   '<th width="28"><abbr title="Drawn">D</abbr></th>'+
-		                   '<th width="28"><abbr title="Lost">L</abbr></th>'+
-		                   '<th width="28"><abbr title="Goals For">GF</abbr></th>'+
-		                   '<th width="28"><abbr title="Goals Against">GA</abbr></th>'+
-		                   '<th width="28"><abbr title="Goal Difference">GD</abbr></th>'+
-		                   '<th width="28"><abbr title="Points">Pts</abbr></th>'+
-		               '</tr>';
-		    for (var i = 0; i < teams.length; i++) {
-		        html += '<tr id="row'+teams[i].id+'">'+
-		                   '<td><div class="countryName">'+teams[i].countryName+'</div></td>'; //wrapping div necessary for animations, which cannot work on table rows or cells
-		        for (var j = 0; j < statKeys.length; j++) {
-		        	html+= '<td><div class="'+statKeys[j]+'">'+teams[i].getStat(statKeys[j])+'</div></td>';
-		        }
-		        html += '</tr>';
-		    }
-		    html += "</table>";
-		    //alert(html);
-		    $("#"+this.id+" .groupTable").html(html);
-		};
 		this.reorderTable = function () {
 			this.rankAll();
 			var statKeys = ["played", "won", "drawn", "lost", "goalsFor", "goalsAgainst", "goalDifference", "points"];
@@ -119,17 +78,6 @@ var Brazil2014 = (function (Tournament) {
 		   		teams[i].prevRank = i;
 			}
 		}
-		this.drawMatches = function () {
-		    var html = '';
-		    for (var i = 0; i < matches.length; i++) {
-		        html += '<div class="match'+i+' matchRow">'+
-		                    '<p class="team1">'+matches[i].team1.countryName+'<img src="flags/'+matches[i].team1.id+'.png"></p>'+
-		                    '<p class="result"><input class="score1" maxlength="1"> - <input class="score2" maxlength="1"></p>'+
-		                    '<p class="team2"><img src="flags/'+matches[i].team2.id+'.png">'+matches[i].team2.countryName+'</p>'+
-		                '</div>';
-		    }
-		    $("#"+this.id+" .matches").html(html);
-		};
 		
 		/* colorRows
 		 * Colors the table green for teams that have clinched a berth in the knockout round, red for those that have been eliminated.
@@ -277,6 +225,63 @@ var Brazil2014 = (function (Tournament) {
 					}
 				}
 			}
+		};
+		
+		/* drawTab, drawTable, drawMatches
+		 * Called by Tournament.init(), create the group stage UI for this group.
+		 */
+		
+		this.drawTab = function() {
+			var groupTab = '<li><a href="#'+this.id+'">'+
+								'<img src="flags/'+teams[0].id+'.png">'+
+								'<img src="flags/'+teams[1].id+'.png">'+
+								this.id+
+								'<img src="flags/'+teams[2].id+'.png">'+
+								'<img src="flags/'+teams[3].id+'.png">'+
+						   '</a></li>';
+			$('.tab-links').append(groupTab);
+			var groupContent = '<div id="'+this.id+'" class="tab">'+
+										'<div class="matches"></div>'+
+									'<div class="groupTable"></div>'+
+						   		'</div>';
+			$('.tab-content').append(groupContent);
+		};
+		this.drawTable = function () {
+			//this.rankAll();
+			var statKeys = ["played", "won", "drawn", "lost", "goalsFor", "goalsAgainst", "goalDifference", "points"]; //avoiding forEach for the benefit of IE8 users
+		    var html = '<table><tr>'+
+		                   '<th width="190">Team</th>'+
+		                   '<th width="28"><abbr title="Played">Pld</abbr></th>'+
+		                   '<th width="28"><abbr title="Won">W</abbr></th>'+
+		                   '<th width="28"><abbr title="Drawn">D</abbr></th>'+
+		                   '<th width="28"><abbr title="Lost">L</abbr></th>'+
+		                   '<th width="28"><abbr title="Goals For">GF</abbr></th>'+
+		                   '<th width="28"><abbr title="Goals Against">GA</abbr></th>'+
+		                   '<th width="28"><abbr title="Goal Difference">GD</abbr></th>'+
+		                   '<th width="28"><abbr title="Points">Pts</abbr></th>'+
+		               '</tr>';
+		    for (var i = 0; i < teams.length; i++) {
+		        html += '<tr id="row'+teams[i].id+'">'+
+		                   '<td><div class="countryName">'+teams[i].countryName+'</div></td>'; //wrapping div necessary for animations, which cannot work on table rows or cells
+		        for (var j = 0; j < statKeys.length; j++) {
+		        	html+= '<td><div class="'+statKeys[j]+'">'+teams[i].getStat(statKeys[j])+'</div></td>';
+		        }
+		        html += '</tr>';
+		    }
+		    html += "</table>";
+		    //alert(html);
+		    $("#"+this.id+" .groupTable").html(html);
+		};
+		this.drawMatches = function () {
+		    var html = '';
+		    for (var i = 0; i < matches.length; i++) {
+		        html += '<div class="match'+i+' matchRow">'+
+		                    '<p class="team1">'+matches[i].team1.countryName+'<img src="flags/'+matches[i].team1.id+'.png"></p>'+
+		                    '<p class="result"><input class="score1" maxlength="1"> - <input class="score2" maxlength="1"></p>'+
+		                    '<p class="team2"><img src="flags/'+matches[i].team2.id+'.png">'+matches[i].team2.countryName+'</p>'+
+		                '</div>';
+		    }
+		    $("#"+this.id+" .matches").html(html);
 		};
 	};
 	
