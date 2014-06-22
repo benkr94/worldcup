@@ -25,11 +25,18 @@ var Brazil2014 = (function (Tournament) {
 			}
 			return matchesPlayed;
 		};
-		this.load = function (scores) {
-			console.log("Group "+this.id+" is getting "+scores)
+		this.getScoreString = function () {
+			var scoreString = '';
 			for (var j = 0; j < matches.length; j++) {
-				var score1 = (scores.charAt(j*2) !== '-') ? scores.charAt(j*2) : '';
-		   		var score2 = (scores.charAt(j*2+1) !== '-') ? scores.charAt(j*2+1) : '';
+				scoreString += matches[j].getScore(1) + matches[j].getScore(2);
+			}
+			return scoreString;
+		}
+		this.load = function (scoreString) {
+			console.log("Group "+this.id+" is getting "+scoreString)
+			for (var j = 0; j < matches.length; j++) {
+				var score1 = (scoreString.charAt(j*2) !== '-') ? scoreString.charAt(j*2) : '';
+		   		var score2 = (scoreString.charAt(j*2+1) !== '-') ? scoreString.charAt(j*2+1) : '';
 				$("#"+this.id+" .match"+j+" .score1").val(score1);
 				$("#"+this.id+" .match"+j+" .score2").val(score2);
 				matches[j].play(score1, score2);

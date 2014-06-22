@@ -48,15 +48,15 @@ var Brazil2014 = (function (Tournament) {
 		        team2.play(parseInt(goals2), parseInt(goals1));
 		        updateTable = true;
 		    }
-		    score1 = goals1;
-		    score2 = goals2;
+		    score1 = isNonNegativeInteger(goals1) ? goals1 : '-';
+		    score2 = isNonNegativeInteger(goals2) ? goals2 : '-';
 		    return updateTable;
 		};
 		this.unplay = function () {
 			team1.unplay(score1, score2);
 		    team2.unplay(score2, score1);
-			score1 = '';
-			score2 = '';
+			score1 = '-';
+			score2 = '-';
 		    //no updateTable since this is only used after simulations, which never updated the table in the first place
 		};
 	};

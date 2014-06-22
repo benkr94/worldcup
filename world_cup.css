@@ -46,3 +46,7 @@
 #buttons {
 	text-align:center;
 }
+
+.groupTable table {
+	margin:0 auto;
+}
