@@ -35,10 +35,17 @@ var Brazil2014 = (function() {
 		}
 		for (var g=0; g<8; g++) {
 			var teams = [];
+			var groupMatchDetails = [];
+			groupMatchDetails.push(matchDetails[2*g]);
+			groupMatchDetails.push(matchDetails[2*g+1]);
+			groupMatchDetails.push(matchDetails[16+2*g]);
+			groupMatchDetails.push(matchDetails[16+2*g+1]);
+			groupMatchDetails.push(matchDetails[32+2*g]);
+			groupMatchDetails.push(matchDetails[32+2*g+1]);
 			for (var i=0; i < 4; i++) {
 			    teams[i] = new this.Team(4*g+i, countryNames[4*g+i]);
 			}
-			this.groups[g] = new this.Group(g, teams);
+			this.groups[g] = new this.Group(g, teams, groupMatchDetails);
 		}
 		this.realScores = realScores;
 		for (var g = 0; g < 8; g++) {

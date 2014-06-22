@@ -15,7 +15,7 @@
 }
 
 .matchRow {
-    width:70%;
+    width:55%;
     margin-left:auto;
     margin-right:auto;
 }
@@ -49,4 +49,29 @@
 
 .groupTable table {
 	margin:0 auto;
+}
+
+.matchRow {
+	padding: 10;
+}
+
+.location {
+    float: left;
+    text-align:left;
+    width:50%;
+    font-size:small;
+}
+
+.time {
+    float: right;
+    text-align:right;
+    width: 50%;
+    font-size:small;
+}
+
+.details::after {
+    visibility:hidden;
+    display:block;
+    content:"";
+    clear:both;   
 }

@@ -10,10 +10,15 @@
  */
 
 var Brazil2014 = (function (Tournament) {
-	Tournament.Match = function (id, team1, team2) {
+	Tournament.Match = function (id, team1, team2, location, time) {
 		this.id = id;
 		this.team1 = team1;
 		this.team2 = team2;
+		this.location = location;
+		this.time = new Date(Date.UTC(2014,time[0],time[1],time[2],time[3]));
+		this.timeString = function () {
+			return this.time.toUTCString().split(':',2).join(':');
+		}
 		var score1 = '';
 		var score2 = '';
 		this.getScore = function (which) {

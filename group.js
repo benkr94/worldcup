@@ -1,14 +1,14 @@
 var Brazil2014 = (function (Tournament) {
-	Tournament.Group = function (id, teams) {
+	Tournament.Group = function (id, teams, matchDetails) {
 		this.id = String.fromCharCode(id+65);
 		//this.teams = teams;
 		var matches = [];
-		matches[0] = new Tournament.Match(2 * id + 1, teams[0], teams[1]);
-		matches[1] = new Tournament.Match(2 * id + 2, teams[2], teams[3]);
-		matches[2] = new Tournament.Match(16 + 2 * id + 1, teams[0], teams[2]);
-		matches[3] = new Tournament.Match(16 + 2 * id + 2, teams[3], teams[1]);
-		matches[4] = new Tournament.Match(32 + 2 * id + 1, teams[3], teams[0]);
-		matches[5] = new Tournament.Match(32 + 2 * id + 2, teams[1], teams[2]);
+		matches[0] = new Tournament.Match(2 * id + 1, teams[0], teams[1], matchDetails[0][0], matchDetails[0][1]);
+		matches[1] = new Tournament.Match(2 * id + 2, teams[2], teams[3], matchDetails[1][0], matchDetails[1][1]);
+		matches[2] = new Tournament.Match(16 + 2 * id + 1, teams[0], teams[2], matchDetails[2][0], matchDetails[2][1]);
+		matches[3] = new Tournament.Match(16 + 2 * id + 2, teams[3], teams[1], matchDetails[3][0], matchDetails[3][1]);
+		matches[4] = new Tournament.Match(32 + 2 * id + 1, teams[3], teams[0], matchDetails[4][0], matchDetails[4][1]);
+		matches[5] = new Tournament.Match(32 + 2 * id + 2, teams[1], teams[2], matchDetails[5][0], matchDetails[5][1]);
 		this.play = function (matchIndex, goals1, goals2) {
 		    if (matches[matchIndex].play(goals1, goals2)) {
 		        this.reorderTable();
@@ -283,9 +283,13 @@ var Brazil2014 = (function (Tournament) {
 		    var html = '';
 		    for (var i = 0; i < matches.length; i++) {
 		        html += '<div class="match'+i+' matchRow">'+
-		                    '<p class="team1">'+matches[i].team1.countryName+'<img src="flags/'+matches[i].team1.id+'.png"></p>'+
-		                    '<p class="result"><input class="score1" maxlength="1"> - <input class="score2" maxlength="1"></p>'+
-		                    '<p class="team2"><img src="flags/'+matches[i].team2.id+'.png">'+matches[i].team2.countryName+'</p>'+
+		        			'<div class="details">'+
+		        				'<div class="location">'+matches[i].location+'</div>'+
+		        				'<div class="time">'+matches[i].timeString()+'</div>'+
+		        			'</div>'+
+		                    '<div class="team1">'+matches[i].team1.countryName+'<img src="flags/'+matches[i].team1.id+'.png"></div>'+
+		                    '<div class="result"><input class="score1" maxlength="1"> - <input class="score2" maxlength="1"></div>'+
+		                    '<div class="team2"><img src="flags/'+matches[i].team2.id+'.png">'+matches[i].team2.countryName+'</div>'+
 		                '</div>';
 		    }
 		    $("#"+this.id+" .matches").html(html);
