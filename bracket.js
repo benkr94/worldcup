@@ -60,6 +60,9 @@ var Brazil2014 = (function (Tournament) {
 		this.teamNum = teamNum;
 		var teamAt = {id: null};
 		var won = false;
+		this.hasWon = function () {
+			return won;
+		}
 		this.clearForward = function (team) {
 			if (teamAt.id === team.id) {
 				won = false;
@@ -74,6 +77,13 @@ var Brazil2014 = (function (Tournament) {
 			this.next.setTeam(teamAt);
 			this.updateView();
 		};
+		this.unWin = function () {
+			won = false;
+			if (this.next !== null) {
+				this.next.clearForward(teamAt);
+			}
+			this.updateView();
+		}
 		this.setTeam = function (team) {
 			if (teamAt.id !== team.id) {
 				if (this.next !== null) {
@@ -84,18 +94,18 @@ var Brazil2014 = (function (Tournament) {
 			}
 		};
 		this.updateView = function () {
-			var cellString = 'r'+this.roundNum+'-m'+this.matchNum+'-t'+this.teamNum;
-			if (this.id === null) {
-				$('#'+cellString).html('');
+			var cellString = '#r'+this.roundNum+'-m'+this.matchNum+'-t'+this.teamNum;
+			if (teamAt.id === null) {
+				$(cellString).html('&#160;&#160;');
 			}
 			else {
-				$('#'+cellString).html('<img src="flags/'+teamAt.id+'.png">'+teamAt.countryName);
+				$(cellString).html('<img src="flags/'+teamAt.id+'.png">'+teamAt.countryName);
 			}
-			if (this.won) {
-				$('#'+cellString).addClass('won');
+			if (won) {
+				$(cellString).addClass('won');
 			}
 			else {
-				$('#'+cellString).removeClass('won');
+				$(cellString).removeClass('won');
 			}
 		}
 	};

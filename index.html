@@ -80,7 +80,7 @@
 					<tr>
 						<td class="hs"></td>
 						<td rowspan="12" class="line two-borders">&#160;</td>
-						<td rowspan="2" class="team-cell" id="r0-m0-t1">&#160;&#160;</td>
+						<td rowspan="2" class="team-cell" id="r1-m0-t1">&#160;&#160;</td>
 						<td rowspan="12" class="line three-borders">&#160;</td>
 					</tr>
 					<tr>
@@ -338,6 +338,19 @@
 		});
 		$("#buttons").on('click', "#blankAll", function() {
 			Brazil2014.load('------------------------------------------------------------------------------------------------');
+		});
+		$("#Bracket").on('click', '.team-cell', function () {
+			var idString = $(this).attr('id');
+			var r = idString.charAt(1);
+			var m = idString.charAt(4);
+			var t = idString.charAt(7);
+			var node = Brazil2014.knockout.nodeArr[r][m][t];
+			if (node.hasWon()) {
+				node.unWin();
+			}
+			else {
+				node.win();
+			}
 		});
 	</script>
 </body>
