@@ -16,6 +16,15 @@ var Brazil2014 = (function (Tournament) {
 		        this.colorRows();
 		    }
 		};
+		this.getTeam = function (teamIndex) {
+			if (teamIndex < 0 || teamIndex >= teams.length) {
+				console.log("Request for team out-of-bounds");
+				return false;
+			}
+			else {
+				return teams[teamIndex];
+			}
+		};
 		this.played = function () {
 			var matchesPlayed = 0;
 			for (var j = 0; j < matches.length; j++) {

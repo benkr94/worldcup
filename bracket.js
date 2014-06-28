@@ -1,9 +1,11 @@
 var Brazil2014 = (function (Tournament) {
-	Tournament.Bracket = function(rounds) {
+	Tournament.Bracket = function (rounds) {
 		this.rounds = rounds;
 		var nodeArr = [];							//Initialize array representing the entire bracket;
 		for (var r = 0; r < rounds; r++) {  		
-			nodeArr.push(new Array(2^(rounds-r-1));	//Initialize rounds to contain the appropriate no. of matches;
+			nodeArr.push(new Array(Math.pow(2, rounds-r-1)));//Initialize rounds to contain the appropriate no. of matches;
+			//console.log("I have pushed an array of size "+(Math.pow(2, rounds-r-1))+" to nodeArr["+r+"]");
+			//console.log("nodeArr["+r+"].length: "+nodeArr[r].length);
 		}
 		for (var r = 0; r < rounds; r++) {
 			for (var m = 0; m < nodeArr[r].length; m++)
@@ -12,19 +14,21 @@ var Brazil2014 = (function (Tournament) {
 		this.champion = new Node(rounds, 0);
 		var next;
 		for (var r = rounds - 1; r >= 0; r--) {
+			//console.log("r is "+r+", nodeArr[r].length is "+nodeArr[r].length);
 			for (var m = 0; m < nodeArr[r].length; m++) {
 				if (r === rounds - 1) {
 					next = this.champion; 
 				}
 				else {
-					next = nodeArr[r+1][floor(m/2)][m%2];
+					//console.log("I am setting next to nodeArr["+(r+1)+"]["+(Math.floor(m/2))+"]["+(m%2)+"]");
+					next = nodeArr[r+1][Math.floor(m/2)][m%2];
 				}
+				console.log("Creating nodes for "+r+"-"+m);
 				nodeArr[r][m][0] = new Node(next, 0);
 				nodeArr[r][m][1] = new Node(next, 1);
 			}
-		
 		}
-		this.setTeams = function (teams) {
+		/*this.setTeams = function (teams) {
 			if (teams.length !== 2^(this.rounds) {
 				console.log("Invalid number of teams supplied to bracket");
 				return false;
@@ -32,7 +36,7 @@ var Brazil2014 = (function (Tournament) {
 			for (var i = 0; i < teams.length; i++) {
 				nodeArr[0][floor(i/2)][i%2].setTeam(teams[i]);
 			}
-		}
+		}*/ //Constructing the teams array would be wasteful due to weird ordering in bracket; instead, set one-by-one in main
 		this.clear = function() {
 			for (var m = 0; m < nodeArr[1].length; i++) {
 				nodeArr[1][m][0].setTeam(null);
