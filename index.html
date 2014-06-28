@@ -210,7 +210,7 @@
 					</tr>
 					<tr>
 						<td class="hs"></td>
-						<td rowspan="2" class="team-cell" id="r3-m1-t0">&#160;&#160;</td>
+						<td rowspan="2" class="team-cell" id="r2-m1-t0">&#160;&#160;</td>
 					</tr>
 					<tr>
 						<td class="hs"></td>
@@ -219,7 +219,7 @@
 					<tr>
 						<td class="hs"></td>
 						<td rowspan="11" class="line from-below">&#160;</td>
-						<td rowspan="2" class="team-cell" id="r3-m1-t1">&#160;&#160;</td>
+						<td rowspan="2" class="team-cell" id="r2-m1-t1">&#160;&#160;</td>
 						<td rowspan="11" class="line from-below">&#160;</td>
 					</tr>
 					<tr>
@@ -345,10 +345,12 @@
 			var m = idString.charAt(4);
 			var t = idString.charAt(7);
 			var node = Brazil2014.knockout.nodeArr[r][m][t];
+			var opponent = Brazil2014.knockout.nodeArr[r][m][1-t];
 			if (node.hasWon()) {
 				node.unWin();
 			}
 			else {
+				opponent.unWin();
 				node.win();
 			}
 		});

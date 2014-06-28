@@ -23,7 +23,7 @@ var Brazil2014 = (function (Tournament) {
 					//console.log("I am setting next to nodeArr["+(r+1)+"]["+(Math.floor(m/2))+"]["+(m%2)+"]");
 					next = nodeArr[r+1][Math.floor(m/2)][m%2];
 				}
-				console.log("Creating nodes for "+r+"-"+m);
+				//console.log("Creating nodes for "+r+"-"+m);
 				nodeArr[r][m][0] = new Node(next, 0);
 				nodeArr[r][m][1] = new Node(next, 1);
 			}
@@ -70,11 +70,10 @@ var Brazil2014 = (function (Tournament) {
 			}
 		};
 		this.win = function () {
-			if (this.next === null) {
-				return false;
-			}
 			won = true;
-			this.next.setTeam(teamAt);
+			if (this.next !== null) {
+				this.next.setTeam(teamAt);
+			}
 			this.updateView();
 		};
 		this.unWin = function () {
@@ -89,6 +88,7 @@ var Brazil2014 = (function (Tournament) {
 				if (this.next !== null) {
 					this.next.clearForward(teamAt);
 				}
+				won = false;
 				teamAt = team;
 				this.updateView();
 			}
@@ -102,10 +102,10 @@ var Brazil2014 = (function (Tournament) {
 				$(cellString).html('<img src="flags/'+teamAt.id+'.png">'+teamAt.countryName);
 			}
 			if (won) {
-				$(cellString).addClass('won');
+				$(cellString).addClass('winner');
 			}
 			else {
-				$(cellString).removeClass('won');
+				$(cellString).removeClass('winner');
 			}
 		}
 	};

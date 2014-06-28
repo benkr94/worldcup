@@ -54,6 +54,8 @@ var Brazil2014 = (function() {
 			this.groups[g].drawTable();
 			this.groups[g].load(realScores.substring(g*12, g*12+12));
 		}
+		$("#group-tab-links").children().unwrap();
+		$("#group-tab-content").children().unwrap();
 		//console.log(this.Bracket);
 		this.knockout = new this.Bracket(4);
 	};
