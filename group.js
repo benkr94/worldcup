@@ -18,7 +18,7 @@ var Brazil2014 = (function (Tournament) {
 		};
 		this.getTeam = function (teamIndex) {
 			if (teamIndex < 0 || teamIndex >= teams.length) {
-				console.log("Request for team out-of-bounds");
+				console.log("ERROR: Request for team out-of-bounds");
 				return false;
 			}
 			else {
@@ -42,7 +42,7 @@ var Brazil2014 = (function (Tournament) {
 			return scoreString;
 		}
 		this.load = function (scoreString) {
-			console.log("Group "+this.id+" is getting "+scoreString)
+			//console.log("Group "+this.id+" is getting "+scoreString)
 			for (var j = 0; j < matches.length; j++) {
 				var score1 = (scoreString.charAt(j*2) !== '-') ? scoreString.charAt(j*2) : '';
 		   		var score2 = (scoreString.charAt(j*2+1) !== '-') ? scoreString.charAt(j*2+1) : '';
@@ -255,12 +255,12 @@ var Brazil2014 = (function (Tournament) {
 								'<img src="flags/'+teams[2].id+'.png">'+
 								'<img src="flags/'+teams[3].id+'.png">'+
 						   '</a></li>';
-			$('.tab-links').append(groupTab);
+			$('#group-tab-links').append(groupTab);
 			var groupContent = '<div id="'+this.id+'" class="tab">'+
 										'<div class="matches"></div>'+
 									'<div class="groupTable"></div>'+
 						   		'</div>';
-			$('.tab-content').append(groupContent);
+			$('#group-tab-content').append(groupContent);
 		};
 		this.drawTable = function () {
 			//this.rankAll();

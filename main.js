@@ -8,7 +8,7 @@ var Brazil2014 = (function() {
 		for (var g = 0; g < this.groups.length; g++) {
 			scoreString += this.groups[g].getScoreString();
 		}
-		console.log(scoreString);
+		//console.log(scoreString);
 	}
 	
 	this.load = function (scoreString) {
@@ -54,16 +54,16 @@ var Brazil2014 = (function() {
 			this.groups[g].drawTable();
 			this.groups[g].load(realScores.substring(g*12, g*12+12));
 		}
-		console.log(this.Bracket);
+		//console.log(this.Bracket);
 		this.knockout = new this.Bracket(4);
 	};
 	
 	this.populateBracket = function () {
 		for (var g = 0; g < 8; g++) {
 			for (var i = 0; i < 2; i++) {
-				var matchIndex = g % 4 + 4 * (i - (g % 2));
-				var teamIndex = i - (g % 2);
-				this.knockout.nodeArr[0][matchIndex][teamIndex].setTeam(groups[g].getTeam(i));
+				var matchIndex = Math.floor(g/2) + 4 * Math.abs((i - (g % 2)));
+				//console.log("matchIndex is "+matchIndex);
+				this.knockout.nodeArr[0][matchIndex][i].setTeam(groups[g].getTeam(i));
 			}
 		}
 	};
