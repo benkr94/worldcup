@@ -99,7 +99,7 @@ var Brazil2014 = (function (Tournament) {
 				$(cellString).html('&#160;&#160;');
 			}
 			else {
-				$(cellString).html('<img src="flags/'+teamAt.id+'.png">'+teamAt.countryName);
+				$(cellString).html(teamAt.flagLeft());
 			}
 			if (won) {
 				$(cellString).addClass('winner');

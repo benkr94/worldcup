@@ -278,7 +278,7 @@ var Brazil2014 = (function (Tournament) {
 		               '</tr>';
 		    for (var i = 0; i < teams.length; i++) {
 		        html += '<tr id="row'+teams[i].id+'">'+
-		                   '<td><div class="countryName">'+teams[i].countryName+'</div></td>'; //wrapping div necessary for animations, which cannot work on table rows or cells
+		                   '<td><div class="countryName">'+teams[i].flagLeft()+'</div></td>'; //wrapping div necessary for animations, which cannot work on table rows or cells
 		        for (var j = 0; j < statKeys.length; j++) {
 		        	html+= '<td><div class="'+statKeys[j]+'">'+teams[i].getStat(statKeys[j])+'</div></td>';
 		        }
@@ -296,9 +296,9 @@ var Brazil2014 = (function (Tournament) {
 		        				'<div class="location">'+matches[i].location+'</div>'+
 		        				'<div class="time">'+matches[i].timeString()+'</div>'+
 		        			'</div>'+
-		                    '<div class="team1">'+matches[i].team1.countryName+'<img src="flags/'+matches[i].team1.id+'.png"></div>'+
+		                    '<div class="team1">'+matches[i].team1.flagRight()+'</div>'+
 		                    '<div class="result"><input class="score1" maxlength="1"> - <input class="score2" maxlength="1"></div>'+
-		                    '<div class="team2"><img src="flags/'+matches[i].team2.id+'.png">'+matches[i].team2.countryName+'</div>'+
+		                    '<div class="team2">'+matches[i].team2.flagLeft()+'</div>'+
 		                '</div>';
 		    }
 		    $("#"+this.id+" .matches").html(html);

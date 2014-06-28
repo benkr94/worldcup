@@ -87,6 +87,12 @@ var Brazil2014 = (function (Tournament) {
 	        stats = save;
 	        requiresAdvancedTiebreak = -1;
 	    };
+	    this.flagLeft = function () {
+	    	return '<img src="flags/'+id+'.png">'+countryName;
+	    };
+	    this.flagRight = function () {
+	    	return countryName+'<img src="flags/'+id+'.png">';
+	    };
 	};
 	
 	return Tournament;
