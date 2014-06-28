@@ -21,6 +21,8 @@ var Brazil2014 = (function() {
 		for (var g = 0; g < groups.length; g++) {
 			this.groups[g].load(scoreString.substring(g*12, g*12+12));
 		}
+		this.populateBracket();
+		this.knockout.clear();
 	};
 
 	
@@ -64,7 +66,6 @@ var Brazil2014 = (function() {
 		for (var g = 0; g < 8; g++) {
 			for (var i = 0; i < 2; i++) {
 				var matchIndex = Math.floor(g/2) + 4 * Math.abs((i - (g % 2)));
-				//console.log("matchIndex is "+matchIndex);
 				this.knockout.nodeArr[0][matchIndex][i].setTeam(groups[g].getTeam(i));
 			}
 		}

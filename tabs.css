@@ -58,3 +58,9 @@
         .tab.active {
             display:block;
         }
+        
+    /*----- Tabbed buttons -----*/
+    
+    .tabbed-buttons div {
+    	display:none;
+    }

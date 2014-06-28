@@ -280,8 +280,15 @@
 	<div id="buttons">
 		<input type="button" id="save" value="Save scores"/>
 		<input type="button" id="load" value="Load scores"/><br>
-		<input type="button" id="resetOne" value="Reset group to real scores"/>
-		<input type="button" id="blankOne" value="Reset group to blank"/><br>
+		<div class="tabbed-buttons">
+			<div id="group-buttons">
+				<input type="button" id="resetOne" value="Reset group to real scores"/>
+				<input type="button" id="blankOne" value="Reset group to blank"/>
+			</div>
+			<div id="knockout-buttons">
+				<input type="button" id="clearBracket" value="Reset all knockout matches"/>
+			</div>
+		</div>
 		<input type="button" id="resetAll" value="Reset tournament to real scores"/>
 		<input type="button" id="blankAll" value="Reset tournament to blank"/>
 	</div>
@@ -299,12 +306,17 @@
 		
 		$('.tabs #A').show();
 		$('.tabs .tab-links a').first().parent('li').addClass('active');
+		$('.tabbed-buttons #group-buttons').show();
 		
         $('.tabs .tab-links a').on('click', function(e)  {
             var currentAttrValue = $(this).attr('href');
             
             if (currentAttrValue === "#Bracket") {
             	Brazil2014.populateBracket();
+            	$('#knockout-buttons').show().siblings().hide();
+            }
+            else {
+            	$('#group-buttons').show().siblings().hide();
             }
      
             // Show/Hide Tabs
@@ -338,6 +350,9 @@
 		});
 		$("#buttons").on('click', "#blankAll", function() {
 			Brazil2014.load('------------------------------------------------------------------------------------------------');
+		});
+		$("#buttons").on('click', "#clearBracket", function() {
+			Brazil2014.knockout.clear();
 		});
 		$("#Bracket").on('click', '.team-cell', function () {
 			var idString = $(this).attr('id');

@@ -38,9 +38,9 @@ var Brazil2014 = (function (Tournament) {
 			}
 		}*/ //Constructing the teams array would be wasteful due to weird ordering in bracket; instead, set one-by-one in main
 		this.clear = function() {
-			for (var m = 0; m < nodeArr[1].length; i++) {
-				nodeArr[1][m][0].setTeam(null);
-				nodeArr[1][m][1].setTeam(null);
+			for (var m = 0; m < nodeArr[0].length; m++) {
+				nodeArr[0][m][0].unWin();
+				nodeArr[0][m][1].unWin();
 			}
 		}
 		this.nodeArr = nodeArr;
