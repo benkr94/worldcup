@@ -28,15 +28,35 @@ var Brazil2014 = (function (Tournament) {
 				nodeArr[r][m][1] = new Node(next, 1);
 			}
 		}
-		/*this.setTeams = function (teams) {
-			if (teams.length !== 2^(this.rounds) {
-				console.log("Invalid number of teams supplied to bracket");
-				return false;
+		this.getSaveString = function () {
+			var saveString = '';
+			for (var r = nodeArr.length-1; r >= 0; r--) {
+				for (var m = nodeArr[r].length-1; m >= 0; m--) {
+					if (nodeArr[r][m][0].hasWon()) {
+						saveString += 1;
+					}
+					else if (nodeArr[r][m][1].hasWon()) {
+						saveString += 2;
+					}
+					else {
+						saveString += 0;		//want this as zero so mostly-unset brackets have fewer characters
+					}
+				}
 			}
-			for (var i = 0; i < teams.length; i++) {
-				nodeArr[0][floor(i/2)][i%2].setTeam(teams[i]);
+			return saveString;
+		};
+		this.load = function (saveString) {
+			saveString = saveString.split('').reverse().join('');
+			for (var r = 0; r < nodeArr.length; r++) {
+				for (var m = 0; m < nodeArr[r].length; m++) {
+					if (saveString.charAt(0) == 0) {
+						continue;
+					}
+					nodeArr[r][m][parseInt(saveString.charAt(0))-1].win();
+					saveString = saveString.slice(1);
+				}
 			}
-		}*/ //Constructing the teams array would be wasteful due to weird ordering in bracket; instead, set one-by-one in main
+		};
 		this.clear = function() {
 			for (var m = 0; m < nodeArr[0].length; m++) {
 				nodeArr[0][m][0].unWin();
@@ -107,7 +127,7 @@ var Brazil2014 = (function (Tournament) {
 			else {
 				$(cellString).removeClass('winner');
 			}
-		}
+		};
 	};
 	
 	return Tournament;

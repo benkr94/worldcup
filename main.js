@@ -9,12 +9,12 @@ var Brazil2014 = (function() {
 	 * compression algorithm to reduce what would otherwise be an 111-character string to around 40.
 	 */
 	this.save = function() {
-		var scoreString = '';
+		var groupString = '';
 		for (var g = 0; g < this.groups.length; g++) {
-			scoreString += this.groups[g].getScoreString();
+			groupString += this.groups[g].getScoreString();
 		}
-		scoreString = this.encodeUtils.encode(scoreString);
-		console.log(scoreString);
+		encodedString = this.encodeUtils.encode(groupString, this.knockout.getSaveString());
+		console.log(encodedString);
 	};
 	
 	/* load
@@ -24,16 +24,18 @@ var Brazil2014 = (function() {
 		if (encodedString === '') { 
 			encodedString = prompt("Enter your save code","");
 		}
-		var decodedString = this.encodeUtils.decode(encodedString);
-		while (decodedString.length != 96) { 
+		var decodedStrings = this.encodeUtils.decode(encodedString);
+		console.log(decodedStrings.groupString.length+" "+decodedStrings.bracketString.length);
+		while (decodedStrings.groupString.length !== 96 || decodedStrings.bracketString.length !== 15) { 
 			encodedString = prompt("That string is invalid. Please try again, or enter '__' for an empty tournament",encodedString);
-			decodedString = this.encodeUtils.decode(encodedString);
+			decodedStrings = this.encodeUtils.decode(encodedString);
 		}
 		for (var g = 0; g < groups.length; g++) {
-			this.groups[g].load(decodedString.substring(g*12, g*12+12));
+			this.groups[g].load(decodedStrings.groupString.substring(g*12, g*12+12));
 		}
 		this.populateBracket();
 		this.knockout.clear();
+		this.knockout.load(decodedStrings.bracketString);
 	};
 
 	
