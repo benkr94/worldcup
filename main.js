@@ -18,10 +18,11 @@ var Brazil2014 = (function() {
 	};
 	
 	encode = function (scoreString) {
+		console.log("String to encode: "+scoreString);
 		if (scoreString.length === 0) {
 			return '';
 		}
-		var codeString = '0123456789abcde)fghijklmnopqrst{uvwxyzABCDEFGHI=JKL]MNO/PQR\\[`\'<STU|VWX.YZ~;@,:(^$*!}&?>"%';
+		var codeString = 'OPQRSTU|VWX}YZ&;@,:(0123456789abcde)fghijklmnopqrst{uvwxyzABCDEFGHI=JKL]MN^/$*!\\[`?<~.\'>"%';
 		var miniString = '';
 		switch(scoreString.charAt(0)) {
 			case "0":
@@ -35,16 +36,15 @@ var Brazil2014 = (function() {
 					}
 					miniString += scoreString.charAt(i);
 				}
-				switch(miniString.length) {
-					case 3: 
-						var baseConverted = miniString.charAt(0)*16 + miniString.charAt(1)*4 + miniString.charAt(2);
-						return codeString.charAt(baseConverted) + encode(scoreString.slice(3));
-					case 2:
-						var baseConverted = miniString.charAt(0)*4 + miniString.charAt(1);
-						return codeString.charAt(64 + baseConverted) + encode(scoreString.slice(2));
-					case 1:
-						return codeString.charAt(80 + miniString) + encode(scoreString.slice(1));
+				console.log("miniString is "+miniString);
+				var baseConverted = 0;
+				var offset = -1;
+				for (var i = 0; i < miniString.length; i++) {
+					baseConverted += miniString.charAt(i)*Math.pow(4, miniString.length - 1 - i);
+					offset += Math.pow(4, i);
 				}
+				console.log("baseConverted: "+baseConverted+" offset: "+offset+" yields: "+codeString.charAt(offset+baseConverted));
+				return codeString.charAt(offset + baseConverted) + encode(scoreString.slice(miniString.length));
 				break;
 			case "4":
 			case "5":
@@ -52,7 +52,8 @@ var Brazil2014 = (function() {
 			case "7":
 			case "8":
 			case "9":
-				return codeString.charAt(80 + scoreString.charAt(0)) + encode(scoreString.slice(1));
+				console.log("index "+(80+parseInt(scoreString.charAt(0)))+" yields "+codeString.charAt(80 + parseInt(scoreString.charAt(0))));
+				return codeString.charAt(80 + parseInt(scoreString.charAt(0))) + encode(scoreString.slice(1));
 				break;
 			case "-":
 				var counter = 1;
@@ -63,12 +64,15 @@ var Brazil2014 = (function() {
 					counter++;
 				}
 				if (counter === 1) {
+					console.log("One space");
 					return "-"+encode(scoreString.slice(counter));
 				}
 				else if (counter === scoreString.length) {
+					console.log("spaces till end");
 					return "__";
 				}
 				else {
+					console.log(counter+" spaces yields _"+codeString.charAt(counter));
 					return "_"+codeString.charAt(counter)+encode(scoreString.slice(counter));
 				}
 				break;
@@ -78,71 +82,86 @@ var Brazil2014 = (function() {
 		}
 	};
 	
-	decode = function (scoreString) {
+	decode = function (encodedString) {
 		var decodedString = '';
-		var codeString = '0123456789abcde)fghijklmnopqrst{uvwxyzABCDEFGHI=JKL]MNO/PQR\\[`?<STU|VWX.YZ~;@,:(^$*!}&\'>"%';
-		for (var i = 0; i < scoreString.length; i++) {
-			switch (scoreString.charAt(i)) {
+		var codeString = 'OPQRSTU|VWX}YZ&;@,:(0123456789abcde)fghijklmnopqrst{uvwxyzABCDEFGHI=JKL]MN^/$*!\\[`?<~.\'>"%';
+		for (var i = 0; i < encodedString.length; i++) {
+			console.log("Found "+encodedString.charAt(i));
+			switch (encodedString.charAt(i)) {
 				case '-':
 					decodedString += '-';
+					console.log("Adding '-'.");
 					break;
 				case '_':
-					if (scoreString.charAt(i+1) === '_') {
+					if (encodedString.charAt(i+1) === '_') {
 						while (decodedString.length < 96) {
 							decodedString += '-';
-							return decodedString;
 						}
+						console.log("Found __. Filling with '-'.");
+						return decodedString;
 					}
-					var codeStringIndex = codeString.indexOf(scoreString.charAt(i+1));
+					var codeStringIndex = codeString.indexOf(encodedString.charAt(i+1));
 					if (codeStringIndex === -1) {
-						console.log("ERROR: Invalid score string: "+scoreString);
+						console.log("ERROR: Invalid score string: "+encodedString);
 						return false;
 					}
 					for (var j = 0; j < codeStringIndex; j++) {
 						decodedString += '-';
 					}
+					console.log("Found _"+encodedString.charAt(i+1)+". Adding "+codeStringIndex+" -'s. ");
 					i++; //skip next character, as it's been interpreted
 					break;
 				default:
-					var codeStringIndex = codeString.indexOf(scoreString.charAt(i));
+					var codeStringIndex = codeString.indexOf(encodedString.charAt(i));
+					console.log("codeStringIndex is "+codeStringIndex);
 					if (codeStringIndex === -1) {
-						console.log("ERROR: Invalid score string: "+scoreString);
+						console.log("ERROR: Invalid score string: "+encodedString);
 						return false;
 					}
-					if (codeStringIndex >= 80) {
+					if (codeStringIndex >= 84) {
 						decodedString += '' + (codeStringIndex - 80);
-					}
-					else if (codeStringIndex >= 64) {		//I'd write a general case for zero-padded base 4 conversions if I had to
-						var base10 = codeStringIndex - 64;	//do any more than this, but as it stands, I think it's clearer this way.
-						var firstDigit = Math.floor(base10/4);
-						var secondDigit = base10 - 4 * firstDigit;
-						decodedString += '' + firstDigit + secondDigit;
+						console.log("Adding "+(codeStringIndex - 80));
 					}
 					else {
-						var firstDigit = Math.floor(codeStringIndex/16);
-						var secondDigit = Math.floor((codeStringIndex - 16 * firstDigit)/4);
-						var thirdDigit = codeStringIndex - 16 * firstDigit - 4 * secondDigit;
-						decodedString = '' + firstDigit + secondDigit + thirdDigit;
+						var digits = 1;
+						var nextOffset = 4;
+						while (codeStringIndex - nextOffset >= 0) {
+							codeStringIndex = codeStringIndex - nextOffset;
+							digits++;
+							nextOffset = Math.pow(4, digits);
+						}
+						console.log("Indicates a "+digits+"-digit number representing "+codeStringIndex);
+						var scores = [];
+						for (var j = digits-1; j >= 0; j--) {
+							score = Math.floor((codeStringIndex)/Math.pow(4,j))
+							console.log("Got a score of "+score);
+							scores.push(score);
+							codeStringIndex -= score * Math.pow(4,j);
+						}
+						decodedString += scores.join('');
+						console.log("Adding "+scores.join(''));
 					}
+				console.log("Decoded string is now "+decodedString);
 			}
-		return decodedString;	
+		console.log("Length is "+decodedString.length);
 		}
+		return decodedString;	
 	};
 	
 	/* load
-	 * Given a scoreString produced by the save method, sets the tournament to the state when the string was produced.
+	 * Given an encoded scoreString produced by the save method, sets the tournament to the state when the string was produced.
 	 */
-	this.load = function (scoreString) {
-		if (scoreString === '') { 
-			scoreString = prompt("Enter score string","");
-			var decoded = decode(scoreString);
-			while (decoded.length != 96) { 
-				scoreString = prompt("That scorestring is invalid. Please try again, or enter '__' for an empty tournament",scoreString);
-				decoded = decode(scoreString);
-			}
+	this.load = function (encodedString) {
+		if (encodedString === '') { 
+			encodedString = prompt("Enter your save code","");
+		}
+		var decodedString = decode(encodedString);
+		while (decodedString.length != 96) { 
+			encodedString = prompt("That string is invalid. Please try again, or enter '__' for an empty tournament",encodedString);
+			decodedString = decode(encodedString);
 		}
 		for (var g = 0; g < groups.length; g++) {
-			this.groups[g].load(decoded.substring(g*12, g*12+12));
+			this.groups[g].load(decodedString.substring(g*12, g*12+12));
 		}
 		this.populateBracket();
 		this.knockout.clear();
@@ -172,17 +191,17 @@ var Brazil2014 = (function() {
 			}
 			this.groups[g] = new this.Group(g, teams, groupMatchDetails);
 		}
+		this.knockout = new this.Bracket(4);
 		this.realScores = realScores;
 		for (var g = 0; g < 8; g++) {
 			this.groups[g].drawTab();
 			this.groups[g].drawMatches();
 			this.groups[g].drawTable();
-			this.groups[g].load(realScores.substring(g*12, g*12+12));
 		}
+		this.load(realScores);
 		$("#group-tab-links").children().unwrap();
 		$("#group-tab-content").children().unwrap();
-		//console.log(this.Bracket);
-		this.knockout = new this.Bracket(4);
+		console.log(encode("311000041413023032201251302121001421001010122131213025120300133201010012401222220121111042011112"));
 	};
 	
 	this.populateBracket = function () {
