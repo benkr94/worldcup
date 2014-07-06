@@ -36,13 +36,22 @@ var Brazil2014 = (function (Tournament) {
 		};
 		this.getScoreString = function () {
 			var scoreString = '';
-			for (var j = 0; j < matches.length; j++) {
-				scoreString += matches[j].getScore(1) + matches[j].getScore(2);
+			if (id % 2 === 0) {
+				for (var j = 0; j < matches.length; j++) {
+					scoreString += matches[j].getScore(1) + matches[j].getScore(2);
+				}
+			}
+			else {	//reverse score string for every other group. Since scores are likely to be filled in chronologically, this will
+				for (var j = matches.length-1; j >= 0; j--) { //put most blanks next to each other for a shorter compressed string.
+					scoreString += matches[j].getScore(2) + matches[j].getScore(1);
+				}
 			}
 			return scoreString;
 		}
 		this.load = function (scoreString) {
-			//console.log("Group "+this.id+" is getting "+scoreString)
+			if (id % 2 === 1) {
+				scoreString = scoreString.split('').reverse().join('');
+			}
 			for (var j = 0; j < matches.length; j++) {
 				var score1 = (scoreString.charAt(j*2) !== '-') ? scoreString.charAt(j*2) : '';
 		   		var score2 = (scoreString.charAt(j*2+1) !== '-') ? scoreString.charAt(j*2+1) : '';
