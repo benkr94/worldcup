@@ -1,3 +1,38 @@
+.border {
+	position: fixed;
+	width: auto;
+	height: auto;
+	z-index: -1;
+}
+
+#top-left {
+	top: 0px;
+	left: 0px;
+	max-width: 40.205%;
+	max-height: 26.758%
+}
+
+#top-right {
+	top: 0px;
+	right: 0px;
+	max-width: 41.575%;
+	max-height: 27.397%
+}
+
+#bottom-left {
+	bottom: 0px;
+	left: 0px;
+	max-width: 31.233%;
+	max-height: 26.393%
+}
+
+#bottom-right {
+	bottom: 0px;
+	right: 0px;
+	max-width: 19.726%
+	max-height: 30.502%
+}
+
 .team1 {
     float: left;
     text-align:right;
@@ -76,6 +111,11 @@
     clear:both;   
 }
 
+.flag {
+	/*top:-50%;
+	left:-50%;*/
+}
+
 /*.flag-cropper {
 	display:inline-block;
 	position: relative;
@@ -83,8 +123,3 @@
 	height: 19px;
 	overflow: hidden;
 }*/
-
-.flag {
-	/*top:-50%;
-	left:-50%;*/
-}

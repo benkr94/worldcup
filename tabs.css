@@ -5,6 +5,11 @@
 }
  
     /*----- Tab Links -----*/
+    
+    .tab-links {
+    	/*margin:0;*/
+    }
+    
     /* Clearfix */
     .tab-links:after {
         display:block;
@@ -39,16 +44,16 @@
         }
  
     li.active a, li.active a:hover {
-        background:#fff;
+        /*background:#fff;*/
         color:#4c4c4c;
     }
  
     /*----- Content of Tabs -----*/
     .tab-content {
         padding:15px;
-        border-radius:3px;
+        /*border-radius:3px;
         box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
-        background:#fff;
+        background:#fff;*/
     }
  
         .tab {
