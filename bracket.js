@@ -114,18 +114,30 @@ var Brazil2014 = (function (Tournament) {
 			}
 		};
 		this.updateView = function () {
-			var cellString = '#r'+this.roundNum+'-m'+this.matchNum+'-t'+this.teamNum;
-			if (teamAt.id === null) {
-				$(cellString).html('&#160;&#160;');
+			if (this.next === null) {
+				if (teamAt.id === null) {
+					$('.champion').hide();
+				}
+				else {
+					$('.champion').css('display','inline-block');
+					$('.champion .flag').attr('src', "bigflags/"+teamAt.id+".png");
+					$('.champion .countryName').text(teamAt.countryName.replace("& Herz.","and Herzegovina"));	//Font doesn't have &
+				}
 			}
 			else {
-				$(cellString).html(teamAt.flagLeft());
-			}
-			if (won) {
-				$(cellString).addClass('winner');
-			}
-			else {
-				$(cellString).removeClass('winner');
+				var cellString = '#r'+this.roundNum+'-m'+this.matchNum+'-t'+this.teamNum;
+				if (teamAt.id === null) {
+					$(cellString).html('&#160;&#160;');
+				}
+				else {
+					$(cellString).html(teamAt.flagLeft());
+				}
+				if (won) {
+					$(cellString).addClass('winner');
+				}
+				else {
+					$(cellString).removeClass('winner');
+				}
 			}
 		};
 	};

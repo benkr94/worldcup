@@ -149,4 +149,35 @@ h1 {
 	padding: 0px;
 	background-image: url('kob.png');
 	background-position: right;
+	text-align: left;
+}
+
+.champion {
+	position:relative;
+	font-family:'Brasil2014';
+	color:red;
+	font-size:2em;
+	text-align:center;
+	display:none;
+	vertical-align: middle;
+	border:1px solid #aaa;
+	background-color:#F9F9F9;
+	width: 200px;
+	height: 200px;
+}
+
+.champion .flag {
+	position:absolute;
+	margin:auto;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+}
+
+.champion .countryName {
+	position:absolute;
+	bottom:0;
+	left:0;
+	right:0;
 }
