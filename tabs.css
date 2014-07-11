@@ -8,6 +8,7 @@
     
     .tab-links {
     	/*margin:0;*/
+    	text-align: center;
     }
     
     /* Clearfix */
@@ -17,10 +18,9 @@
         content:'';
     }
  
-    .tab-links li {
+    .tab-links > div {
         margin:0px 2px;
-        float:left;
-        list-style:none;
+        display: inline-block;
     }
  
         .tab-links a {
@@ -44,19 +44,20 @@
         }
  
     li.active a, li.active a:hover {
-        /*background:#fff;*/
+        background: none;
         color:#4c4c4c;
     }
  
     /*----- Content of Tabs -----*/
     .tab-content {
-        padding:15px;
+
         /*border-radius:3px;
         box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
         background:#fff;*/
     }
  
         .tab {
+        	padding:15px;
             display:none;
         }
  

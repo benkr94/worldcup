@@ -1,3 +1,24 @@
+body {
+	text-align:center;
+}
+
+@font-face {
+	font-family: "Brasil2014";
+	src: url('brasil2014.otf') format('opentype');
+}
+
+header,h1,p {
+	margin:0;
+	padding:0;
+	font-family:"Brasil2014";
+}
+
+h1 {
+	font-size: 2.5em;
+	color: red;
+}
+
+
 .border {
 	position: fixed;
 	width: auto;
@@ -123,3 +144,9 @@
 	height: 19px;
 	overflow: hidden;
 }*/
+
+#Bracket {
+	padding: 0px;
+	background-image: url('kob.png');
+	background-position: right;
+}
