@@ -173,6 +173,10 @@ h1 {
 	bottom:0;
 	left:0;
 	right:0;
+    box-shadow: 0px 0px 10px 5px #FFD700;
+    webkit-box-shadow: 0px 0px 10px 5px #FFD700;
+    moz-box-shadow: 0px 0px 10px 5px #FFD700;
+    ms-filter: progid:DXImageTransform.Microsoft.Glow(color=#FFD700, strength=5);
 }
 
 .champion .countryName {
@@ -180,4 +184,9 @@ h1 {
 	bottom:0;
 	left:0;
 	right:0;
+}
+
+.champion p {
+		text-shadow:1px 1px 2px #FFD700, -1px 1px 2px #FFD700, 1px -1px 2px #FFD700, -1px -1px 2px #FFD700;
+		ms-filter: progid:DXImageTransform.Microsoft.Glow(color=#FFD700, strength=1);
 }
