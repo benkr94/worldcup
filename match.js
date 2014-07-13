@@ -16,8 +16,10 @@ var Brazil2014 = (function (Tournament) {
 		this.team2 = team2;
 		this.location = location;
 		this.time = new Date(Date.UTC(2014,time[0],time[1],time[2],time[3]));
-		this.timeString = function () {
-			return this.time.toUTCString().split(':',2).join(':');
+		this.timeString = function (offset) {
+			var localTime = new Date(this.time.getTime());
+			localTime.setMinutes(localTime.getMinutes()+offset);
+			return localTime.toUTCString().split(':',2).join(':');
 		}
 		var score1 = '';
 		var score2 = '';

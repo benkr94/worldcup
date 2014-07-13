@@ -55,8 +55,8 @@ var Brazil2014 = (function (Tournament) {
 			for (var j = 0; j < matches.length; j++) {
 				var score1 = (scoreString.charAt(j*2) !== '-') ? scoreString.charAt(j*2) : '';
 		   		var score2 = (scoreString.charAt(j*2+1) !== '-') ? scoreString.charAt(j*2+1) : '';
-				$("#"+this.id+" .match"+j+" .score1").val(score1);
-				$("#"+this.id+" .match"+j+" .score2").val(score2);
+				$("#"+this.id+" #match"+matches[j].id+" .score1").val(score1);
+				$("#"+this.id+" #match"+matches[j].id+" .score2").val(score2);
 				matches[j].play(score1, score2);
 			}
 			this.reorderTable();
@@ -300,7 +300,7 @@ var Brazil2014 = (function (Tournament) {
 		this.drawMatches = function () {
 		    var html = '';
 		    for (var i = 0; i < matches.length; i++) {
-		        html += '<div class="match'+i+' matchRow">'+
+		        html += '<div id="match'+matches[i].id+'" class="matchRow">'+
 		        			'<div class="details">'+
 		        				'<div class="location">'+matches[i].location+'</div>'+
 		        				'<div class="time">'+matches[i].timeString()+'</div>'+
@@ -311,6 +311,11 @@ var Brazil2014 = (function (Tournament) {
 		                '</div>';
 		    }
 		    $("#"+this.id+" .matches").html(html);
+		};
+		this.updateTimes = function (offset) {
+			for (var i = 0; i < matches.length; i++) {
+				$('#match'+matches[i].id+' .time').text(matches[i].timeString(offset));
+			}
 		};
 	};
 	

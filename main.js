@@ -69,6 +69,16 @@ var Brazil2014 = (function() {
 			this.groups[g].drawMatches();
 			this.groups[g].drawTable();
 		}
+		var userTime = new Date();
+		var userOffset = 0 - userTime.getTimezoneOffset();
+		$('#tzwrapper select').val(userOffset);
+		if ($('#tzwrapper select').val() === null) {
+			$('#tzwrapper select').val("");
+			this.updateTimes(-180); //default to Rio time if user's browser gives us a funky offset
+		}
+		else {
+			this.updateTimes(userOffset);
+		}
 		this.load(realScores);
 		$("#group-tab-links").children().unwrap();
 		$("#group-tab-content").children().unwrap();
@@ -80,6 +90,16 @@ var Brazil2014 = (function() {
 				var matchIndex = Math.floor(g/2) + 4 * Math.abs((i - (g % 2)));
 				this.knockout.nodeArr[0][matchIndex][i].setTeam(groups[g].getTeam(i));
 			}
+		}
+	};
+	
+	this.updateTimes = function (offset) {
+		console.log(offset);
+		if (isNaN(offset)) {
+			return false;
+		}
+		for (var g = 0; g < 8; g++) {
+			this.groups[g].updateTimes(offset);
 		}
 	};
 

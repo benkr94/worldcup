@@ -12,6 +12,48 @@
 	<img class="border" id="bottom-left" src="borders/bottom-left.png">
 	<img class="border" id="bottom-right" src="borders/bottom-right.png">
 	<div id="header">
+		<div id="tzwrapper">
+			<select>
+				<option value="">CHOOSE TIME ZONE (cities accurate during Cup)</option>
+				<option value="-660">UTC-11:00&nbsp;&nbsp;&nbsp;&nbsp;Pago Pago</option>
+				<option value="-600">UTC-10:00&nbsp;&nbsp;&nbsp;&nbsp;Honolulu</option>
+				<option value="-570">UTC-09:30&nbsp;&nbsp;&nbsp;&nbsp;Marquesas Is.</option>
+				<option value="-540">UTC-09:00&nbsp;&nbsp;&nbsp;&nbsp;Adak</option>
+				<option value="-480">UTC-08:00&nbsp;&nbsp;&nbsp;&nbsp;Anchorage</option>
+				<option value="-420">UTC-07:00&nbsp;&nbsp;&nbsp;&nbsp;Los Angeles, Vancouver, Tijuana</option>
+				<option value="-360">UTC-06:00&nbsp;&nbsp;&nbsp;&nbsp;Denver, Calgary, Guatemala City</option>
+				<option value="-300">UTC-05:00&nbsp;&nbsp;&nbsp;&nbsp;Mexico City, Chicago, Bogota</option>
+				<option value="-270">UTC-04:30&nbsp;&nbsp;&nbsp;&nbsp;Caracas</option>
+				<option value="-240">UTC-04:00&nbsp;&nbsp;&nbsp;&nbsp;New York, Montreal, Manaus</option>
+				<option value="-180">UTC-03:00&nbsp;&nbsp;&nbsp;&nbsp;Sao Paulo, Buenos Aires, Montreal</option>
+				<option value="-150">UTC-02:30&nbsp;&nbsp;&nbsp;&nbsp;St. John's</option>
+				<option value="-120">UTC-02:00&nbsp;&nbsp;&nbsp;&nbsp;Nuuk</option>
+				<option value="-60">UTC-01:00&nbsp;&nbsp;&nbsp;&nbsp;Praia</option>
+				<option value="0">UTC+00:00&nbsp;&nbsp;&nbsp;&nbsp;Casablanca, Accra, Reykjavik</option>
+				<option value="60">UTC+01:00&nbsp;&nbsp;&nbsp;&nbsp;London, Lisbon, Lagos</option>
+				<option value="120">UTC+02:00&nbsp;&nbsp;&nbsp;&nbsp;Paris, Cairo, Johannesburg</option>
+				<option value="180">UTC+03:00&nbsp;&nbsp;&nbsp;&nbsp;Istanbul, Riyadh, Kiev</option>
+				<option value="240">UTC+04:00&nbsp;&nbsp;&nbsp;&nbsp;Moscow, Dubai, Tbilisi</option>
+				<option value="270">UTC+04:30&nbsp;&nbsp;&nbsp;&nbsp;Tehran, Kabul</option>
+				<option value="300">UTC+05:00&nbsp;&nbsp;&nbsp;&nbsp;Karachi, Tashkent, Baku</option>
+				<option value="330">UTC+05:30&nbsp;&nbsp;&nbsp;&nbsp;Kolkata, Colombo</option>
+				<option value="345">UTC+05:45&nbsp;&nbsp;&nbsp;&nbsp;Kathmandu</option>
+				<option value="360">UTC+06:00&nbsp;&nbsp;&nbsp;&nbsp;Dhaka, Almaty, Yekaterinburg</option>
+				<option value="390">UTC+06:30&nbsp;&nbsp;&nbsp;&nbsp;Yangon</option>
+				<option value="420">UTC+07:00&nbsp;&nbsp;&nbsp;&nbsp;Jakarta, Bangkok, Hanoi</option>
+				<option value="480">UTC+08:00&nbsp;&nbsp;&nbsp;&nbsp;Beijing, Taipei, Perth</option>
+				<option value="540">UTC+09:00&nbsp;&nbsp;&nbsp;&nbsp;Tokyo, Seoul, Pyongyang</option>
+				<option value="570">UTC+09:30&nbsp;&nbsp;&nbsp;&nbsp;Adelaide, Darwin</option>
+				<option value="600">UTC+10:00&nbsp;&nbsp;&nbsp;&nbsp;Melbourne, Sydney, Brisbane</option>
+				<option value="630">UTC+10:30&nbsp;&nbsp;&nbsp;&nbsp;Lord Howe Island</option>
+				<option value="660">UTC+11:00&nbsp;&nbsp;&nbsp;&nbsp;Vladivostok</option>
+				<option value="690">UTC+11:30&nbsp;&nbsp;&nbsp;&nbsp;Norfolk Island</option>
+				<option value="720">UTC+12:00&nbsp;&nbsp;&nbsp;&nbsp;Auckland</option>
+				<option value="765">UTC+12:45&nbsp;&nbsp;&nbsp;&nbsp;Chatham Is.</option>
+				<option value="780">UTC+13:00&nbsp;&nbsp;&nbsp;&nbsp;Apia</option>
+				<option value="840">UTC+14:00&nbsp;&nbsp;&nbsp;&nbsp;Kiritimati</option>
+			</select>
+		</div>
 		<h1>2014 FIFA World Cup Brazil</h1>
 		<p>Set or change match scores to see their effects on the table!</p>
 	</div>
@@ -337,10 +379,16 @@
      
             e.preventDefault();
         });
+        
 		$(document).on('blur', '.score1, .score2', function() {
 			var groupIndex = $(this).parents('.tab').attr('id').charCodeAt(0)-65;
 			Brazil2014.groups[groupIndex].play($(this).parents(".matchRow").attr('class')[5], $(this).parent(".result").children(".score1").val(), $(this).parent(".result").children(".score2").val());
 		});
+		
+		$("#tzwrapper").on('change', "select", function() {
+			Brazil2014.updateTimes(parseInt($(this).val()));
+		});
+		
 		$("#buttons").on('click', "#save", function() {
 			Brazil2014.save();
 		});
