@@ -9,6 +9,10 @@ var Brazil2014 = (function (Tournament) {
 		matches[3] = new Tournament.Match(16 + 2 * id + 2, teams[3], teams[1], matchDetails[3][0], matchDetails[3][1]);
 		matches[4] = new Tournament.Match(32 + 2 * id + 1, teams[3], teams[0], matchDetails[4][0], matchDetails[4][1]);
 		matches[5] = new Tournament.Match(32 + 2 * id + 2, teams[1], teams[2], matchDetails[5][0], matchDetails[5][1]);
+		var matchTimeCompare = function(a, b) {
+			return a.time - b.time;
+		}
+		matches.sort(matchTimeCompare);
 		this.play = function (matchIndex, goals1, goals2) {
 		    if (matches[matchIndex].play(goals1, goals2)) {
 		        this.reorderTable();
