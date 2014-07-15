@@ -21,32 +21,79 @@
     .tab-links > div {
         margin:0px 2px;
         display: inline-block;
+        vertical-align:bottom;
     }
  
         .tab-links a {
-            padding:9px 15px;
+            padding:9px 9px;
             display:inline-block;
-            border-radius:3px 3px 0px 0px;
-            background:#7FB5DA;
-            font-size:16px;
+            border-radius:6px 6px 0px 0px; 
+			background: rgba(243,243,243,1);
+			background: -moz-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 100%);
+			background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(243,243,243,1)), color-stop(100%, rgba(191,193,194,1)));
+			background: -webkit-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 100%);
+			background: -o-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 100%);
+			background: -ms-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 100%);
+			background: linear-gradient(to bottom, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', endColorstr='#bfc1c2', GradientType=0 );
+			-webkit-background-size: 100% 100%;
+			-moz-background-size: 100% 100%; 
+            background-size:100% 100%;  
+            font-size:x-large;
             font-weight:600;
-            color:#4c4c4c;
-            transition:all linear 0.15s;
+            font-family:"Brasil2014";
+            color:red;
+            text-decoration:none;
+            opacity:0.95;
+            box-shadow: 2px -2px 4px #000;
+    		webkit-box-shadow: 2px -2px 4px #000;
+    		moz-box-shadow: 2px -2px 4px #000;
+            -webkit-transition:all linear 0s;
+            -moz-transition:all linear 0s;
+            -ms-transition:all linear 0s;
+            -o-transition:all linear 0s;
+            transition:all linear 0s;
         }
  
         .tab-links a:hover {
-            background:#a7cce5;
+			-webkit-background-size: 100% 500%;
+			-moz-background-size: 100% 500%;
+			background-size:100% 500%;
             text-decoration:none;
+            -webkit-transition:all linear 0.3s;
+            -moz-transition:all linear 0.3s;
+            -ms-transition:all linear 0.3s;
+            -o-transition:all linear 0.3s;
+            transition:all linear 0.3s;
         }
         
         .tab-links img {
-        	vertical-align:middle;
+        	/*vertical-align:middle;*/
+        	padding: 2px;
+        }
+        
+        .tab-links .leftflags {
+        	display:inline-block;
+			vertical-align:middle;
+			margin-right:5px;
+        }
+        
+        .tab-links .rightflags {
+        	display:inline-block;
+			vertical-align:middle;
+			margin-left:5px;
         }
  
-    li.active a, li.active a:hover {
-        background: none;
-        color:#4c4c4c;
+    div.active a, div.active a:hover {
+		-webkit-background-size: 100% 500%;
+		-moz-background-size: 100% 500%;
+		background-size:100% 500%;
+		text-decoration:none;
     }
+    
+    /*.tab-links > div:last-child a {
+    	height:100%;
+    }*/
  
     /*----- Content of Tabs -----*/
     .tab-content {

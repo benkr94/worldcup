@@ -19,10 +19,10 @@ body {
 
 #tzwrapper {
 	position: absolute;
-	top: 50%;
-	-webkit-transform: translate(0%,-50%);
+	top: 60%;
+	/*-webkit-transform: translate(0%,-50%);
 	-ms-transform: translate(0%,-50%);
-	transform: translate(0%,-50%);
+	transform: translate(0%,-50%);*/
 }
 
 h1 {
@@ -70,6 +70,7 @@ h1 {
     float: left;
     text-align:right;
     width:33.33333%;
+    text-weight:bold;
 }
 .result {
     float: left;
@@ -80,6 +81,7 @@ h1 {
     float: right;
     text-align:left;
     width: 33.33333%;
+    text-weight:bold;
 }
 
 .matchRow {
@@ -87,6 +89,9 @@ h1 {
     margin-left:auto;
     margin-right:auto;
     padding: 10;
+	color: #333333;
+	font-family: 'Gill Sans', Helvetica, sans-serif;
+	font-size:large;
 }
 
 .matchRow::after {
@@ -94,6 +99,12 @@ h1 {
     display:block;
     content:"";
     clear:both;   
+}
+
+.details {
+	color: #333333;
+	font-family: Georgia, serif;
+    font-size:small;
 }
 
 .score1, .score2 {
@@ -124,14 +135,12 @@ h1 {
     float: left;
     text-align:left;
     width:50%;
-    font-size:small;
 }
 
 .time {
     float: right;
     text-align:right;
-    width: 50%;
-    font-size:small;
+    width:50%;
 }
 
 .details::after {
