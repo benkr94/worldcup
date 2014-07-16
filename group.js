@@ -322,7 +322,7 @@ var Brazil2014 = (function (Tournament) {
 		};
 		this.updateTimes = function (offset) {
 			for (var i = 0; i < matches.length; i++) {
-				$('.match'+i+' .time').text(matches[i].timeString(offset));
+				$('#'+this.id+' .match'+i+' .time').text(matches[i].timeString(offset));
 			}
 		};
 	};

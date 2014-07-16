@@ -35,9 +35,11 @@
 
 .team-cell {
 	border:1px solid #aaa;
-	background-color:#F9F9F9
+	background-color:#F9F9F9;
+	/*font-size:large;*/
 }
 
 .winner {
 	background-color:#ccffcc !important;
+	font-weight: bold;
 }
