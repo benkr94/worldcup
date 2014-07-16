@@ -59,8 +59,8 @@ var Brazil2014 = (function (Tournament) {
 			for (var j = 0; j < matches.length; j++) {
 				var score1 = (scoreString.charAt(j*2) !== '-') ? scoreString.charAt(j*2) : '';
 		   		var score2 = (scoreString.charAt(j*2+1) !== '-') ? scoreString.charAt(j*2+1) : '';
-				$("#"+this.id+" #match"+matches[j].id+" .score1").val(score1);
-				$("#"+this.id+" #match"+matches[j].id+" .score2").val(score2);
+				$("#"+this.id+" .match"+j+" .score1").val(score1);
+				$("#"+this.id+" .match"+j+" .score2").val(score2);
 				matches[j].play(score1, score2);
 			}
 			this.reorderTable();
@@ -98,12 +98,12 @@ var Brazil2014 = (function (Tournament) {
 		   	for (var i = 0; i < teams.length; i++) {
 				for (var j = 0; j < statKeys.length; j++) {
 					//alert($("#"+this.id+" .groupTable #row"+teams[i].id+" ."+statKeys[j]).text());
-					$("#"+this.id+" .groupTable #row"+teams[i].id+" ."+statKeys[j]).text(teams[i].getStat(statKeys[j]));
+					$("#"+this.id+" .groupTable #row"+teams[i].id+" ."+statKeys[j]+" .content").text(teams[i].getStat(statKeys[j]));
 				}
 			}
 			for (var i = 0; i < teams.length; i++) { //two iterations over same array intentional; want to change stats before beginning animation
 				var rankChange = i - teams[i].prevRank;
-		   		$("#"+this.id+" .groupTable #row"+teams[i].id+" div").animate({"top":"+="+(rankChange*22)+"px"});
+		   		$("#"+this.id+" .groupTable #row"+teams[i].id+" td > div").animate({"top":"+="+(rankChange*30)+"px"});
 		   		teams[i].prevRank = i;
 			}
 		}
@@ -282,7 +282,7 @@ var Brazil2014 = (function (Tournament) {
 		this.drawTable = function () {
 			//this.rankAll();
 			var statKeys = ["played", "won", "drawn", "lost", "goalsFor", "goalsAgainst", "goalDifference", "points"]; //avoiding forEach for the benefit of IE8 users
-		    var html = '<table><tr>'+
+		    var html = '<table cellspacing="0"><tr>'+
 		                   '<th width="190">Team</th>'+
 		                   '<th width="28"><abbr title="Played">Pld</abbr></th>'+
 		                   '<th width="28"><abbr title="Won">W</abbr></th>'+
@@ -295,9 +295,9 @@ var Brazil2014 = (function (Tournament) {
 		               '</tr>';
 		    for (var i = 0; i < teams.length; i++) {
 		        html += '<tr id="row'+teams[i].id+'">'+
-		                   '<td><div class="countryName">'+teams[i].flagLeft()+'</div></td>'; //wrapping div necessary for animations, which cannot work on table rows or cells
+		                   '<td><div class="countryName"><div class="heightfix"></div><div class="content">'+teams[i].flagLeft()+'</div></div></td>'; //wrapping div necessary for animations, which cannot work on table rows or cells
 		        for (var j = 0; j < statKeys.length; j++) {
-		        	html+= '<td><div class="'+statKeys[j]+'">'+teams[i].getStat(statKeys[j])+'</div></td>';
+		        	html+= '<td><div class="'+statKeys[j]+'"><div class="heightfix"></div><div class="content">'+teams[i].getStat(statKeys[j])+'</div></div></td>';
 		        }
 		        html += '</tr>';
 		    }
@@ -308,7 +308,7 @@ var Brazil2014 = (function (Tournament) {
 		this.drawMatches = function () {
 		    var html = '';
 		    for (var i = 0; i < matches.length; i++) {
-		        html += '<div id="match'+matches[i].id+'" class="matchRow">'+
+		        html += '<div class="match'+i+' matchRow">'+
 		        			'<div class="details">'+
 		        				'<div class="location">'+matches[i].location+'</div>'+
 		        				'<div class="time">'+matches[i].timeString()+'</div>'+
@@ -322,7 +322,7 @@ var Brazil2014 = (function (Tournament) {
 		};
 		this.updateTimes = function (offset) {
 			for (var i = 0; i < matches.length; i++) {
-				$('#match'+matches[i].id+' .time').text(matches[i].timeString(offset));
+				$('.match'+i+' .time').text(matches[i].timeString(offset));
 			}
 		};
 	};

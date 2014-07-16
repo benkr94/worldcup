@@ -1,5 +1,6 @@
 body {
-	text-align:center;
+	/*text-align:center;*/
+	font-family: 'Gill Sans', Helvetica, sans-serif;
 }
 
 @font-face {
@@ -7,10 +8,11 @@ body {
 	src: url('brasil2014.otf') format('opentype');
 }
 
-#header,h1,p {
+#header h1, #header p {
 	margin:0;
 	padding:0;
 	font-family:"Brasil2014";
+	text-align: center;
 }
 
 #header {
@@ -90,7 +92,6 @@ h1 {
     margin-right:auto;
     padding: 10;
 	color: #333333;
-	font-family: 'Gill Sans', Helvetica, sans-serif;
 	font-size:large;
 }
 
@@ -111,8 +112,50 @@ h1 {
     width:20px;
 }
 
-.groupTable td div {
+.groupTable td > div {
 	position:relative;
+	height:30px;
+	border-spacing:0px;
+	text-align:center;
+}
+
+.groupTable td, .groupTable div {
+	border-spacing:0px;
+	padding:0px;
+	border-image-width:0px;
+	text-align:center;
+}
+
+.groupTable .content {
+	display:table-cell;
+	/*top: 50%;
+	-webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);*/
+    height:100%;
+    vertical-align:middle;
+	border-spacing:0px;
+	margin-right:0;
+}
+
+td {
+	vertical-align:middle;
+}
+
+.outerwrap {
+	display:table;
+}
+
+.innerwrap {
+	display:table-cell;
+	vertical-align:middle;
+}
+
+.heightfix {
+	display:table-cell;
+	width:1px;
+	height:30px;
+	border-spacing:0px;
 }
 
 .clinched {
@@ -149,19 +192,6 @@ h1 {
     content:"";
     clear:both;   
 }
-
-.flag {
-	/*top:-50%;
-	left:-50%;*/
-}
-
-/*.flag-cropper {
-	display:inline-block;
-	position: relative;
-	width: 24px;
-	height: 19px;
-	overflow: hidden;
-}*/
 
 #Bracket {
 	padding: 0px;
@@ -208,3 +238,16 @@ h1 {
 		text-shadow:1px 1px 2px #FFD700, -1px 1px 2px #FFD700, 1px -1px 2px #FFD700, -1px -1px 2px #FFD700;
 		ms-filter: progid:DXImageTransform.Microsoft.Glow(color=#FFD700, strength=1);
 }
+
+/*
+td span {
+	vertical-align:middle;
+}
+
+td div {
+	display:table-cell;
+	height:30px;
+	width:100%;
+	vertical-align:middle;
+	font-size:xx-small;
+}*/

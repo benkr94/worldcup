@@ -2,6 +2,11 @@
 	height:5;
 }
 
+.hs div {
+	min-height:15px;
+	opacity:0;
+}
+
 .round {
 	border:1px solid #aaa;
 	background-color:#F2F2F2;

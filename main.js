@@ -27,7 +27,7 @@ var Brazil2014 = (function() {
 		var decodedStrings = this.encodeUtils.decode(encodedString);
 		console.log(decodedStrings.groupString.length+" "+decodedStrings.bracketString.length);
 		while (decodedStrings.groupString.length !== 96 || decodedStrings.bracketString.length !== 15) { 
-			encodedString = prompt("That string is invalid. Please try again, or enter '__' for an empty tournament",encodedString);
+			encodedString = prompt("That string is invalid. Please try again, or enter '__+0' for an empty tournament",encodedString);
 			decodedStrings = this.encodeUtils.decode(encodedString);
 		}
 		for (var g = 0; g < groups.length; g++) {
