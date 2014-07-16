@@ -115,27 +115,45 @@ h1 {
 .groupTable td > div {
 	position:relative;
 	height:30px;
-	border-spacing:0px;
-	text-align:center;
+	/*border-spacing:0px;*/
+	border-top: 1px solid #CCC;
 }
 
 .groupTable td, .groupTable div {
-	border-spacing:0px;
+	/*border-spacing:0px;*/
 	padding:0px;
-	border-image-width:0px;
-	text-align:center;
+	/*border-image-width:0px;*/
+}
+
+.groupTable td {
+
 }
 
 .groupTable .content {
-	display:table-cell;
 	/*top: 50%;
 	-webkit-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);*/
-    height:100%;
     vertical-align:middle;
-	border-spacing:0px;
-	margin-right:0;
+	/*border-spacing:0px;*/
+	display:inline-block;
+}
+
+.heightfix {
+	display:inline-block;
+	width:1px;
+	height:30px;
+	/*border-spacing:0px;*/
+	vertical-align:middle;
+}
+
+.countryName .content, .countryName .heightfix {
+	display:table-cell;
+}
+
+.stat {
+	text-align:right;
+	padding-right:5px !important;
 }
 
 td {
@@ -143,19 +161,12 @@ td {
 }
 
 .outerwrap {
-	display:table;
+	display:inline-block;
 }
 
 .innerwrap {
 	display:table-cell;
 	vertical-align:middle;
-}
-
-.heightfix {
-	display:table-cell;
-	width:1px;
-	height:30px;
-	border-spacing:0px;
 }
 
 .clinched {

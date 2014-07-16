@@ -103,7 +103,7 @@ var Brazil2014 = (function (Tournament) {
 			}
 			for (var i = 0; i < teams.length; i++) { //two iterations over same array intentional; want to change stats before beginning animation
 				var rankChange = i - teams[i].prevRank;
-		   		$("#"+this.id+" .groupTable #row"+teams[i].id+" td > div").animate({"top":"+="+(rankChange*30)+"px"});
+		   		$("#"+this.id+" .groupTable #row"+teams[i].id+" td > div").animate({"top":"+="+(rankChange*31)+"px"});
 		   		teams[i].prevRank = i;
 			}
 		}
@@ -297,7 +297,7 @@ var Brazil2014 = (function (Tournament) {
 		        html += '<tr id="row'+teams[i].id+'">'+
 		                   '<td><div class="countryName"><div class="heightfix"></div><div class="content">'+teams[i].flagLeft()+'</div></div></td>'; //wrapping div necessary for animations, which cannot work on table rows or cells
 		        for (var j = 0; j < statKeys.length; j++) {
-		        	html+= '<td><div class="'+statKeys[j]+'"><div class="heightfix"></div><div class="content">'+teams[i].getStat(statKeys[j])+'</div></div></td>';
+		        	html+= '<td><div class="'+statKeys[j]+' stat"><div class="heightfix"></div><div class="content">'+teams[i].getStat(statKeys[j])+'</div></div></td>';
 		        }
 		        html += '</tr>';
 		    }
