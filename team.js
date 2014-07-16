@@ -88,10 +88,10 @@ var Brazil2014 = (function (Tournament) {
 	        requiresAdvancedTiebreak = -1;
 	    };
 	    this.flagLeft = function () {
-	    	return '<div class="outerwrap"><div class="innerwrap"><img class="flag" src="flags/'+id+'.png" style="margin-right:3px"></div><div class="innerwrap">'+countryName+'</div></div>';
+	    	return '<div class="outerwrap"><div class="innerwrap flagwrap"><img class="flag" src="flags/'+id+'.png"></div><div class="innerwrap">&nbsp;'+countryName+'</div></div>';
 	    };
 	    this.flagRight = function () {
-	    	return '<div class="outerwrap"><div class="innerwrap">'+countryName+'</div><div class="innerwrap"><img class="flag" src="flags/'+id+'.png" style="margin-left:3px"></div></div>';
+	    	return '<div class="outerwrap"><div class="innerwrap">'+countryName+'&nbsp;</div><div class="innerwrap flagwrap"><img class="flag" src="flags/'+id+'.png"></div></div>';
 	    };
 	};
 	

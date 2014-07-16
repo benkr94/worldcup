@@ -36,6 +36,7 @@
 .team-cell {
 	border:1px solid #aaa;
 	background-color:#F9F9F9;
+	padding-left:4px;
 	/*font-size:large;*/
 }
 

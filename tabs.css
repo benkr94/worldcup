@@ -42,8 +42,10 @@
             font-size:x-large;
             font-weight:600;
             font-family:"Brasil2014";
-            color:red;
+            color: rgba(0,0,0, 0.6);
+    		text-shadow: 1px 4px 6px #def, 0 0 0 #000, 1px 4px 6px #def;
             text-decoration:none;
+            
             opacity:0.95;
             box-shadow: 2px -2px 4px #000;
     		webkit-box-shadow: 2px -2px 4px #000;
@@ -104,7 +106,7 @@
     }
  
         .tab {
-        	padding:15px;
+        	/*padding:15px;*/
             display:none;
         }
  
