@@ -108,6 +108,17 @@ h1 {
     font-size:small;
 }
 
+td.details {
+	vertical-align:bottom;
+	color:white;
+	text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;  
+   	ms-filter: progid:DXImageTransform.Microsoft.Glow(color=#000000, strength=1);
+}
+
 .score1, .score2 {
     width:20px;
 }
@@ -200,6 +211,10 @@ td {
     float: right;
     text-align:right;
     width:50%;
+}
+
+.kolocation, .kotime {
+	display:inline-block;
 }
 
 .details::after {

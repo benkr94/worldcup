@@ -1,5 +1,5 @@
 var Brazil2014 = (function (Tournament) {
-	Tournament.Bracket = function (rounds) {
+	Tournament.Bracket = function (rounds, matchDetails) {
 		this.rounds = rounds;
 		var nodeArr = [];							//Initialize array representing the entire bracket;
 		for (var r = 0; r < rounds; r++) {  		
@@ -26,6 +26,21 @@ var Brazil2014 = (function (Tournament) {
 				//console.log("Creating nodes for "+r+"-"+m);
 				nodeArr[r][m][0] = new Node(next, 0);
 				nodeArr[r][m][1] = new Node(next, 1);
+			}
+		}
+		var times = [];
+		for (var i = 0; i < matchDetails.length; i++) {
+			var time = matchDetails[i][1];
+			var matchTime = new Date(Date.UTC(2014,time[0],time[1],time[2],time[3]));
+			times.push(matchTime);
+			$('#Bracket .details').eq(i).html('<div class="kolocation">'+matchDetails[i][0]+',&nbsp;</div>'+'<div class="kotime">'+times[i].toUTCString().split(' ').splice(1).join(' ').split(':',2).join(':').replace('2014','')+'</div>');
+		}
+		this.updateTimes = function (offset) {
+			//console.log("Doing this.");
+			for (var i = 0; i < times.length; i++) {
+				var localTime = new Date(times[i].getTime());
+				localTime.setMinutes(localTime.getMinutes()+offset);
+				$('#Bracket .details').eq(i).children('.kotime').text(localTime.toUTCString().split(' ').splice(1).join(' ').split(':',2).join(':').replace('2014',''));
 			}
 		}
 		this.getSaveString = function () {

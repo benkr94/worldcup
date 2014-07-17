@@ -44,7 +44,7 @@ var Brazil2014 = (function() {
 			console.log("ERROR: Wrong number of teams for constructing World Cup tournament");
 			return false;
 		}
-		if (matchDetails.length !== 48) {
+		if (matchDetails.length !== 63) {
 			console.log("ERROR: Wrong number of match details for constructing World Cup tournament");
 			return false;
 		}
@@ -62,7 +62,7 @@ var Brazil2014 = (function() {
 			}
 			this.groups[g] = new this.Group(g, teams, groupMatchDetails);
 		}
-		this.knockout = new this.Bracket(4);
+		this.knockout = new this.Bracket(4, matchDetails.slice(48));
 		this.realScores = realScores;
 		for (var g = 0; g < 8; g++) {
 			this.groups[g].drawTab();
@@ -101,6 +101,7 @@ var Brazil2014 = (function() {
 		for (var g = 0; g < 8; g++) {
 			this.groups[g].updateTimes(offset);
 		}
+		this.knockout.updateTimes(offset);
 	};
 
 	return this;

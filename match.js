@@ -19,7 +19,7 @@ var Brazil2014 = (function (Tournament) {
 		this.timeString = function (offset) {
 			var localTime = new Date(this.time.getTime());
 			localTime.setMinutes(localTime.getMinutes()+offset);
-			return localTime.toUTCString().split(':',2).join(':');
+			return localTime.toUTCString().split(':',2).join(':').replace('2014','');
 		}
 		var score1 = '';
 		var score2 = '';
