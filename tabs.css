@@ -28,14 +28,14 @@
             padding:9px 9px;
             display:inline-block;
             border-radius:6px 6px 0px 0px; 
-			background: rgba(243,243,243,1);
-			background: -moz-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 100%);
-			background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(243,243,243,1)), color-stop(100%, rgba(191,193,194,1)));
-			background: -webkit-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 100%);
-			background: -o-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 100%);
-			background: -ms-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 100%);
-			background: linear-gradient(to bottom, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 100%);
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', endColorstr='#bfc1c2', GradientType=0 );
+background: rgba(243,243,243,1);
+background: -moz-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
+background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(243,243,243,1)), color-stop(50%, rgba(191,193,194,1)), color-stop(100%, rgba(172,172,172,1)));
+background: -webkit-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
+background: -o-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
+background: -ms-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
+background: linear-gradient(to bottom, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', endColorstr='#acacac', GradientType=0 );
 			-webkit-background-size: 100% 100%;
 			-moz-background-size: 100% 100%; 
             background-size:100% 100%;  
@@ -45,6 +45,7 @@
             color: rgba(0,0,0, 0.6);
     		text-shadow: 1px 4px 6px #def, 0 0 0 #000, 1px 4px 6px #def;
             text-decoration:none;
+            border-bottom: 5px solid #ACACAC;
             
             opacity:0.95;
             box-shadow: 2px -2px 4px #000;
@@ -67,6 +68,9 @@
             -ms-transition:all linear 0.3s;
             -o-transition:all linear 0.3s;
             transition:all linear 0.3s;
+            box-shadow: none;
+   			-webkit-box-shadow: none;
+    		-moz-box-shadow: none;
         }
         
         .tab-links img {
@@ -91,6 +95,10 @@
 		-moz-background-size: 100% 500%;
 		background-size:100% 500%;
 		text-decoration:none;
+		/*border-color:red;*/
+		box-shadow: none;
+   		-webkit-box-shadow: none;
+    	-moz-box-shadow: none;
     }
     
     /*.tab-links > div:last-child a {
