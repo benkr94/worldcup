@@ -32,6 +32,10 @@
     	padding: 0px 0px 0px 20px;
     }
     
+    #group-tab-links {
+    	margin:0px;
+    	padding:0px;
+    }
     #bracket-tab-link {
     	padding: 0px 20px 0px 0px;
     }
