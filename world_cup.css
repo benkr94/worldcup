@@ -67,13 +67,15 @@ h1 {
 	max-height: 30.502%
 }
 
-/*hr {
+hr {
 	height:5px;
 	margin:-5px 0px 0px 0px;
 	color: #ACACAC;
 	background-color:#ACACAC;
 	border-width:0px;
-}*/
+	position:relative;
+	z-index:3;
+}
 
 .team1 {
     float: left;

@@ -2,12 +2,14 @@
 .tabs {
     width:100%;
     display:inline-block;
+    text-align:center;
 }
  
     /*----- Tab Links -----*/
     
     .tab-links {
     	/*margin:0;*/
+    	display:inline-block;
     	text-align: center;
     }
     
@@ -22,6 +24,16 @@
         margin:0px 2px;
         display: inline-block;
         vertical-align:bottom;
+        position:relative;
+    	z-index:0;
+    }
+    
+    .tab-links > div:first-child {
+    	padding: 0px 0px 0px 20px;
+    }
+    
+    #bracket-tab-link {
+    	padding: 0px 20px 0px 0px;
     }
  
         .tab-links a {
