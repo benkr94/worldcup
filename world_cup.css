@@ -194,6 +194,10 @@ td {
 	text-align:center;
 }
 
+.matchRow .flag {
+	border:1px solid #ACACAC;
+}
+
 .clinched {
 	background:#ccffcc;
 }

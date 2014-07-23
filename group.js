@@ -103,6 +103,7 @@ var Brazil2014 = (function (Tournament) {
 			}
 			for (var i = 0; i < teams.length; i++) { //two iterations over same array intentional; want to change stats before beginning animation
 				var rankChange = i - teams[i].prevRank;
+				$("#"+this.id+" .groupTable #row"+teams[i].id+" td > div").css('z-index',rankChange);
 		   		$("#"+this.id+" .groupTable #row"+teams[i].id+" td > div").animate({"top":"+="+(rankChange*31)+"px"});
 		   		teams[i].prevRank = i;
 			}
