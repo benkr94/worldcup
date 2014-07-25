@@ -4,6 +4,7 @@
 <link rel='stylesheet' href='world_cup.css' />
 <link rel='stylesheet' href='tabs.css' />
 <link rel='stylesheet' href='bracket.css' />
+<link rel='stylesheet' href='buttons.css' />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
 </head>
 <body>
@@ -329,7 +330,26 @@
 		</div>
 	</div>
 	<div id="buttons">
-		<input type="button" id="save" value="Save scores"/>
+		<div id="row1">
+			<div class="glossybutton" id="save"><a>Save scores</a></div>
+			<div class="glossybutton" id="load"><a>Load scores</a></div>
+		</div>
+		<div class="tabbed-buttons">
+			<div id="group-buttons">
+				<div class="glossybutton" id="resetOne"><a>Reset group to real scores</a></div>
+				<div class="glossybutton" id="blankOne"><a>Reset group to blank</a></div>
+			</div>
+			<div id="knockout-buttons">
+				<div class="glossybutton" id="clearBracket"><a>Reset all knockout matches</a></div>
+			</div>
+		</div>
+		<div id="row3">
+			<div class="glossybutton" id="resetAll"><a>Reset tournament to real scores</a></div>
+			<div class="glossybutton" id="blankAll"><a>Reset tournament to blank</a></div>
+		</div>
+	</div>
+		
+		<!--<input type="button" id="save" value="Save scores"/>
 		<input type="button" id="load" value="Load scores"/><br>
 		<div class="tabbed-buttons">
 			<div id="group-buttons">
@@ -341,7 +361,7 @@
 			</div>
 		</div>
 		<input type="button" id="resetAll" value="Reset tournament to real scores"/>
-		<input type="button" id="blankAll" value="Reset tournament to blank"/>
+		<input type="button" id="blankAll" value="Reset tournament to blank"/>-->
 	</div>
 	<script src="main.js"></script>
 	<script src="bracket.js"></script>

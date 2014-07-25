@@ -140,6 +140,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', end
         
     /*----- Tabbed buttons -----*/
     
-    .tabbed-buttons div {
+    #buttons .tabbed-buttons > div {
     	display:none;
     }

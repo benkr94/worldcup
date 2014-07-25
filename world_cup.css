@@ -210,6 +210,13 @@ td {
 	text-align:center;
 }
 
+#buttons > div {
+	display:table;
+	margin:auto;
+	border-collapse:separate;
+	border-spacing: 5px 2px;
+}
+
 .groupTable table {
 	margin:0 auto;
 }
