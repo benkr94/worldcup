@@ -1,0 +1,137 @@
+.glossybutton {
+	height:20px;
+	font-size:small;
+	display:inline-block;
+	vertical-align:center;
+	cursor:pointer;
+
+    -webkit-border-radius: 20px;  
+    -moz-border-radius: 20px;  
+    border-radius: 20px;  
+  
+    border: 1px solid #4864a9;  
+  
+
+    text-shadow: 1px 1px 0px rgba(255,255,255,.5);  
+  
+    position: relative;  
+}
+
+.glossybutton a { 
+    margin: 0px;
+    padding: 0px 6px;
+    text-align: center;   
+    text-decoration: none;  
+    position:relative;
+    top:2px;
+    z-index:1;
+}  
+
+.glossybutton:first-child:hover{
+    -webkit-box-shadow:  -3px 2px 2px 0px rgba(0, 0, 0, 1);  
+    -moz-box-shadow: -3px 2px 2px 0px rgba(0, 0, 0, 1); 
+    box-shadow:  -3px 2px 2px 0px rgba(0, 0, 0, 1);  
+}
+
+.glossybutton:last-child:hover {
+    -webkit-box-shadow:  3px 2px 2px 0px rgba(0, 0, 0, 1);  
+    -moz-box-shadow: 3px 2px 2px 0px rgba(0, 0, 0, 1); 
+    box-shadow:  3px 2px 2px 0px rgba(0, 0, 0, 1);  
+}
+
+.glossybutton:active {
+
+}
+
+.glossybutton:first-child:active {
+	left:-3px;
+	top:2px;
+	-webkit-box-shadow: none;
+    -moz-box-shadow: none; 
+    box-shadow: none;
+}
+
+.glossybutton:last-child:active {
+	left:3px;
+	top:2px;
+	-webkit-box-shadow: none;
+    -moz-box-shadow: none; 
+    box-shadow: none;
+}
+
+.glossybutton::before {  
+	content: "";  
+	height: 12px;  
+
+	-webkit-border-radius: 6px;  
+	-moz-border-radius: 6px;  
+	border-radius: 6px;  
+	
+	display: block;  
+	position: absolute;
+	left:5px;
+	 
+	background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(255,255,255,0.7) 8%, rgba(255,255,255,0) 100%);  
+	background: -webkit-gradient(linear, left top, left bottombottom, color-stop(0%,rgba(255,255,255,1)), color-stop(8%,rgba(255,255,255,0.7)), color-stop(100%,rgba(255,255,255,0)));  
+	background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.7) 8%,rgba(255,255,255,0) 100%);  
+	background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.7) 8%,rgba(255,255,255,0) 100%);  
+	background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.7) 8%,rgba(255,255,255,0) 100%);  
+	background: linear-gradient(to bottombottom,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.7) 8%,rgba(255,255,255,0) 100%);  
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 );  
+}  
+
+#row1 .glossybutton {
+	width:80px;
+	
+background: rgba(0,136,255,1);
+background: -moz-linear-gradient(top, rgba(0,136,255,1) 0%, rgba(0,136,255,1) 50%, rgba(62,64,149,1) 100%);
+background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(0,136,255,1)), color-stop(50%, rgba(0,136,255,1)), color-stop(100%, rgba(62,64,149,1)));
+background: -webkit-linear-gradient(top, rgba(0,136,255,1) 0%, rgba(0,136,255,1) 50%, rgba(62,64,149,1) 100%);
+background: -o-linear-gradient(top, rgba(0,136,255,1) 0%, rgba(0,136,255,1) 50%, rgba(62,64,149,1) 100%);
+background: -ms-linear-gradient(top, rgba(0,136,255,1) 0%, rgba(0,136,255,1) 50%, rgba(62,64,149,1) 100%);
+background: linear-gradient(to bottom, rgba(0,136,255,1) 0%, rgba(0,136,255,1) 50%, rgba(62,64,149,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0088ff', endColorstr='#0000ff', GradientType=0 );
+
+    color: #fff;  
+    text-shadow: 1px 1px 0px rgba(0,0,0,.5);
+}
+
+#row1 .glossybutton::before {
+	width:70px;
+}
+
+.tabbed-buttons .glossybutton {
+	width:160px;
+	
+background: rgba(255,255,136,1);
+background: -moz-linear-gradient(top, rgba(255,255,136,1) 0%, rgba(255,255,136,1) 50%, rgba(255,204,41,1) 100%);
+background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,136,1)), color-stop(50%, rgba(255,255,136,1)), color-stop(100%, rgba(255,204,41,1)));
+background: -webkit-linear-gradient(top, rgba(255,255,136,1) 0%, rgba(255,255,136,1) 50%, rgba(255,204,41,1) 100%);
+background: -o-linear-gradient(top, rgba(255,255,136,1) 0%, rgba(255,255,136,1) 50%, rgba(255,204,41,1) 100%);
+background: -ms-linear-gradient(top, rgba(255,255,136,1) 0%, rgba(255,255,136,1) 50%, rgba(255,204,41,1) 100%);
+background: linear-gradient(to bottom, rgba(255,255,136,1) 0%, rgba(255,255,136,1) 50%, rgba(255,204,41,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffff88', endColorstr='#ffff00', GradientType=0 );
+
+}
+
+.tabbed-buttons .glossybutton::before {
+	width:150px;
+}
+
+#row3 .glossybutton {
+	width:190px;
+	
+background: rgba(0,255,136,1);
+background: -moz-linear-gradient(top, rgba(0,255,136,1) 0%, rgba(0,255,136,1) 50%, rgba(0,168,89,1) 100%);
+background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(0,255,136,1)), color-stop(50%, rgba(0,255,136,1)), color-stop(100%, rgba(0,168,89,1)));
+background: -webkit-linear-gradient(top, rgba(0,255,136,1) 0%, rgba(0,255,136,1) 50%, rgba(0,168,89,1) 100%);
+background: -o-linear-gradient(top, rgba(0,255,136,1) 0%, rgba(0,255,136,1) 50%, rgba(0,168,89,1) 100%);
+background: -ms-linear-gradient(top, rgba(0,255,136,1) 0%, rgba(0,255,136,1) 50%, rgba(0,168,89,1) 100%);
+background: linear-gradient(to bottom, rgba(0,255,136,1) 0%, rgba(0,255,136,1) 50%, rgba(0,168,89,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ff88', endColorstr='#00a859', GradientType=0 );
+
+}
+
+#row3 .glossybutton::before {
+	width:180px;
+}
