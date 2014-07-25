@@ -100,6 +100,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', end
 			margin-right:5px;
         }
         
+        #bracket-tab-link .leftflags {
+        	margin-right:0px;
+        }
+        
+        #bracket-tab-link img {
+        	padding-left:0px;
+        	padding-right: 0px;
+        }
+        
         .tab-links .rightflags {
         	display:inline-block;
 			vertical-align:middle;
