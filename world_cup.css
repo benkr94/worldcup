@@ -1,6 +1,7 @@
 body {
 	/*text-align:center;*/
 	font-family: 'Gill Sans', Helvetica, sans-serif;
+	min-width:1075px;
 }
 
 @font-face {
@@ -63,8 +64,8 @@ h1 {
 #bottom-right {
 	bottom: 0px;
 	right: 0px;
-	max-width: 19.726%
-	max-height: 30.502%
+	max-width: 19.726%;
+	max-height: 30.502%;
 }
 
 hr {
@@ -118,6 +119,8 @@ hr {
 }
 
 td.details {
+	white-space:nowrap;
+	max-width:175px;
 	vertical-align:bottom;
 	color:white;
 	text-shadow:
@@ -246,8 +249,11 @@ td {
 
 #Bracket {
 	padding: 0px;
+	max-width:1228px;
+	margin:auto;
 	background-image: url('kob.png');
 	background-position: right;
+	background-repeat:no-repeat;
 	text-align: left;
 }
 
