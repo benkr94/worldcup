@@ -105,7 +105,9 @@ var Brazil2014 = (function (Tournament) {
 			}
 		};
 		this.win = function () {
-			won = true;
+			if (teamAt.id !== null) {
+				won = true;
+			}
 			if (this.next !== null) {
 				this.next.setTeam(teamAt);
 			}
