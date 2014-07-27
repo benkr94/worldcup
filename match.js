@@ -1,9 +1,12 @@
-/* Match
+/* match.js
+ *  Expands the Tournament module with a constructor for objects representing group-stage matches.
+ * Match
  * Attributes:
  *  id: the number of the match as defined by FIFA, following the sequence 1 = A1 vs A2, 2 = B1 vs B2,
  *      3 = C1 vs C2, 4 = C3 vs C4, etc. Not necessarily the chronological order of the matches.
  *  team1, team2: the teams competing.
  *  score1, score2: their scores.
+ * Methods:
  *  play: Called when the user changes one of the scores in the UI. Passes the scores to team.play, and
  *        the old scores to team.unplay, as appropriate (see respective methods).
  *  unplay: Used to return the group to its actual state after running team clinching/elimination scenarios.
@@ -64,7 +67,8 @@ var Brazil2014 = (function (Tournament) {
 		    team2.unplay(score2, score1);
 			score1 = '-';
 			score2 = '-';
-		    //no updateTable since this is only used after simulations, which never updated the table in the first place
+		    //no updateTable; this is only used after simulations (used in tiebreaking),
+		    //which never updated the table in the first place.
 		};
 	};
 	

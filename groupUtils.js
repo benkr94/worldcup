@@ -1,13 +1,13 @@
-/* groupUtils
- * Complex functions related to group reordering and clinching that I didn't want cluttering the group constructor or getting
- * re-declared with each new instance.
+/* groupUtils sub-module
+ * Complex functions related to group reordering and clinching that I didn't want cluttering the group constructor and getting re-
+ * declared with each new instance. Also, as opposed to 'group' methods, they're not particularly re-usable between tournament types.
  */
 
 
 var Brazil2014 = (function (Tournament) {
 
 	/* teamCompare
-	 * The comparison function used to order groups' team arrays by how the teams have performed,
+	 * The comparison function used to order groups' team-arrays by how the teams have performed,
 	 * using the appropriate tiebreak rules. It looks backwards (ie, better performance = "less than") 
 	 * so that I can just use it in Array.sort() without reversing it and get them from first to last.
 	 */ 
@@ -61,18 +61,10 @@ var Brazil2014 = (function (Tournament) {
 		}
 		return teams.sort(teamCompare);
 	}
-
-	/* resetAdvancedTiebreak
-	 * Clears the advanced tiebreak marking. Not in use, set for deletion before go-live
-	 */
-	function resetAdvancedTiebreak(leagueTable) {
-		for (var i = 0; i < leagueTable.length; i++) {
-			leagueTable[i].requiresAdvancedTiebreak = -1;
-		}
-	}
 	
 	/* threat
-	 * Determines whether a team (threatener) is competing for qualification places with another team (evalTeam)
+	 * Determines whether a team (threatener) is competing for qualification places with another team (evalTeam). False if threatener
+	 * either cannot catch up with evalTeam, or cannot be caught by evalTeam
 	 */
 	function threat(threatener, evalTeam) {
 		if (threatener.getStat("played") < 2) {	//Will have already filtered out teams that have > 6 points
@@ -110,7 +102,7 @@ var Brazil2014 = (function (Tournament) {
 	 * ptsBetween, goalDifferenceBetween, goalsForBetween: positive if the evalTeam is leading.
 	 */
 	function testEliminationMatch(threatener, evalTeam) {
-		if (!threat(threatener, evalTeam)) { //"Threatener" is no such thing. Return heavy loss for opponent.
+		if (!threat(threatener, evalTeam)) { //"Threatener" doesn't actually threaten evalTeam. Return heavy loss for opponent.
 				return [99,0];
 		}
 		ptsBetween = evalTeam.getStat("points") - threatener.getStat("points");
@@ -160,7 +152,7 @@ var Brazil2014 = (function (Tournament) {
 	 * ptsBetween, goalDifferenceBetween, goalsForBetween: positive if the evalTeam is leading.
 	 */
 	function testClinchingMatch(threatener, evalTeam) {
-		if (!threat(threatener, evalTeam)) { //"Threatener" is no such thing. Return heavy win for opponent.
+		if (!threat(threatener, evalTeam)) { //"Threatener" doesn't actually threaten evalTeam. Return heavy win for opponent.
 			return [0,99];
 		}
 		ptsBetween = evalTeam.getStat("points") - threatener.getStat("points");
@@ -248,7 +240,6 @@ var Brazil2014 = (function (Tournament) {
 		if (matches.length != 0) {	//If all other teams have 2 games remaining and this team does not have <=1 pt, they cannot be eliminated 
 			return false;
 		}
-		//resetAdvancedTiebreak(leagueTable);
 		leagueTable.sort(teamCompare);
 		var finalStatus = false;
 		for (var i = 2; i < leagueTable.length; i++) {
@@ -330,7 +321,6 @@ var Brazil2014 = (function (Tournament) {
 			return false;
 		}
 		console.log("In this simulation, "+leagueTable[teamIndex].countryName+" gets "+leagueTable[teamIndex].getStat("points")+" points");
-		//resetAdvancedTiebreak(leagueTable);
 		leagueTable.sort(teamCompare);
 		var finalStatus = false;
 		for (var i = 0; i < 2; i++) {

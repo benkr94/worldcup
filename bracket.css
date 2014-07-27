@@ -1,18 +1,22 @@
-.hs {
-	height:5;
-}
+/*The bracket is an HTML table. This implementation is copied from wikipedia. There, all styling is in-line; here, it's been 
+ *organized into classes, for readability.*/
+
+/*hs cells are a hack to make sure each row is the same height regardless of its contents or lack thereof. It didn't quite work on
+ *wiki, but I've fixed it here with hidden internal divs. (Crazy how height, max-height, etc. don't work on the cells for this!)*/
 
 .hs div {
 	min-height:15px;
 	opacity:0;
 }
 
+/*round cells give the name of a round.*/
 .round {
 	border:1px solid #aaa;
 	background-color:#F2F2F2;
 	text-align:center;
 }
 
+/*The next few classes give the lines showing how teams progress through the bracket.*/
 .line {
 	border-color:black;
 	border-style:solid;
@@ -33,13 +37,14 @@
 	border-width:2px 0 0 0;
 }
 
+/*These are the cells that contain names of teams. Each Node in the model represents one of these.*/
 .team-cell {
 	border:1px solid #aaa;
 	background-color:#F9F9F9;
 	padding-left:4px;
-	/*font-size:large;*/
 }
 
+/*This class is added to a cell to indicate that the team has won that match.*/
 .winner {
 	background-color:#ccffcc !important;
 	font-weight: bold;
