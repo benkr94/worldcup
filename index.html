@@ -405,6 +405,13 @@
 			Brazil2014.groups[groupIndex].play($(this).parents(".matchRow").attr('class')[5], $(this).parent(".result").children(".score1").val(), $(this).parent(".result").children(".score2").val());
 		});
 		
+		$(document).on('keypress', '.score1, .score2', function(e) {
+			 if ( e.which == 13 ) {
+				var groupIndex = $(this).parents('.tab').attr('id').charCodeAt(0)-65;
+				Brazil2014.groups[groupIndex].play($(this).parents(".matchRow").attr('class')[5], $(this).parent(".result").children(".score1").val(), $(this).parent(".result").children(".score2").val());
+			}
+		});
+		
 		$("#tzwrapper").on('change', "select", function() {
 			Brazil2014.updateTimes(parseInt($(this).val()));
 		});
