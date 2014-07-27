@@ -417,7 +417,7 @@
 		});
 		$("#buttons").on('click', "#resetOne", function() {
 			var g = $('.tabs .tab-links .active a').attr('href').charCodeAt(1)-65;
-			Brazil2014.groups[g].load(Brazil2014.realScores.substring(g*12, g*12+12));
+			Brazil2014.groups[g].load(Brazil2014.decodedGroupStage.substring(g*12, g*12+12));
 		});
 		$("#buttons").on('click', "#resetAll", function() {
 			Brazil2014.load(Brazil2014.realScores);

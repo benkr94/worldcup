@@ -36,6 +36,7 @@ var Brazil2014 = (function() {
 		this.populateBracket();
 		this.knockout.clear();
 		this.knockout.load(decodedStrings.bracketString);
+		return decodedStrings.groupString;
 	};
 
 	
@@ -79,7 +80,7 @@ var Brazil2014 = (function() {
 		else {
 			this.updateTimes(userOffset);
 		}
-		this.load(realScores);
+		this.decodedGroupStage = this.load(realScores);
 		$("#group-tab-links").children().unwrap();
 		$("#group-tab-content").children().unwrap();
 	};
