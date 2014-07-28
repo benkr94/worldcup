@@ -1,13 +1,16 @@
+/*world_cup.css: most styling for the page, except the tabs, bracket, and buttons, which are complicated enough for their own files*/
+
 body {
-	/*text-align:center;*/
 	font-family: 'Gill Sans', Helvetica, sans-serif;
-	min-width:1075px;
+	min-width:1075px; /*fits all tabs, knockout bracket*/
 }
 
 @font-face {
 	font-family: "Brasil2014";
 	src: url('brasil2014.otf') format('opentype');
 }
+
+/*the bit above the tabs*/
 
 #header h1, #header p {
 	margin:0;
@@ -23,15 +26,14 @@ body {
 #tzwrapper {
 	position: absolute;
 	top: 60%;
-	/*-webkit-transform: translate(0%,-50%);
-	-ms-transform: translate(0%,-50%);
-	transform: translate(0%,-50%);*/
 }
 
 h1 {
 	font-size: 2.5em;
 	color: red;
 }
+
+/*The background is 4 separate corner images. No repeats, regardless of window size*/
 
 .border {
 	position: fixed;
@@ -68,6 +70,8 @@ h1 {
 	max-height: 30.502%;
 }
 
+/*line below tabs*/
+
 hr {
 	height:5px;
 	margin:-5px 0px 0px 0px;
@@ -78,22 +82,10 @@ hr {
 	z-index:3;
 }
 
-.team1 {
-    float: left;
-    text-align:right;
-    width:33.33333%;
-    text-weight:bold;
-}
-.result {
-    float: left;
-    text-align:center;
-    width:33.33333%;
-}
-.team2 {
-    float: right;
-    text-align:left;
-    width: 33.33333%;
-    text-weight:bold;
+/*group stage matches*/
+
+.matches {
+	margin-bottom:10px;
 }
 
 .matchRow {
@@ -118,65 +110,115 @@ hr {
     font-size:small;
 }
 
-td.details {
-	white-space:nowrap;
-	max-width:175px;
-	vertical-align:bottom;
-	color:white;
-	text-shadow:
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000;  
-   	ms-filter: progid:DXImageTransform.Microsoft.Glow(color=#000000, strength=1);
+.details::after {
+    visibility:hidden;
+    display:block;
+    content:"";
+    clear:both;   
+}
+
+.location {
+    float: left;
+    text-align:left;
+    width:50%;
+}
+
+.time {
+    float: right;
+    text-align:right;
+    width:50%;
+}
+
+.team1 {
+    float: left;
+    text-align:right;
+    width:33.33333%;
+    text-weight:bold;
+}
+
+.result {
+    float: left;
+    text-align:center;
+    width:33.33333%;
 }
 
 .score1, .score2 {
     width:20px;
 }
 
+.team2 {
+    float: right;
+    text-align:left;
+    width: 33.33333%;
+    text-weight:bold;
+}
+
+/*group tables*/
+
+.groupTable table {
+	margin:0 auto;
+}
+
+th {
+	text-shadow: 1px 2px 3px #def, 0 0 0 #000, 1px 2px 3px #def;
+	
+	background: rgba(243,243,243,1);
+	background: -moz-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
+	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(243,243,243,1)), color-stop(50%, rgba(191,193,194,1)), color-stop(100%, rgba(172,172,172,1)));
+	background: -webkit-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
+	background: -o-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
+	background: -ms-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
+	background: linear-gradient(to bottom, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', endColorstr='#acacac', GradientType=0 );
+}
+
+.groupTable tr > th:first-child {
+			border-radius:6px 0px 0px 0px;
+}
+
+.groupTable tr > th:last-child {
+			border-radius:0px 6px 0px 0px;
+}
+
 .groupTable td > div {
 	position:relative;
 	height:30px;
-	/*border-spacing:0px;*/
 	border-top: 1px solid #ACACAC;
 }
 
 .groupTable td, .groupTable div {
-	/*border-spacing:0px;*/
 	padding:0px;
-	/*border-image-width:0px;*/
-}
-
-.groupTable td {
-
 }
 
 .groupTable .content {
-	/*top: 50%;
-	-webkit-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);*/
     vertical-align:middle;
-	/*border-spacing:0px;*/
 	display:inline-block;
-}
-
-.heightfix {
-	display:inline-block;
-	width:1px;
-	height:30px;
-	/*border-spacing:0px;*/
-	vertical-align:middle;
-}
-
-.countryName .content, .countryName .heightfix {
-	display:table-cell;
 }
 
 .stat {
 	text-align:right;
 	padding-right:5px !important;
+}
+
+.clinched {
+	background:#ccffcc;
+}
+
+.eliminated {
+	background:#ffcccc;
+}
+
+/*Country names and flags*/
+
+.heightfix {
+	display:inline-block;
+	width:1px;
+	height:30px;
+	vertical-align:middle;
+}
+
+.countryName .content, .countryName .heightfix {
+	display:table-cell;
 }
 
 td {
@@ -199,85 +241,4 @@ td {
 
 .matchRow .flag {
 	border:1px solid #ACACAC;
-}
-
-.clinched {
-	background:#ccffcc;
-}
-
-.eliminated {
-	background:#ffcccc;
-}
-
-#buttons {
-	text-align:center;
-}
-
-#buttons > div {
-	display:table;
-	margin:auto;
-	border-collapse:separate;
-	border-spacing: 5px 2px;
-}
-
-.groupTable table {
-	margin:0 auto;
-}
-
-.location {
-    float: left;
-    text-align:left;
-    width:50%;
-}
-
-.time {
-    float: right;
-    text-align:right;
-    width:50%;
-}
-
-.kolocation, .kotime {
-	display:inline-block;
-}
-
-.details::after {
-    visibility:hidden;
-    display:block;
-    content:"";
-    clear:both;   
-}
-
-#Bracket {
-	padding: 0px;
-	max-width:1228px;
-	margin:auto;
-	background-image: url('kob.png');
-	background-position: right;
-	background-repeat:no-repeat;
-	text-align: left;
-}
-
-.matches {
-	margin-bottom:10px;
-}
-
-th {
-background: rgba(243,243,243,1);
-background: -moz-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
-background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(243,243,243,1)), color-stop(50%, rgba(191,193,194,1)), color-stop(100%, rgba(172,172,172,1)));
-background: -webkit-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
-background: -o-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
-background: -ms-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
-background: linear-gradient(to bottom, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', endColorstr='#acacac', GradientType=0 );
-
-    		text-shadow: 1px 2px 3px #def, 0 0 0 #000, 1px 2px 3px #def;
-}
-
-.groupTable tr > th:first-child {
-			border-radius:6px 0px 0px 0px;
-}
-
-.groupTable tr > th:last-child {
-			border-radius:0px 6px 0px 0px;
 }

@@ -1,8 +1,21 @@
-/*The bracket is an HTML table. This implementation is copied from wikipedia. There, all styling is in-line; here, it's been 
+/*bracket.css: styling for the knockout stage bracket*/
+
+/*Positioning and background of tab content*/
+#Bracket {
+	padding: 0px;
+	max-width:1228px;
+	margin:auto;
+	background-image: url('kob.png');
+	background-position: right;
+	background-repeat:no-repeat;
+	text-align: left;
+}
+
+/*The bracket itself is an HTML table. This implementation is copied from wikipedia. There, all styling is in-line; here, it's been 
  *organized into classes, for readability.*/
 
 /*hs cells are a hack to make sure each row is the same height regardless of its contents or lack thereof. It didn't quite work on
- *wiki, but I've fixed it here with hidden internal divs. (Crazy how height, max-height, etc. don't work on the cells for this!)*/
+ *wiki, but I've fixed it here.*/
 
 .hs div {
 	min-height:15px;
@@ -50,7 +63,25 @@
 	font-weight: bold;
 }
 
-/*The champion div isn't part of the table, but it looks like it is and this file is where you'd probably look for the styling*/
+/*Match details*/
+td.details {
+	white-space:nowrap;
+	max-width:175px;
+	vertical-align:bottom;
+	color:white;
+	text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;  
+   	ms-filter: progid:DXImageTransform.Microsoft.Glow(color=#000000, strength=1);
+}
+
+.kolocation, .kotime {
+	display:inline-block;
+}
+
+/*The champion div isn't part of the table, but it looks like it is*/
 .champion {
 	position:relative;
 	font-family:'Brasil2014';
@@ -90,5 +121,3 @@
 		ms-filter: progid:DXImageTransform.Microsoft.Glow(color=#FFD700, strength=1);
 		margin:0px;
 }
-
-
