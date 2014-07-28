@@ -128,7 +128,7 @@ var Brazil2014 = (function (Tournament) {
  */
 
 	Tournament.Node = function(next, teamNum) {
-		if (typeof next === "number") { //this condition is matched by the champion
+		if (typeof next === "number") { //this condition is matched by the final match
 			this.roundNum = next;
 			this.matchNum = 0;
 			this.next = null;
@@ -177,9 +177,9 @@ var Brazil2014 = (function (Tournament) {
 			}
 		};
 		this.updateView = function () {
-			if (this.next === null) {
+			if (this.next === null) {		//condition matched by champion
 				if (teamAt.id === null) {
-					$('.champion').hide();
+					$('#champion').hide();
 				}
 				else {
 					$('.champion').css('display','inline-block');

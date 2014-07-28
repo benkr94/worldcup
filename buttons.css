@@ -1,20 +1,18 @@
+/*buttons.css: styling for the buttons at the bottom of the page.*/
+
 .glossybutton {
 	height:20px;
 	font-size:small;
 	display:inline-block;
 	vertical-align:center;
 	cursor:pointer;
-
+    border: 1px solid #4864a9;  
+    text-shadow: 1px 1px 0px rgba(255,255,255,.5);  
+    position: relative;  
+    
     -webkit-border-radius: 20px;  
     -moz-border-radius: 20px;  
     border-radius: 20px;  
-  
-    border: 1px solid #4864a9;  
-  
-
-    text-shadow: 1px 1px 0px rgba(255,255,255,.5);  
-  
-    position: relative;  
 }
 
 .glossybutton a { 
@@ -25,51 +23,19 @@
     position:relative;
     top:2px;
     z-index:1;
-}  
-
-.glossybutton:first-child:hover{
-    -webkit-box-shadow:  -3px 2px 2px 0px rgba(0, 0, 0, 1);  
-    -moz-box-shadow: -3px 2px 2px 0px rgba(0, 0, 0, 1); 
-    box-shadow:  -3px 2px 2px 0px rgba(0, 0, 0, 1);  
 }
 
-.glossybutton:last-child:hover {
-    -webkit-box-shadow:  3px 2px 2px 0px rgba(0, 0, 0, 1);  
-    -moz-box-shadow: 3px 2px 2px 0px rgba(0, 0, 0, 1); 
-    box-shadow:  3px 2px 2px 0px rgba(0, 0, 0, 1);  
-}
-
-.glossybutton:active {
-
-}
-
-.glossybutton:first-child:active {
-	left:-3px;
-	top:2px;
-	-webkit-box-shadow: none;
-    -moz-box-shadow: none; 
-    box-shadow: none;
-}
-
-.glossybutton:last-child:active {
-	left:3px;
-	top:2px;
-	-webkit-box-shadow: none;
-    -moz-box-shadow: none; 
-    box-shadow: none;
-}
-
+/*before pseudo-element adds some sheen.*/
 .glossybutton::before {  
 	content: "";  
-	height: 12px;  
+	height: 12px; 
+	display: block;  
+	position: absolute;
+	left:5px; 
 
 	-webkit-border-radius: 6px;  
 	-moz-border-radius: 6px;  
 	border-radius: 6px;  
-	
-	display: block;  
-	position: absolute;
-	left:5px;
 	 
 	background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(255,255,255,0.7) 8%, rgba(255,255,255,0) 100%);  
 	background: -webkit-gradient(linear, left top, left bottombottom, color-stop(0%,rgba(255,255,255,1)), color-stop(8%,rgba(255,255,255,0.7)), color-stop(100%,rgba(255,255,255,0)));  
@@ -78,7 +44,10 @@
 	background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.7) 8%,rgba(255,255,255,0) 100%);  
 	background: linear-gradient(to bottombottom,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.7) 8%,rgba(255,255,255,0) 100%);  
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 );  
-}  
+}
+
+/*Styling by row. Each row has the same color (blue, yellow, or green, for Brazilian flag) and same width (large enough to fit the
+ *longer text, but equal for symmetry*/ 
 
 #row1 .glossybutton {
 	width:80px;
@@ -134,4 +103,50 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ff88', end
 
 #row3 .glossybutton::before {
 	width:180px;
+}
+
+/*:hover and :active selector styling give an impression of the button being pressed. This is done symmetrically, using :first-child
+ *and :last-child selectors -- buttons on the left go down and to the left, buttons to the right go down and to the right. The button
+ *on a row by itself goes down and to the middle.*/
+
+.glossybutton:first-child:hover {
+    -webkit-box-shadow:  -3px 2px 2px 0px rgba(85,85,85,1);  
+    -moz-box-shadow: -3px 2px 2px 0px rgba(85,85,85,1); 
+    box-shadow:  -3px 2px 2px 0px rgba(85,85,85,1);
+}
+
+.glossybutton:last-child:hover {
+    -webkit-box-shadow:  3px 2px 2px 0px rgba(85,85,85,1);  
+    -moz-box-shadow: 3px 2px 2px 0px rgba(85,85,85,1); 
+    box-shadow:  3px 2px 2px 0px rgba(85,85,85,1);  
+}
+
+#knockout-buttons .glossybutton:hover {
+    -webkit-box-shadow:  0px 2px 2px 0px rgba(85,85,85,1);  
+    -moz-box-shadow: 0px 2px 2px 0px rgba(85,85,85,1); 
+    box-shadow:  0px 2px 2px 0px rgba(85,85,85,1); 
+}
+
+.glossybutton:first-child:active {
+	left:-3px;
+	top:2px;
+	-webkit-box-shadow: none;
+    -moz-box-shadow: none; 
+    box-shadow: none;
+}
+
+.glossybutton:last-child:active {
+	left:3px;
+	top:2px;
+	-webkit-box-shadow: none;
+    -moz-box-shadow: none; 
+    box-shadow: none;
+}
+
+#knockout-buttons .glossybutton:active {
+	left:0px;
+	top:2px;
+	-webkit-box-shadow: none;
+    -moz-box-shadow: none; 
+    box-shadow: none;
 }
