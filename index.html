@@ -58,15 +58,15 @@
 		<h1>2014 FIFA World Cup Brazil</h1>
 		<p>Set or change match scores to see their effects on the table!</p>
 	</div>
-	<div class="tabs">
-		<div class="tab-links">
+	<div id="tabs">
+		<div id="tab-links">
 			<div id="group-tab-links"></div><!--
 			--><div id="bracket-tab-link"><a href="#Bracket"><div class="leftflags"><img src="flags/spacer.png"><br><img src="flags/spacer.png"></div>Knockout</a></div>
 			<hr>
 		</div>
-		<div class="tab-content">
+		<div id="tab-content">
 			<div id="group-tab-content"></div>
-			<div id="Bracket" class="tab">
+			<div id="Bracket" class="under-tab">
 				<table border="0" cellpadding="0" cellspacing="0" style="font-size: 90%; margin:1em 2em 1em 1em; display:inline-block; vertical-align:middle;">
 					<tr>
 						<td class="hs"><div></div></td>
@@ -334,7 +334,7 @@
 			<div class="glossybutton" id="save"><a>Save scores</a></div>
 			<div class="glossybutton" id="load"><a>Load scores</a></div>
 		</div>
-		<div class="tabbed-buttons">
+		<div id="row2">
 			<div id="group-buttons">
 				<div class="glossybutton" id="resetOne"><a>Reset group to real scores</a></div>
 				<div class="glossybutton" id="blankOne"><a>Reset group to blank</a></div>
@@ -361,11 +361,11 @@
 		var SCORES = 'N0O~P~rG!6.rAfP~y4gD^rQ.nJ{v46~6Evzj~vkQ+1CFH';
 		Brazil2014.init(NAMES, MATCH_DETAILS, SCORES);
 		
-		$('.tabs #A').show();
-		$('.tabs .tab-links a').first().parent('div').addClass('active');
-		$('.tabbed-buttons #group-buttons').show();
+		$('#tabs #A').show();
+		$('#tabs #tab-links a').first().parent('div').addClass('active-tab');
+		$('#row2 #group-buttons').show();
 		
-        $('.tabs .tab-links a').on('click', function(e)  {
+        $('#tabs #tab-links a').on('click', function(e)  {
             var currentAttrValue = $(this).attr('href');
             
             if (currentAttrValue === "#Bracket") {
@@ -377,22 +377,22 @@
             }
      
             // Show/Hide Tabs
-            $('.tabs ' + currentAttrValue).show().siblings().hide();
+            $('#tabs ' + currentAttrValue).show().siblings().hide();
      
             // Change/remove current tab to active
-            $(this).parent('div').addClass('active').siblings().removeClass('active');
+            $(this).parent('div').addClass('active-tab').siblings().removeClass('active-tab');
      
             e.preventDefault();
         });
         
 		$(document).on('blur', '.score1, .score2', function() {
-			var groupIndex = $(this).parents('.tab').attr('id').charCodeAt(0)-65;
+			var groupIndex = $(this).parents('.under-tab').attr('id').charCodeAt(0)-65;
 			Brazil2014.groups[groupIndex].play($(this).parents(".matchRow").attr('class')[5], $(this).parent(".result").children(".score1").val(), $(this).parent(".result").children(".score2").val());
 		});
 		
 		$(document).on('keypress', '.score1, .score2', function(e) {
 			 if ( e.which == 13 ) {
-				var groupIndex = $(this).parents('.tab').attr('id').charCodeAt(0)-65;
+				var groupIndex = $(this).parents('.under-tab').attr('id').charCodeAt(0)-65;
 				Brazil2014.groups[groupIndex].play($(this).parents(".matchRow").attr('class')[5], $(this).parent(".result").children(".score1").val(), $(this).parent(".result").children(".score2").val());
 			}
 		});
@@ -408,14 +408,14 @@
 			Brazil2014.load('');
 		});
 		$("#buttons").on('click', "#resetOne", function() {
-			var g = $('.tabs .tab-links .active a').attr('href').charCodeAt(1)-65;
+			var g = $('#tabs #tab-links .active a').attr('href').charCodeAt(1)-65;
 			Brazil2014.groups[g].load(Brazil2014.decodedGroupStage.substring(g*12, g*12+12));
 		});
 		$("#buttons").on('click', "#resetAll", function() {
 			Brazil2014.load(Brazil2014.realScores);
 		});
 		$("#buttons").on('click', "#blankOne", function() {
-			var g = $('.tabs .tab-links .active a').attr('href').charCodeAt(1)-65;
+			var g = $('#tabs #tab-links .active a').attr('href').charCodeAt(1)-65;
 			Brazil2014.groups[g].load('------------');
 		});
 		$("#buttons").on('click', "#blankAll", function() {

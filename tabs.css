@@ -1,32 +1,28 @@
-.tabs {
+/*top-level div for tabs and their content*/
+
+#tabs {
     width:100%;
     display:inline-block;
     text-align:center;
 }
+
+/*The tabs themselves, the bits you click on to show the tabbed content*/
     
-.tab-links {
+#tab-links {
 	margin-top:5px;
 	display:inline-block;
     text-align: center;
 }
 
-.tab-links > div {
+#tab-links > div {
     margin:0px 2px;
     display: inline-block;
     vertical-align:bottom;
     position:relative;
 	z-index:0;
 }
-    
-.tab-links > div:first-child {
-    padding: 0px 0px 0px 20px;
-}
-    
-#bracket-tab-link {
-	padding: 0px 20px 0px 0px;
-}
  
-.tab-links a {
+#tab-links a {
 	padding:9px 9px;
     display:inline-block;
     border-radius:6px 6px 0px 0px; 
@@ -62,8 +58,27 @@
     -o-transition:all linear 0s;
     transition:all linear 0s;
 }
+
+#tab-links img {
+	padding: 2px;
+}
+        
+#tab-links .leftflags {
+	display:inline-block;
+	vertical-align:middle;
+	margin-right:5px;
+}
+
+#tab-links .rightflags {
+	display:inline-block;
+	vertical-align:middle;
+	margin-left:5px;
+}
+
+/*Hovering over a tab makes it transition to a different color and no shadow (as if pressed in). Clicking keeps that style until
+ *another tab is clicked*/
  
-.tab-links a:hover {
+#tab-links a:hover {
     text-decoration:none;
 
 	-webkit-background-size: 100% 500%;
@@ -80,33 +95,8 @@
     -o-transition:all linear 0.3s;
     transition:all linear 0.3s;
 }
-        
-.tab-links img {
-	padding: 2px;
-}
-        
-.tab-links .leftflags {
-	display:inline-block;
-	vertical-align:middle;
-	margin-right:5px;
-}
-        
-#bracket-tab-link .leftflags {
-	margin-right:0px;
-}
-        
-#bracket-tab-link img {
-	padding-left:0px;
-	padding-right:0px;
-}
-        
-.tab-links .rightflags {
-	display:inline-block;
-	vertical-align:middle;
-	margin-left:5px;
-}
- 
-div.active a, div.active a:hover {
+
+.active-tab a, .active-tab a:hover {
 	text-decoration:none;
 	
 	-webkit-background-size: 100% 500%;
@@ -117,15 +107,34 @@ div.active a, div.active a:hover {
     -moz-box-shadow: none;
 	box-shadow: none;
 }
- 
-.tab {
-	display:none;
+
+/*The "Knockout" tab has two invisible flag-height spacers to keep it the same size as the others, with text in line*/
+        
+#bracket-tab-link .leftflags {
+	margin-right:0px;
 }
- 
-.tab.active {
-	display:block;
+        
+#bracket-tab-link img {
+	padding-left:0px;
+	padding-right:0px;
+}
+
+/*Some padding so the line below the tabs goes out a bit on either end*/
+
+#tab-links > div:first-child {
+    padding: 0px 0px 0px 20px;
 }
     
-#buttons .tabbed-buttons > div {
+#bracket-tab-link {
+	padding: 0px 20px 0px 0px;
+}
+
+/*The tabbed content*/
+ 
+.under-tab {
 	display:none;
+}
+ 
+.under-tab.active {
+	display:block;
 }

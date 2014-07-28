@@ -281,15 +281,3 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', end
 .groupTable tr > th:last-child {
 			border-radius:0px 6px 0px 0px;
 }
-/*
-td span {
-	vertical-align:middle;
-}
-
-td div {
-	display:table-cell;
-	height:30px;
-	width:100%;
-	vertical-align:middle;
-	font-size:xx-small;
-}*/

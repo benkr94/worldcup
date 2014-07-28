@@ -274,7 +274,7 @@ var Brazil2014 = (function (Tournament) {
 								'</div>'+
 						   '</a></div>';
 			$('#group-tab-links').append(groupTab);
-			var groupContent = '<div id="'+this.id+'" class="tab">'+
+			var groupContent = '<div id="'+this.id+'" class="under-tab">'+
 										'<div class="matches"></div>'+
 									'<div class="groupTable"></div>'+
 						   		'</div>';
