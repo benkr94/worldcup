@@ -340,7 +340,7 @@ var Brazil2014 = (function (Tournament) {
 		}
 		return finalStatus;
 	}
-	
+	/*Methods revealed by module*/
 	Tournament.groupUtils = {
 		teamCompare: 			teamCompare,
 		advancedTiebreak: 		advancedTiebreak,
