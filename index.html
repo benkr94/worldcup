@@ -429,8 +429,8 @@
 			var r = idString.charAt(1);
 			var m = idString.charAt(4);
 			var t = idString.charAt(7);
-			var node = Brazil2014.knockout.nodeArr[r][m][t];
-			var opponent = Brazil2014.knockout.nodeArr[r][m][1-t];
+			var node = Brazil2014.knockout.getNode(r, m, t);
+			var opponent = Brazil2014.knockout.getNode(r, m, 1-t);
 			if (node.hasWon()) {
 				node.unWin();
 			}

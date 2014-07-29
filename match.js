@@ -1,9 +1,9 @@
 /* match.js
  *  Expands the Tournament module with a constructor for objects representing group-stage matches.
- * Match
+ * 
  * Attributes:
- *  id: the number of the match as defined by FIFA, following the sequence 1 = A1 vs A2, 2 = B1 vs B2,
- *      3 = C1 vs C2, 4 = C3 vs C4, etc. Not necessarily the chronological order of the matches.
+ *  id: the number of the match as defined by FIFA, following the sequence 1 = A1 vs A2, 2 = B1 vs B2, 3 = C1 vs C2, 4 = C3 vs C4,
+ *      etc. Not necessarily the chronological order of the matches. Never ended up being used.
  *  team1, team2: the teams competing.
  *  score1, score2: their scores.
  * Methods:
@@ -14,7 +14,6 @@
 
 var Brazil2014 = (function (Tournament) {
 	Tournament.Match = function (id, team1, team2, location, time) {
-		this.id = id;
 		this.team1 = team1;
 		this.team2 = team2;
 		this.location = location;

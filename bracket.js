@@ -9,13 +9,13 @@ var Brazil2014 = (function (Tournament) {
  * Arguments:
  *  rounds: The number of rounds in the bracket. This is 4 in the World Cup, but I wrote this more generally for re-use elsewhere
  *  matchDetails: An array whose members provide the location and time of each knockout match  
- * Attributes:
- *  rounds: The number of rounds in the bracket. This is 4 in the World Cup, but I wrote this more generally for re-use elsewhere
+ * Attributes (all private):
  *  nodeArr: A multidimensional array of Nodes. Top-level elements are arrays representing rounds of the tournament; second-level
  *           are arrays (length 2) representing matches; third-level are Nodes, each representing a competitor in a match.
  *  champion: A Node representing the champion of the tournament. Unlike the nodes in nodeArr, the champion has no opponent.
  *  times: The times of the matches, in UTC.
  * Methods:
+ *  getNode: A getter for nodeArr. Returns the node at the round, match, and team index specified.
  *  updateTimes: Updates the view with the match times in the user's selected time zone.
  *  getSaveString: returns a string that uniquely identifies the user's choices of match winners. (15-character string; compressed to
  *                 4 in encodeUtils)
@@ -23,7 +23,6 @@ var Brazil2014 = (function (Tournament) {
  *  clear: Sets all matches as unplayed. Teams are filled in for first round, all other Nodes are empty.
  */
 	Tournament.Bracket = function (rounds, matchDetails) {
-		this.rounds = rounds;
 		var nodeArr = [];							//Initialize array representing the entire bracket;
 		for (var r = 0; r < rounds; r++) {  		
 			nodeArr.push(new Array(Math.pow(2, rounds-r-1)));//Initialize rounds to contain the appropriate no. of matches;
@@ -34,13 +33,13 @@ var Brazil2014 = (function (Tournament) {
 			for (var m = 0; m < nodeArr[r].length; m++)
 			nodeArr[r][m] = new Array(2);			//Initialize matches to contain 2 teams.
 		}
-		this.champion = new Node(rounds, 0);
+		var champion = new Node(rounds, 0);
 		var next;
 		for (var r = rounds - 1; r >= 0; r--) {
 			//console.log("r is "+r+", nodeArr[r].length is "+nodeArr[r].length);
 			for (var m = 0; m < nodeArr[r].length; m++) {
 				if (r === rounds - 1) {
-					next = this.champion; 
+					next = champion; 
 				}
 				else {
 					//console.log("I am setting next to nodeArr["+(r+1)+"]["+(Math.floor(m/2))+"]["+(m%2)+"]");
@@ -57,6 +56,9 @@ var Brazil2014 = (function (Tournament) {
 			var matchTime = new Date(Date.UTC(2014,time[0],time[1],time[2],time[3]));
 			times.push(matchTime);
 			$('#Bracket .details').eq(i).html('<div class="kolocation">'+matchDetails[i][0]+',&nbsp;</div>'+'<div class="kotime">'+times[i].toUTCString().split(' ').splice(1).join(' ').split(':',2).join(':').replace('2014','')+'</div>');
+		}
+		this.getNode = function (roundNum, matchNum, teamNum) {
+			return nodeArr[roundNum][matchNum][teamNum];
 		}
 		this.updateTimes = function (offset) {
 			//console.log("Doing this.");
@@ -101,7 +103,6 @@ var Brazil2014 = (function (Tournament) {
 				nodeArr[0][m][1].unWin();
 			}
 		}
-		this.nodeArr = nodeArr;
 	};
 	
 /* Node

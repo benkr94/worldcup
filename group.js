@@ -1,6 +1,6 @@
 var Brazil2014 = (function (Tournament) {
 	Tournament.Group = function (id, teams, matchDetails) {
-		this.id = String.fromCharCode(id+65);
+		var idChar = String.fromCharCode(id+65);
 		//this.teams = teams;
 		var matches = [];
 		matches[0] = new Tournament.Match(2 * id + 1, teams[0], teams[1], matchDetails[0][0], matchDetails[0][1]);
@@ -59,8 +59,8 @@ var Brazil2014 = (function (Tournament) {
 			for (var j = 0; j < matches.length; j++) {
 				var score1 = (scoreString.charAt(j*2) !== '-') ? scoreString.charAt(j*2) : '';
 		   		var score2 = (scoreString.charAt(j*2+1) !== '-') ? scoreString.charAt(j*2+1) : '';
-				$("#"+this.id+" .match"+j+" .score1").val(score1);
-				$("#"+this.id+" .match"+j+" .score2").val(score2);
+				$("#"+idChar+" .match"+j+" .score1").val(score1);
+				$("#"+idChar+" .match"+j+" .score2").val(score2);
 				matches[j].play(score1, score2);
 			}
 			this.reorderTable();
@@ -97,14 +97,14 @@ var Brazil2014 = (function (Tournament) {
 			var statKeys = ["played", "won", "drawn", "lost", "goalsFor", "goalsAgainst", "goalDifference", "points"];
 		   	for (var i = 0; i < teams.length; i++) {
 				for (var j = 0; j < statKeys.length; j++) {
-					//alert($("#"+this.id+" .groupTable #row"+teams[i].id+" ."+statKeys[j]).text());
-					$("#"+this.id+" .groupTable #row"+teams[i].id+" ."+statKeys[j]+" .content").text(teams[i].getStat(statKeys[j]));
+					//alert($("#"+idChar+" .groupTable #row"+teams[i].id+" ."+statKeys[j]).text());
+					$("#"+idChar+" .groupTable #row"+teams[i].id+" ."+statKeys[j]+" .content").text(teams[i].getStat(statKeys[j]));
 				}
 			}
 			for (var i = 0; i < teams.length; i++) { //two iterations over same array intentional; want to change stats before beginning animation
 				var rankChange = i - teams[i].prevRank;
-				$("#"+this.id+" .groupTable #row"+teams[i].id+" td > div").css('z-index',rankChange);
-		   		$("#"+this.id+" .groupTable #row"+teams[i].id+" td > div").animate({"top":"+="+(rankChange*31)+"px"});
+				$("#"+idChar+" .groupTable #row"+teams[i].id+" td > div").css('z-index',rankChange);
+		   		$("#"+idChar+" .groupTable #row"+teams[i].id+" td > div").animate({"top":"+="+(rankChange*31)+"px"});
 		   		teams[i].prevRank = i;
 			}
 		}
@@ -242,16 +242,16 @@ var Brazil2014 = (function (Tournament) {
 				for (var i = 0; i < teams.length; i++) {
 					if (teams[i].hasClinched === 1) {
 						//alert("I got to here too!");
-						$("#"+this.id+" .groupTable #row"+teams[i].id+" div").removeClass("eliminated");
-						$("#"+this.id+" .groupTable #row"+teams[i].id+" div").addClass("clinched");
+						$("#"+idChar+" .groupTable #row"+teams[i].id+" div").removeClass("eliminated");
+						$("#"+idChar+" .groupTable #row"+teams[i].id+" div").addClass("clinched");
 					}
 					else if (teams[i].isEliminated === 1) {
-						$("#"+this.id+" .groupTable #row"+teams[i].id+" div").removeClass("clinched");
-						$("#"+this.id+" .groupTable #row"+teams[i].id+" div").addClass("eliminated");
+						$("#"+idChar+" .groupTable #row"+teams[i].id+" div").removeClass("clinched");
+						$("#"+idChar+" .groupTable #row"+teams[i].id+" div").addClass("eliminated");
 					}
 					else {
-						$("#"+this.id+" .groupTable #row"+teams[i].id+" div").removeClass("clinched");
-						$("#"+this.id+" .groupTable #row"+teams[i].id+" div").removeClass("eliminated");
+						$("#"+idChar+" .groupTable #row"+teams[i].id+" div").removeClass("clinched");
+						$("#"+idChar+" .groupTable #row"+teams[i].id+" div").removeClass("eliminated");
 					}
 				}
 			}
@@ -262,19 +262,19 @@ var Brazil2014 = (function (Tournament) {
 		 */
 		
 		this.drawTab = function() {
-			var groupTab = '<div><a href="#'+this.id+'">'+
+			var groupTab = '<div><a href="#'+idChar+'">'+
 								'<div class="leftflags">'+
 									'<img src="flags/'+teams[0].id+'.png"><br>'+
 									'<img src="flags/'+teams[1].id+'.png">'+
 								'</div>'+
-								this.id+
+								idChar+
 								'<div class="rightflags">'+
 									'<img src="flags/'+teams[2].id+'.png"><br>'+
 									'<img src="flags/'+teams[3].id+'.png"><br>'+
 								'</div>'+
 						   '</a></div>';
 			$('#group-tab-links').append(groupTab);
-			var groupContent = '<div id="'+this.id+'" class="under-tab">'+
+			var groupContent = '<div id="'+idChar+'" class="under-tab">'+
 										'<div class="matches"></div>'+
 									'<div class="groupTable"></div>'+
 						   		'</div>';
@@ -304,7 +304,7 @@ var Brazil2014 = (function (Tournament) {
 		    }
 		    html += "</table>";
 		    //alert(html);
-		    $("#"+this.id+" .groupTable").html(html);
+		    $("#"+idChar+" .groupTable").html(html);
 		};
 		this.drawMatches = function () {
 		    var html = '';
@@ -319,11 +319,11 @@ var Brazil2014 = (function (Tournament) {
 		                    '<div class="team2">'+matches[i].team2.flagLeft()+'</div>'+
 		                '</div>';
 		    }
-		    $("#"+this.id+" .matches").html(html);
+		    $("#"+idChar+" .matches").html(html);
 		};
 		this.updateTimes = function (offset) {
 			for (var i = 0; i < matches.length; i++) {
-				$('#'+this.id+' .match'+i+' .time').text(matches[i].timeString(offset));
+				$('#'+idChar+' .match'+i+' .time').text(matches[i].timeString(offset));
 			}
 		};
 	};
