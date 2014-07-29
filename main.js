@@ -86,12 +86,11 @@ var Brazil2014 = (function() {
 	};
 	
 	this.populateBracket = function () {
+		var advanceList = [];
 		for (var g = 0; g < 8; g++) {
-			for (var i = 0; i < 2; i++) {
-				var matchIndex = Math.floor(g/2) + 4 * Math.abs((i - (g % 2)));
-				this.knockout.getNode(0,matchIndex,i).setTeam(groups[g].getTeam(i));
-			}
+			this.groups[g].submitAdvancers(advanceList);
 		}
+		this.knockout.setFirstTeams(advanceList);
 	};
 	
 	this.updateTimes = function (offset) {

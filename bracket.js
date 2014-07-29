@@ -15,7 +15,6 @@ var Brazil2014 = (function (Tournament) {
  *  champion: A Node representing the champion of the tournament. Unlike the nodes in nodeArr, the champion has no opponent.
  *  times: The times of the matches, in UTC.
  * Methods:
- *  getNode: A getter for nodeArr. Returns the node at the round, match, and team index specified.
  *  updateTimes: Updates the view with the match times in the user's selected time zone.
  *  getSaveString: returns a string that uniquely identifies the user's choices of match winners. (15-character string; compressed to
  *                 4 in encodeUtils)
@@ -57,8 +56,16 @@ var Brazil2014 = (function (Tournament) {
 			times.push(matchTime);
 			$('#Bracket .details').eq(i).html('<div class="kolocation">'+matchDetails[i][0]+',&nbsp;</div>'+'<div class="kotime">'+times[i].toUTCString().split(' ').splice(1).join(' ').split(':',2).join(':').replace('2014','')+'</div>');
 		}
-		this.getNode = function (roundNum, matchNum, teamNum) {
-			return nodeArr[roundNum][matchNum][teamNum];
+		this.nodeClicked = function (r, m, t) {
+			var node = nodeArr[r][m][t];
+			var opponent = nodeArr[r][m][1-t];
+			if (node.hasWon()) {
+				node.unWin();
+			}
+			else {
+				opponent.unWin();
+				node.win();
+			}
 		}
 		this.updateTimes = function (offset) {
 			//console.log("Doing this.");
@@ -84,6 +91,11 @@ var Brazil2014 = (function (Tournament) {
 				}
 			}
 			return saveString;
+		};
+		this.setFirstTeams = function (teams) {
+			for (var t = 0; t < teams.length; t++) {
+				nodeArr[0][Math.floor(t/2)][t%2].setTeam(teams[t]);
+			}
 		};
 		this.load = function (saveString) {
 			saveString = saveString.split('').reverse().join('');

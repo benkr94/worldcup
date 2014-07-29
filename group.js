@@ -20,15 +20,12 @@ var Brazil2014 = (function (Tournament) {
 		        this.colorRows();
 		    }
 		};
-		this.getTeam = function (teamIndex) {
-			if (teamIndex < 0 || teamIndex >= teams.length) {
-				console.log("ERROR: Request for team out-of-bounds");
-				return false;
+		this.submitAdvancers = function (advanceList) {
+			for (var i = 0; i < 2; i++) {
+				var matchIndex = Math.floor(id/2) + 4 * Math.abs((i - (id % 2)));
+				advanceList[matchIndex*2+i] = teams[i];
 			}
-			else {
-				return teams[teamIndex];
-			}
-		};
+		}
 		this.played = function () {
 			var matchesPlayed = 0;
 			for (var j = 0; j < matches.length; j++) {
@@ -59,8 +56,8 @@ var Brazil2014 = (function (Tournament) {
 			for (var j = 0; j < matches.length; j++) {
 				var score1 = (scoreString.charAt(j*2) !== '-') ? scoreString.charAt(j*2) : '';
 		   		var score2 = (scoreString.charAt(j*2+1) !== '-') ? scoreString.charAt(j*2+1) : '';
-				$("#"+idChar+" .match"+j+" .score1").val(score1);
-				$("#"+idChar+" .match"+j+" .score2").val(score2);
+				$("#"+idChar+" #match"+matches[j].id+" .score1").val(score1);
+				$("#"+idChar+" #match"+matches[j].id+" .score2").val(score2);
 				matches[j].play(score1, score2);
 			}
 			this.reorderTable();
@@ -309,21 +306,13 @@ var Brazil2014 = (function (Tournament) {
 		this.drawMatches = function () {
 		    var html = '';
 		    for (var i = 0; i < matches.length; i++) {
-		        html += '<div class="match'+i+' matchRow">'+
-		        			'<div class="details">'+
-		        				'<div class="location">'+matches[i].location+'</div>'+
-		        				'<div class="time">'+matches[i].timeString()+'</div>'+
-		        			'</div>'+
-		                    '<div class="team1">'+matches[i].team1.flagRight()+'</div>'+
-		                    '<div class="result"><input class="score1" maxlength="1"> - <input class="score2" maxlength="1"></div>'+
-		                    '<div class="team2">'+matches[i].team2.flagLeft()+'</div>'+
-		                '</div>';
+		        html += matches[i].draw();
 		    }
 		    $("#"+idChar+" .matches").html(html);
 		};
 		this.updateTimes = function (offset) {
 			for (var i = 0; i < matches.length; i++) {
-				$('#'+idChar+' .match'+i+' .time').text(matches[i].timeString(offset));
+				matches[i].updateTime(offset);
 			}
 		};
 	};

@@ -96,7 +96,7 @@
     transition:all linear 0.3s;
 }
 
-.active-tab a, .active-tab a:hover {
+#tab-links .active-tab a, #tab-links .active-tab a:hover {
 	text-decoration:none;
 	
 	-webkit-background-size: 100% 500%;
@@ -133,8 +133,4 @@
  
 .under-tab {
 	display:none;
-}
- 
-.under-tab.active {
-	display:block;
 }
