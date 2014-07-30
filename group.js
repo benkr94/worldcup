@@ -71,11 +71,11 @@ var Brazil2014 = (function (Tournament) {
 		                   '<th width="28"><abbr title="Goal Difference">GD</abbr></th>'+
 		                   '<th width="28"><abbr title="Points">Pts</abbr></th>'+
 		               '</tr>';
-		    for (var i = 0; i < teams.length; i++) {
-		        html += '<tr id="row'+teams[i].id+'">'+
-		                   '<td><div class="countryName"><div class="heightfix"></div><div class="content">'+teams[i].flagLeft()+'</div></div></td>'; //wrapping div necessary for animations, which cannot work on table rows or cells
-		        for (var j = 0; j < statKeys.length; j++) {
-		        	html+= '<td><div class="'+statKeys[j]+' stat"><div class="heightfix"></div><div class="content">'+teams[i].getStat(statKeys[j])+'</div></div></td>';
+		    for (var t = 0; t < teams.length; t++) {
+		        html += '<tr id="row'+teams[t].id+'">'+
+		                   '<td><div class="countryName"><div class="heightfix"></div><div class="content">'+teams[t].flagLeft()+'</div></div></td>'; //wrapping div necessary for animations, which cannot work on table rows or cells
+		        for (var s = 0; s < statKeys.length; s++) {
+		        	html+= '<td><div class="'+statKeys[s]+' stat"><div class="heightfix"></div><div class="content">'+teams[t].getStat(statKeys[s])+'</div></div></td>';
 		        }
 		        html += '</tr>';
 		    }
@@ -86,35 +86,35 @@ var Brazil2014 = (function (Tournament) {
 		
 		this.drawMatches = function () {
 		    var html = '';
-		    for (var i = 0; i < matches.length; i++) {
-		        html += matches[i].draw();
+		    for (var m = 0; m < matches.length; m++) {
+		        html += matches[m].draw();
 		    }
 		    $("#"+idChar+" .matches").html(html);
 		};
 		
 		this.updateTimes = function (offset) {
-			for (var i = 0; i < matches.length; i++) {
-				matches[i].updateTime(offset);
+			for (var m = 0; m < matches.length; m++) {
+				matches[m].updateTime(offset);
 			}
 		};
 		
 		this.submitAdvancers = function (advanceList) {
-			for (var i = 0; i < 2; i++) {
-				var matchIndex = Math.floor(id/2) + 4 * Math.abs((i - (id % 2)));
-				advanceList[matchIndex*2+i] = teams[i];
+			for (var t = 0; t < 2; t++) {
+				var matchIndex = Math.floor(id/2) + 4 * Math.abs((t - (id % 2)));
+				advanceList[matchIndex*2+t] = teams[t];
 			}
 		};
 
 		this.getScoreString = function () {
 			var scoreString = '';
 			if (id % 2 === 0) {
-				for (var j = 0; j < matches.length; j++) {
-					scoreString += matches[j].getScore(1) + matches[j].getScore(2);
+				for (var m = 0; m < matches.length; m++) {
+					scoreString += matches[m].getScore(1) + matches[m].getScore(2);
 				}
 			}
 			else {	//reverse score string for every other group. Since scores are likely to be filled in chronologically, this will
-				for (var j = matches.length-1; j >= 0; j--) { //put most blanks next to each other for a shorter compressed string.
-					scoreString += matches[j].getScore(2) + matches[j].getScore(1);
+				for (var m = matches.length-1; m >= 0; m--) { //put most blanks next to each other for a shorter compressed string.
+					scoreString += matches[m].getScore(2) + matches[m].getScore(1);
 				}
 			}
 			return scoreString;
@@ -124,12 +124,12 @@ var Brazil2014 = (function (Tournament) {
 			if (id % 2 === 1) {
 				scoreString = scoreString.split('').reverse().join('');
 			}
-			for (var j = 0; j < matches.length; j++) {
-				var score1 = (scoreString.charAt(j*2) !== '-') ? scoreString.charAt(j*2) : '';
-		   		var score2 = (scoreString.charAt(j*2+1) !== '-') ? scoreString.charAt(j*2+1) : '';
-				$("#"+idChar+" #match"+matches[j].id+" .score1").val(score1);
-				$("#"+idChar+" #match"+matches[j].id+" .score2").val(score2);
-				matches[j].play(score1, score2);
+			for (var m = 0; m < matches.length; m++) {
+				var score1 = (scoreString.charAt(m*2) !== '-') ? scoreString.charAt(m*2) : '';
+		   		var score2 = (scoreString.charAt(m*2+1) !== '-') ? scoreString.charAt(m*2+1) : '';
+				$("#"+idChar+" #match"+matches[m].id+" .score1").val(score1);
+				$("#"+idChar+" #match"+matches[m].id+" .score2").val(score2);
+				matches[m].play(score1, score2);
 			}
 			updateTable();
 		};
@@ -147,26 +147,26 @@ var Brazil2014 = (function (Tournament) {
 		}
 		function rankAll() {
 		    teams.sort(Tournament.groupUtils.teamCompare);
-		    for (var i = 0; i < teams.length; i++) {
-		        if (teams[i].requiresAdvancedTiebreak !== -1) {
+		    for (var t = 0; t < teams.length; t++) {
+		        if (teams[t].requiresAdvancedTiebreak !== -1) {
 		            saves = {};
-		            saves[teams[i].id] = teams[i].reset();
-		            minigroup = [teams[i]];
-		            for (var j = i+1; j < teams.length; j++) {
-		                if (teams[j].requiresAdvancedTiebreak === teams[i].requiresAdvancedTiebreak) {
-		                    saves[teams[j].id] = teams[j].reset();
-		                    minigroup.push(teams[j]);
+		            saves[teams[t].id] = teams[t].reset();
+		            minigroup = [teams[t]];
+		            for (var u = t+1; u < teams.length; u++) {
+		                if (teams[u].requiresAdvancedTiebreak === teams[t].requiresAdvancedTiebreak) {
+		                    saves[teams[u].id] = teams[u].reset();
+		                    minigroup.push(teams[u]);
 		                }
 		                else {
 		                    break;
 		                }
 		            }
 		            var correctOrder = Tournament.groupUtils.advancedTiebreak(minigroup, matches);
-		            for (var k = 0; k < minigroup.length; k++) {
-		                teams[i+k] = minigroup[k];
-		                teams[i+k].loadSave(saves[teams[i+k].id]);
+		            for (var m = 0; m < minigroup.length; m++) {
+		                teams[t+m] = minigroup[m];
+		                teams[t+m].loadSave(saves[teams[t+m].id]);
 		            }
-		            i = i+minigroup.length-1;
+		            t = t+minigroup.length-1;
 		        }
 		    }
 		    return teams;
@@ -174,17 +174,17 @@ var Brazil2014 = (function (Tournament) {
 		
 		function reorderTable() {
 			var statKeys = ["played", "won", "drawn", "lost", "goalsFor", "goalsAgainst", "goalDifference", "points"];
-		   	for (var i = 0; i < teams.length; i++) {
-				for (var j = 0; j < statKeys.length; j++) {
-					//alert($("#"+idChar+" .groupTable #row"+teams[i].id+" ."+statKeys[j]).text());
-					$("#"+idChar+" .groupTable #row"+teams[i].id+" ."+statKeys[j]+" .content").text(teams[i].getStat(statKeys[j]));
+		   	for (var t = 0; t < teams.length; t++) {
+				for (var s = 0; s < statKeys.length; s++) {
+					//alert($("#"+idChar+" .groupTable #row"+teams[t].id+" ."+statKeys[s]).text());
+					$("#"+idChar+" .groupTable #row"+teams[t].id+" ."+statKeys[s]+" .content").text(teams[t].getStat(statKeys[s]));
 				}
 			}
-			for (var i = 0; i < teams.length; i++) { //two iterations over same array intentional; want to change stats before beginning animation
-				var rankChange = i - teams[i].prevRank;
-				$("#"+idChar+" .groupTable #row"+teams[i].id+" td > div").css('z-index',rankChange);
-		   		$("#"+idChar+" .groupTable #row"+teams[i].id+" td > div").animate({"top":"+="+(rankChange*31)+"px"});
-		   		teams[i].prevRank = i;
+			for (var t = 0; t < teams.length; t++) { //two iterations over same array intentional; want to change stats before beginning animation
+				var rankChange = t - teams[t].prevRank;
+				$("#"+idChar+" .groupTable #row"+teams[t].id+" td > div").css('z-index',rankChange);
+		   		$("#"+idChar+" .groupTable #row"+teams[t].id+" td > div").animate({"top":"+="+(rankChange*31)+"px"});
+		   		teams[t].prevRank = t;
 			}
 		};
 		
@@ -197,13 +197,13 @@ var Brazil2014 = (function (Tournament) {
 		 */
 		function colorRows () {
 			var matchesPlayed = 0;
-			for (var j = 0; j < matches.length; j++) {
-				if (matches[j].played()) {
+			for (var m = 0; m < matches.length; m++) {
+				if (matches[m].played()) {
 					matchesPlayed++;
 				}
 			}
-			for (var i = 0; i < teams.length; i++) {
-				teams[i].resetGroupStatus();
+			for (var t = 0; t < teams.length; t++) {
+				teams[t].resetGroupStatus();
 			}
 			try {
 				if (matchesPlayed <= 2) { //If 2 or fewer games have been played, no team can have clinched or been eliminated.
@@ -221,35 +221,35 @@ var Brazil2014 = (function (Tournament) {
 				var teamsClinched = 0;
 				var teamsEliminated = 0;
 				var teamsKnownStatus = 0;
-				for (var i = 0; i < teams.length; i++) {
-					if (teams[i].getStat("points") >= 7) { //7 points clinches. (There are only 18 points up for grabs.)
-						console.log("Clinching "+teams[i].countryName+" for having 7 or more points");
-						teams[i].clinch();
+				for (var t = 0; t < teams.length; t++) {
+					if (teams[t].getStat("points") >= 7) { //7 points clinches. (There are only 18 points up for grabs.)
+						console.log("Clinching "+teams[t].countryName+" for having 7 or more points");
+						teams[t].clinch();
 						teamsClinched++;
 						teamsKnownStatus++;
 					}
-					else if (teams[i].getStat("played") === 3 && teams[i].getStat("points") <= 1) {
-						console.log("Eliminating "+teams[i].countryName+" for finishing with 1 or fewer points");
-						teams[i].eliminate(); //Finishing with 2 points eliminates.
+					else if (teams[t].getStat("played") === 3 && teams[t].getStat("points") <= 1) {
+						console.log("Eliminating "+teams[t].countryName+" for finishing with 1 or fewer points");
+						teams[t].eliminate(); //Finishing with 2 points eliminates.
 						teamsEliminated++;
 						teamsKnownStatus++;
 					}
-					else if (teams[i].getStat("played") <= 1) { //You cannot be eliminated, or clinch, after only one match.
-						console.log(teams[i].countryName+" has played only one game, marking status known");
-						teams[i].isEliminated = -1;
-						teams[i].hasClinched = -1;
+					else if (teams[t].getStat("played") <= 1) { //You cannot be eliminated, or clinch, after only one match.
+						console.log(teams[t].countryName+" has played only one game, marking status known");
+						teams[t].isEliminated = -1;
+						teams[t].hasClinched = -1;
 						teamsKnownStatus++;
 					}
-					else if (teams[i].getStat("played") === 2) {
-						if (teams[i].getStat("points") <= 3) {
-							console.log(teams[i].countryName+" has at most 3 points through 2 matches so has not clinched");
-							teams[i].hasClinched = -1; //If you've only scored 3 points through 2 matches, you haven't clinched.	    				
+					else if (teams[t].getStat("played") === 2) {
+						if (teams[t].getStat("points") <= 3) {
+							console.log(teams[t].countryName+" has at most 3 points through 2 matches so has not clinched");
+							teams[t].hasClinched = -1; //If you've only scored 3 points through 2 matches, you haven't clinched.	    				
 						}
-						if (teams[i].getStat("points") >= 3) {
-							console.log(teams[i].countryName+" has at least 3 points through 2 matches so is not eliminated");
-							teams[i].isEliminated = -1; //If you've scored at least 3 points through 2 matches, you aren't eliminated.
+						if (teams[t].getStat("points") >= 3) {
+							console.log(teams[t].countryName+" has at least 3 points through 2 matches so is not eliminated");
+							teams[t].isEliminated = -1; //If you've scored at least 3 points through 2 matches, you aren't eliminated.
 						}
-						if (teams[i].isEliminated == -1 && teams[i].hasClinched == -1) {
+						if (teams[t].isEliminated == -1 && teams[t].hasClinched == -1) {
 							teamsKnownStatus++;
 						}
 					}
@@ -259,35 +259,35 @@ var Brazil2014 = (function (Tournament) {
 			   	 * finish in 1st or 2nd.  To determine whether a team has clinched, we make the sims as unfavorable to that team as
 			   	 * possible and see if they can finish in 3rd or 4th. More info is in groupUtils.js.
 			   	 */
-				for (var i = teams.length-1; i >= 0; i--) {
-					console.log("Evaluating team: "+teams[i].countryName+", which has "+teams[i].getStat("points")+" points");
-					if (!teams[i].knownStatus()) {
+				for (var t = teams.length-1; t >= 0; t--) {
+					console.log("Evaluating team: "+teams[t].countryName+", which has "+teams[t].getStat("points")+" points");
+					if (!teams[t].knownStatus()) {
 						var matchesLeft = [];
 						//var leagueTable = teams.slice(0);
-						for (var j = 0; j < matches.length; j++) {
-							if (!matches[j].played()) {
-								if (matches[j].team1.id === teams[i].id || matches[j].team2.id === teams[i].id) {
-									matchesLeft.unshift(matches[j]);	//when we pass to helper function, we want to sim
+						for (var m = 0; m < matches.length; m++) {
+							if (!matches[m].played()) {
+								if (matches[m].team1.id === teams[t].id || matches[m].team2.id === teams[t].id) {
+									matchesLeft.unshift(matches[m]);	//when we pass to helper function, we want to sim
 								}										//the team in question's matches first.
 								else {
-									matchesLeft.push(matches[j]);
+									matchesLeft.push(matches[m]);
 								}
 							}
 						}
-						//console.log("The team at leagueTable index i is: "+leagueTable[i].countryName);
-						if (teams[i].isEliminated !== -1 && Tournament.groupUtils.determineIfEliminated(i, matchesLeft, teams)) {
-							//teams[i].eliminate();
-							console.log("Match sims have determined that "+teams[i].countryName+" is eliminated.");
+						//console.log("The team at leagueTable index t is: "+leagueTable[t].countryName);
+						if (teams[t].isEliminated !== -1 && Tournament.groupUtils.determineIfEliminated(t, matchesLeft, teams)) {
+							//teams[t].eliminate();
+							console.log("Match sims have determined that "+teams[t].countryName+" is eliminated.");
 							teamsEliminated++;
 						}
-						//console.log("The team at leagueTable index i is: "+leagueTable[i].countryName);
-						else if (teams[i].hasClinched !== -1 && Tournament.groupUtils.determineIfClinched(i, matchesLeft, teams)) {
-							console.log("Match sims have determined that "+teams[i].countryName+" has clinched.");
+						//console.log("The team at leagueTable index t is: "+leagueTable[t].countryName);
+						else if (teams[t].hasClinched !== -1 && Tournament.groupUtils.determineIfClinched(t, matchesLeft, teams)) {
+							console.log("Match sims have determined that "+teams[t].countryName+" has clinched.");
 							teamsClinched++;
 						}
 						else {
-							teams[i].isEliminated = -1;
-							teams[i].hasClinched = -1;
+							teams[t].isEliminated = -1;
+							teams[t].hasClinched = -1;
 						}
 						teamsKnownStatus++;
 					}
@@ -305,37 +305,37 @@ var Brazil2014 = (function (Tournament) {
 			catch (e) {
 				//alert(e);
 				if (e === "clinchRest") {	//If two teams are eliminated, the other two have clinched.
-					for (var i = 0; i < teams.length; i++) {
-						if (!teams[i].knownStatus()) {
-							console.log("2 teams eliminated, clinching remainder (including "+teams[i].countryName+")");
-							teams[i].clinch();
+					for (var t = 0; t < teams.length; t++) {
+						if (!teams[t].knownStatus()) {
+							console.log("2 teams eliminated, clinching remainder (including "+teams[t].countryName+")");
+							teams[t].clinch();
 						}
 					}
 				}
 				else if (e === "eliminateRest") {
-					for (var i = 0; i < teams.length; i++) {
-						if (!teams[i].knownStatus()) {
-							console.log("2 teams clinched, eliminating remainder (including "+teams[i].countryName+")");
-							teams[i].eliminate();
+					for (var t = 0; t < teams.length; t++) {
+						if (!teams[t].knownStatus()) {
+							console.log("2 teams clinched, eliminating remainder (including "+teams[t].countryName+")");
+							teams[t].eliminate();
 						}
 					}
 				}
 			}
 			//Finally, after having decided the status of every team, color the rows.
 			finally {
-				for (var i = 0; i < teams.length; i++) {
-					if (teams[i].hasClinched === 1) {
+				for (var t = 0; t < teams.length; t++) {
+					if (teams[t].hasClinched === 1) {
 						//alert("I got to here too!");
-						$("#"+idChar+" .groupTable #row"+teams[i].id+" div").removeClass("eliminated");
-						$("#"+idChar+" .groupTable #row"+teams[i].id+" div").addClass("clinched");
+						$("#"+idChar+" .groupTable #row"+teams[t].id+" div").removeClass("eliminated");
+						$("#"+idChar+" .groupTable #row"+teams[t].id+" div").addClass("clinched");
 					}
-					else if (teams[i].isEliminated === 1) {
-						$("#"+idChar+" .groupTable #row"+teams[i].id+" div").removeClass("clinched");
-						$("#"+idChar+" .groupTable #row"+teams[i].id+" div").addClass("eliminated");
+					else if (teams[t].isEliminated === 1) {
+						$("#"+idChar+" .groupTable #row"+teams[t].id+" div").removeClass("clinched");
+						$("#"+idChar+" .groupTable #row"+teams[t].id+" div").addClass("eliminated");
 					}
 					else {
-						$("#"+idChar+" .groupTable #row"+teams[i].id+" div").removeClass("clinched");
-						$("#"+idChar+" .groupTable #row"+teams[i].id+" div").removeClass("eliminated");
+						$("#"+idChar+" .groupTable #row"+teams[t].id+" div").removeClass("clinched");
+						$("#"+idChar+" .groupTable #row"+teams[t].id+" div").removeClass("eliminated");
 					}
 				}
 			}

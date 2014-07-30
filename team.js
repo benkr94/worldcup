@@ -101,7 +101,7 @@ var Brazil2014 = (function (Tournament) {
 	    };
 	    this.loadSave = function(save) {
 	        stats = save;
-	        requiresAdvancedTiebreak = -1;
+	        this.requiresAdvancedTiebreak = -1;
 	    };
 	};
 	
