@@ -9,15 +9,17 @@ var Brazil2014 = (function (Tournament) {
  * Arguments:
  *  rounds: The number of rounds in the bracket. This is 4 in the World Cup, but I wrote this more generally for re-use elsewhere
  *  matchDetails: An array whose members provide the location and time of each knockout match  
- * Attributes (all private):
+ * Attributes (private):
  *  nodeArr: A multidimensional array of Nodes. Top-level elements are arrays representing rounds of the tournament; second-level
- *           are arrays (length 2) representing matches; third-level are Nodes, each representing a competitor in a match.
+ *    are arrays (length 2) representing matches; third-level are Nodes, each representing a competitor in a match.
  *  champion: A Node representing the champion of the tournament. Unlike the nodes in nodeArr, the champion has no opponent.
  *  times: The times of the matches, in UTC.
  * Methods:
+ *  setFirstTeams: Given an array of teams, populates the first round of the bracket.
+ *  nodeClicked: Allows clicking on a team in a knockout match to toggle whether it has won that match.
  *  updateTimes: Updates the view with the match times in the user's selected time zone.
  *  getSaveString: returns a string that uniquely identifies the user's choices of match winners. (15-character string; compressed to
- *                 4 in encodeUtils)
+ *    4 in encodeUtils)
  *  load: Given a saveString, advances teams through the Bracket in accordance with the user's chosen winners.
  *  clear: Sets all matches as unplayed. Teams are filled in for first round, all other Nodes are empty.
  */
@@ -50,12 +52,19 @@ var Brazil2014 = (function (Tournament) {
 			}
 		}
 		var times = [];
-		for (var i = 0; i < matchDetails.length; i++) {
+		for (var i = 0; i < matchDetails.length; i++) { //initial setting of match details.
 			var time = matchDetails[i][1];
 			var matchTime = new Date(Date.UTC(2014,time[0],time[1],time[2],time[3]));
 			times.push(matchTime);
-			$('#Bracket .details').eq(i).html('<div class="kolocation">'+matchDetails[i][0]+',&nbsp;</div>'+'<div class="kotime">'+times[i].toUTCString().split(' ').splice(1).join(' ').split(':',2).join(':').replace('2014','')+'</div>');
+			$('#Bracket .details').eq(i).html('<div class="kolocation">'+matchDetails[i][0]+',&nbsp;</div>'+'<div class="kotime"></div>');
 		}
+		
+		this.setFirstTeams = function (teams) {
+			for (var t = 0; t < teams.length; t++) {
+				nodeArr[0][Math.floor(t/2)][t%2].setTeam(teams[t]);
+			}
+		};
+		
 		this.nodeClicked = function (r, m, t) {
 			var node = nodeArr[r][m][t];
 			var opponent = nodeArr[r][m][1-t];
@@ -67,14 +76,7 @@ var Brazil2014 = (function (Tournament) {
 				node.win();
 			}
 		}
-		this.updateTimes = function (offset) {
-			//console.log("Doing this.");
-			for (var i = 0; i < times.length; i++) {
-				var localTime = new Date(times[i].getTime());
-				localTime.setMinutes(localTime.getMinutes()+offset);
-				$('#Bracket .details').eq(i).children('.kotime').text(localTime.toUTCString().split(' ').splice(1).join(' ').split(':',2).join(':').replace('2014',''));
-			}
-		}
+		
 		this.getSaveString = function () {
 			var saveString = '';
 			for (var r = nodeArr.length-1; r >= 0; r--) {
@@ -92,11 +94,7 @@ var Brazil2014 = (function (Tournament) {
 			}
 			return saveString;
 		};
-		this.setFirstTeams = function (teams) {
-			for (var t = 0; t < teams.length; t++) {
-				nodeArr[0][Math.floor(t/2)][t%2].setTeam(teams[t]);
-			}
-		};
+		
 		this.load = function (saveString) {
 			saveString = saveString.split('').reverse().join('');
 			for (var r = 0; r < nodeArr.length; r++) {
@@ -113,6 +111,15 @@ var Brazil2014 = (function (Tournament) {
 			for (var m = 0; m < nodeArr[0].length; m++) {
 				nodeArr[0][m][0].unWin();
 				nodeArr[0][m][1].unWin();
+			}
+		};
+		
+		this.updateTimes = function (offset) {
+			//console.log("Doing this.");
+			for (var i = 0; i < times.length; i++) {
+				var localTime = new Date(times[i].getTime());
+				localTime.setMinutes(localTime.getMinutes()+offset);
+				$('#Bracket .details').eq(i).children('.kotime').text(localTime.toUTCString().split(' ').splice(1).join(' ').split(':',2).join(':').replace('2014',''));
 			}
 		}
 	};

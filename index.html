@@ -422,7 +422,7 @@
 			Brazil2014.groups[g].load(Brazil2014.decodedGroupStage.substring(g*12, g*12+12));
 		});
 		$("#buttons").on('click', "#resetAll", function() {
-			Brazil2014.load(Brazil2014.realScores);
+			Brazil2014.load(SCORES);
 		});
 		$("#buttons").on('click', "#blankOne", function() {
 			var g = $('#tabs #tab-links .active-tab a').attr('href').charCodeAt(1)-65;

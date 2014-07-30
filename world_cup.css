@@ -184,6 +184,7 @@ th {
 	position:relative;
 	height:30px;
 	border-top: 1px solid #ACACAC;
+	background: #fff;
 }
 
 .groupTable td, .groupTable div {
@@ -195,16 +196,16 @@ th {
 	display:inline-block;
 }
 
-.stat {
+.groupTable .stat {
 	text-align:right;
 	padding-right:5px !important;
 }
 
-.clinched {
+.groupTable .clinched {
 	background:#ccffcc;
 }
 
-.eliminated {
+.groupTable .eliminated {
 	background:#ffcccc;
 }
 

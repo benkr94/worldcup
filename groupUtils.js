@@ -1,6 +1,6 @@
 /* groupUtils sub-module
  * Complex functions related to group reordering and clinching that I didn't want cluttering the group constructor and getting re-
- * declared with each new instance. Also, as opposed to 'group' methods, they're not particularly re-usable between tournament types.
+ * declared with each new instance.
  */
 
 

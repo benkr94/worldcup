@@ -1,3 +1,26 @@
+/* group.js
+ *  Expands the Tournament module with a constructor for objects representing groups.
+ * 
+ * Attributes (private):
+ *  idChar: The letter used to refer to the group. World Cup groups are named from A to H.
+ *  teams: An array of Team objects. The teams in this group, kept in rank order.
+ *  matches: An array of Match objects. The matches played between the teams in this group during the group stage of the tournament.
+ * Methods:
+ *  drawTab, drawMatches, drawTable: Create the elements in the DOM for the tab to select the group, the matches with text boxes for
+ *    the user to set the scores, and the group table. Called by Tournament.init()
+ *  updateTimes: Updates the view of the matches to show times in the user's time zone.
+ *  getScoreString: Gets a string with the scores of the matches in this group, to be added to the other groups' and encoded/
+ *    compressed into a string from which the entire tournament can be loaded.
+ *  submitAdvancers: Puts the top two teams of this group into the array of teams advancing to the knockout stage, to be passed to the
+ *    Bracket object.
+ *  load: Loads the scores for this group from the given string.
+ *  play: Sets one of the matches to have a certain result. Calls that match's "play" method, then updates the table.
+ *  updateTable (private): called by the load and play methods. Decomposed into:
+ *    rankAll: Sorts the teams array by performance according to the Cup rules.
+ *    reorderTable: Animates the rows in the on-screen table to keep them in rank order.
+ *    colorRows: Colors table rows green if teams have clinched or red if they have been eliminated. More info below.
+ */
+
 var Brazil2014 = (function (Tournament) {
 	Tournament.Group = function (id, teams, matchDetails) {
 		var idChar = String.fromCharCode(id+65);
@@ -9,32 +32,79 @@ var Brazil2014 = (function (Tournament) {
 		matches[3] = new Tournament.Match(16 + 2 * id + 2, teams[3], teams[1], matchDetails[3][0], matchDetails[3][1]);
 		matches[4] = new Tournament.Match(32 + 2 * id + 1, teams[3], teams[0], matchDetails[4][0], matchDetails[4][1]);
 		matches[5] = new Tournament.Match(32 + 2 * id + 2, teams[1], teams[2], matchDetails[5][0], matchDetails[5][1]);
-		var matchTimeCompare = function(a, b) {
+		function matchTimeCompare(a, b) {
 			return a.time - b.time;
 		}
 		matches.sort(matchTimeCompare);
-		this.play = function (matchIndex, goals1, goals2) {
-		    if (matches[matchIndex].play(goals1, goals2)) {
-		        this.reorderTable();
-		        //alert("Current table: "+teams[0].countryName+teams[0].getStat("points")+teams[1].countryName+teams[1].getStat("points")+teams[2].countryName+teams[2].getStat("points")+teams[3].countryName+teams[3].getStat("points"));
-		        this.colorRows();
-		    }
+		
+		this.drawTab = function() {
+			var groupTab = '<div><a href="#'+idChar+'">'+
+								'<div class="leftflags">'+
+									'<img src="flags/'+teams[0].id+'.png"><br>'+
+									'<img src="flags/'+teams[1].id+'.png">'+
+								'</div>'+
+								idChar+
+								'<div class="rightflags">'+
+									'<img src="flags/'+teams[2].id+'.png"><br>'+
+									'<img src="flags/'+teams[3].id+'.png"><br>'+
+								'</div>'+
+						   '</a></div>';
+			$('#group-tab-links').append(groupTab);
+			var groupContent = '<div id="'+idChar+'" class="under-tab">'+
+										'<div class="matches"></div>'+
+									'<div class="groupTable"></div>'+
+						   		'</div>';
+			$('#group-tab-content').append(groupContent);
 		};
+		
+		this.drawTable = function () {
+			//this.rankAll();
+			var statKeys = ["played", "won", "drawn", "lost", "goalsFor", "goalsAgainst", "goalDifference", "points"]; //avoiding forEach for the benefit of IE8 users
+		    var html = '<table cellspacing="0"><tr>'+
+		                   '<th width="130">Team</th>'+
+		                   '<th width="28"><abbr title="Played">Pld</abbr></th>'+
+		                   '<th width="28"><abbr title="Won">W</abbr></th>'+
+		                   '<th width="28"><abbr title="Drawn">D</abbr></th>'+
+		                   '<th width="28"><abbr title="Lost">L</abbr></th>'+
+		                   '<th width="28"><abbr title="Goals For">GF</abbr></th>'+
+		                   '<th width="28"><abbr title="Goals Against">GA</abbr></th>'+
+		                   '<th width="28"><abbr title="Goal Difference">GD</abbr></th>'+
+		                   '<th width="28"><abbr title="Points">Pts</abbr></th>'+
+		               '</tr>';
+		    for (var i = 0; i < teams.length; i++) {
+		        html += '<tr id="row'+teams[i].id+'">'+
+		                   '<td><div class="countryName"><div class="heightfix"></div><div class="content">'+teams[i].flagLeft()+'</div></div></td>'; //wrapping div necessary for animations, which cannot work on table rows or cells
+		        for (var j = 0; j < statKeys.length; j++) {
+		        	html+= '<td><div class="'+statKeys[j]+' stat"><div class="heightfix"></div><div class="content">'+teams[i].getStat(statKeys[j])+'</div></div></td>';
+		        }
+		        html += '</tr>';
+		    }
+		    html += "</table>";
+		    //alert(html);
+		    $("#"+idChar+" .groupTable").html(html);
+		};
+		
+		this.drawMatches = function () {
+		    var html = '';
+		    for (var i = 0; i < matches.length; i++) {
+		        html += matches[i].draw();
+		    }
+		    $("#"+idChar+" .matches").html(html);
+		};
+		
+		this.updateTimes = function (offset) {
+			for (var i = 0; i < matches.length; i++) {
+				matches[i].updateTime(offset);
+			}
+		};
+		
 		this.submitAdvancers = function (advanceList) {
 			for (var i = 0; i < 2; i++) {
 				var matchIndex = Math.floor(id/2) + 4 * Math.abs((i - (id % 2)));
 				advanceList[matchIndex*2+i] = teams[i];
 			}
-		}
-		this.played = function () {
-			var matchesPlayed = 0;
-			for (var j = 0; j < matches.length; j++) {
-				if (matches[j].played()) {
-					matchesPlayed++;
-				}
-			}
-			return matchesPlayed;
 		};
+
 		this.getScoreString = function () {
 			var scoreString = '';
 			if (id % 2 === 0) {
@@ -48,7 +118,8 @@ var Brazil2014 = (function (Tournament) {
 				}
 			}
 			return scoreString;
-		}
+		};
+		
 		this.load = function (scoreString) {
 			if (id % 2 === 1) {
 				scoreString = scoreString.split('').reverse().join('');
@@ -60,10 +131,21 @@ var Brazil2014 = (function (Tournament) {
 				$("#"+idChar+" #match"+matches[j].id+" .score2").val(score2);
 				matches[j].play(score1, score2);
 			}
-			this.reorderTable();
-			this.colorRows();
+			updateTable();
 		};
-		this.rankAll = function () {
+		
+		this.play = function (matchIndex, goals1, goals2) {
+		    if (matches[matchIndex].play(goals1, goals2)) {
+		        updateTable();
+		    }
+		};
+		
+		function updateTable() {
+			rankAll();
+			reorderTable();
+			colorRows();
+		}
+		function rankAll() {
 		    teams.sort(Tournament.groupUtils.teamCompare);
 		    for (var i = 0; i < teams.length; i++) {
 		        if (teams[i].requiresAdvancedTiebreak !== -1) {
@@ -89,8 +171,8 @@ var Brazil2014 = (function (Tournament) {
 		    }
 		    return teams;
 		};
-		this.reorderTable = function () {
-			this.rankAll();
+		
+		function reorderTable() {
 			var statKeys = ["played", "won", "drawn", "lost", "goalsFor", "goalsAgainst", "goalDifference", "points"];
 		   	for (var i = 0; i < teams.length; i++) {
 				for (var j = 0; j < statKeys.length; j++) {
@@ -104,31 +186,37 @@ var Brazil2014 = (function (Tournament) {
 		   		$("#"+idChar+" .groupTable #row"+teams[i].id+" td > div").animate({"top":"+="+(rankChange*31)+"px"});
 		   		teams[i].prevRank = i;
 			}
-		}
+		};
 		
 		/* colorRows
 		 * Colors the table green for teams that have clinched a berth in the knockout round, red for those that have been eliminated.
-		 * Uses helper functions in groupStatus.js. I couldn't come up with a nice, graph-theoretic proof, so I just tried a bunch of
+		 * Uses helper functions in groupUtils.js. I couldn't come up with a nice, graph-theoretic proof, so I just tried a bunch of
 		 * scenarios and coded the heuristics that I, as a human, used to determine who had clinched and who was eliminated.
 		 * Try/catch/finally statements are used as general control flow statements, rather than for error handling, to make skipping
 		 * to the end easy.
 		 */
-		this.colorRows = function() {
+		function colorRows () {
+			var matchesPlayed = 0;
+			for (var j = 0; j < matches.length; j++) {
+				if (matches[j].played()) {
+					matchesPlayed++;
+				}
+			}
+			for (var i = 0; i < teams.length; i++) {
+				teams[i].resetGroupStatus();
+			}
 			try {
-				for (var i = 0; i < teams.length; i++) {
-					teams[i].resetGroupStatus();
-				}
-				if (this.played() <= 2) { //If 2 or fewer games have been played, no team can have clinched or been eliminated.
+				if (matchesPlayed <= 2) { //If 2 or fewer games have been played, no team can have clinched or been eliminated.
 					console.log("2 or fewer games played, not evaluating.");
-					throw this.played();
+					throw matchesPlayed;
 				}
-				if (this.played() === 6) {//If all games have been played, the top 2 teams have clinched and the bottom 2 are eliminated.
+				if (matchesPlayed === 6) {//If all games have been played, the top 2 teams have clinched and the bottom 2 are eliminated.
 					console.log("All games played, clinching top 2 and eliminating bottom two.");
 					teams[0].clinch();
 					teams[1].clinch();
 					teams[2].eliminate();
 					teams[3].eliminate();
-					throw this.played();
+					throw matchesPlayed;
 				}
 				var teamsClinched = 0;
 				var teamsEliminated = 0;
@@ -169,9 +257,8 @@ var Brazil2014 = (function (Tournament) {
 				/* This is where it gets complicated. To decide the status of the remaining teams, we simulate the remaining matches.
 				 * To decide whether a team is eliminated, we make the sims as favorable to that team as possible and see if they can
 			   	 * finish in 1st or 2nd.  To determine whether a team has clinched, we make the sims as unfavorable to that team as
-			   	 * possible and see if they can finish in 3rd or 4th. More info is in groupStatus.js.
+			   	 * possible and see if they can finish in 3rd or 4th. More info is in groupUtils.js.
 			   	 */
-			   	//alert("Reading this line");
 				for (var i = teams.length-1; i >= 0; i--) {
 					console.log("Evaluating team: "+teams[i].countryName+", which has "+teams[i].getStat("points")+" points");
 					if (!teams[i].knownStatus()) {
@@ -254,67 +341,6 @@ var Brazil2014 = (function (Tournament) {
 			}
 		};
 		
-		/* drawTab, drawTable, drawMatches
-		 * Called by Tournament.init(), create the group stage UI for this group.
-		 */
-		
-		this.drawTab = function() {
-			var groupTab = '<div><a href="#'+idChar+'">'+
-								'<div class="leftflags">'+
-									'<img src="flags/'+teams[0].id+'.png"><br>'+
-									'<img src="flags/'+teams[1].id+'.png">'+
-								'</div>'+
-								idChar+
-								'<div class="rightflags">'+
-									'<img src="flags/'+teams[2].id+'.png"><br>'+
-									'<img src="flags/'+teams[3].id+'.png"><br>'+
-								'</div>'+
-						   '</a></div>';
-			$('#group-tab-links').append(groupTab);
-			var groupContent = '<div id="'+idChar+'" class="under-tab">'+
-										'<div class="matches"></div>'+
-									'<div class="groupTable"></div>'+
-						   		'</div>';
-			$('#group-tab-content').append(groupContent);
-		};
-		this.drawTable = function () {
-			//this.rankAll();
-			var statKeys = ["played", "won", "drawn", "lost", "goalsFor", "goalsAgainst", "goalDifference", "points"]; //avoiding forEach for the benefit of IE8 users
-		    var html = '<table cellspacing="0"><tr>'+
-		                   '<th width="130">Team</th>'+
-		                   '<th width="28"><abbr title="Played">Pld</abbr></th>'+
-		                   '<th width="28"><abbr title="Won">W</abbr></th>'+
-		                   '<th width="28"><abbr title="Drawn">D</abbr></th>'+
-		                   '<th width="28"><abbr title="Lost">L</abbr></th>'+
-		                   '<th width="28"><abbr title="Goals For">GF</abbr></th>'+
-		                   '<th width="28"><abbr title="Goals Against">GA</abbr></th>'+
-		                   '<th width="28"><abbr title="Goal Difference">GD</abbr></th>'+
-		                   '<th width="28"><abbr title="Points">Pts</abbr></th>'+
-		               '</tr>';
-		    for (var i = 0; i < teams.length; i++) {
-		        html += '<tr id="row'+teams[i].id+'">'+
-		                   '<td><div class="countryName"><div class="heightfix"></div><div class="content">'+teams[i].flagLeft()+'</div></div></td>'; //wrapping div necessary for animations, which cannot work on table rows or cells
-		        for (var j = 0; j < statKeys.length; j++) {
-		        	html+= '<td><div class="'+statKeys[j]+' stat"><div class="heightfix"></div><div class="content">'+teams[i].getStat(statKeys[j])+'</div></div></td>';
-		        }
-		        html += '</tr>';
-		    }
-		    html += "</table>";
-		    //alert(html);
-		    $("#"+idChar+" .groupTable").html(html);
-		};
-		this.drawMatches = function () {
-		    var html = '';
-		    for (var i = 0; i < matches.length; i++) {
-		        html += matches[i].draw();
-		    }
-		    $("#"+idChar+" .matches").html(html);
-		};
-		this.updateTimes = function (offset) {
-			for (var i = 0; i < matches.length; i++) {
-				matches[i].updateTime(offset);
-			}
-		};
 	};
 	
 	return Tournament;
