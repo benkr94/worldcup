@@ -145,6 +145,13 @@ var Brazil2014 = (function (Tournament) {
 			reorderTable();
 			colorRows();
 		}
+		/* rankAll
+		 * First tries to sort the teams array just using teamCompare, which places teams with more points above those with less and
+		 * uses goalDifference and then goalsFor as tiebreakers. If teamCompare flags teams as requiring advanced tiebreak, the teams
+		 * tied at a certain point total have their stats reset to 0 and are then passed to the advancedTiebreak method, which 
+		 * compares them based only on matches among themselves. Once advancedTiebreak returns their proper order, their stats are 
+		 * restored.
+		 */
 		function rankAll() {
 		    teams.sort(Tournament.groupUtils.teamCompare);
 		    for (var t = 0; t < teams.length; t++) {
@@ -162,9 +169,9 @@ var Brazil2014 = (function (Tournament) {
 		                }
 		            }
 		            var correctOrder = Tournament.groupUtils.advancedTiebreak(minigroup, matches);
-		            for (var m = 0; m < minigroup.length; m++) {
-		                teams[t+m] = minigroup[m];
-		                teams[t+m].loadSave(saves[teams[t+m].id]);
+		            for (var v = 0; v < minigroup.length; v++) {
+		                teams[t+v] = minigroup[v];
+		                teams[t+v].loadStats(saves[teams[t+v].id]);
 		            }
 		            t = t+minigroup.length-1;
 		        }
@@ -276,12 +283,13 @@ var Brazil2014 = (function (Tournament) {
 						}
 						//console.log("The team at leagueTable index t is: "+leagueTable[t].countryName);
 						if (teams[t].isEliminated !== -1 && Tournament.groupUtils.determineIfEliminated(t, matchesLeft, teams)) {
-							//teams[t].eliminate();
+							teams[t].eliminate();
 							console.log("Match sims have determined that "+teams[t].countryName+" is eliminated.");
 							teamsEliminated++;
 						}
 						//console.log("The team at leagueTable index t is: "+leagueTable[t].countryName);
 						else if (teams[t].hasClinched !== -1 && Tournament.groupUtils.determineIfClinched(t, matchesLeft, teams)) {
+							teams[t].clinch();
 							console.log("Match sims have determined that "+teams[t].countryName+" has clinched.");
 							teamsClinched++;
 						}
@@ -319,6 +327,9 @@ var Brazil2014 = (function (Tournament) {
 							teams[t].eliminate();
 						}
 					}
+				}
+				else if (e instanceof Error){
+					alert("There was a problem running clinching/elimination scenarios: "+e.message+". Please take a screenshot and email administrator@fantagraphy.net.");
 				}
 			}
 			//Finally, after having decided the status of every team, color the rows.

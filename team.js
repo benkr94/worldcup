@@ -25,7 +25,7 @@
  *  getStat: Getter for private stats attributes
  *  reset: Sets stats to zero, but returns an array of their values from before they are zeroed so that they may be reloaded if the
       resetting is just for advanced tiebreak. 
- *  loadSave: Sets the teams' stats to the values in the array passed as an argument.
+ *  loadStats: Sets the teams' stats to the values in the array passed as an argument.
  */
 var Brazil2014 = (function (Tournament) {
 	Tournament.Team = function (id, countryName) {
@@ -99,7 +99,7 @@ var Brazil2014 = (function (Tournament) {
 	        stats = {"played": 0, "won": 0, "drawn": 0, "lost": 0, "goalsFor": 0, "goalsAgainst": 0};
 	        return savedState;
 	    };
-	    this.loadSave = function(save) {
+	    this.loadStats = function(save) {
 	        stats = save;
 	        this.requiresAdvancedTiebreak = -1;
 	    };

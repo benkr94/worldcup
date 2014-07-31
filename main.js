@@ -18,12 +18,10 @@ var Brazil2014 = (function() {
 	
 	this.init = function (countryNames, matchDetails, realScores) {
 		if (countryNames.length !== 32) {
-			console.log("ERROR: Wrong number of teams for constructing World Cup tournament");
-			return false;
+			throw new Error("ERROR: Wrong number of teams for constructing World Cup tournament");
 		}
 		if (matchDetails.length !== 63) {
-			console.log("ERROR: Wrong number of match details for constructing World Cup tournament");
-			return false;
+			throw new Error("ERROR: Wrong number of match details for constructing World Cup tournament");
 		}
 		this.groups = [];
 		for (var g=0; g<8; g++) {
@@ -82,11 +80,21 @@ var Brazil2014 = (function() {
 		if (encodedString === '') { 
 			encodedString = prompt("Enter your save code","");
 		}
-		var decodedStrings = this.encodeUtils.decode(encodedString);
+		try {
+			var decodedStrings = this.encodeUtils.decode(encodedString);
+		}
+		catch (e) {
+			var decodedStrings = {groupString: "", bracketString: ""};
+		}
 		console.log(decodedStrings.groupString.length+" "+decodedStrings.bracketString.length);
 		while (decodedStrings.groupString.length !== 96 || decodedStrings.bracketString.length !== 15) { 
 			encodedString = prompt("That string is invalid. Please try again, or enter '__+0' for an empty tournament",encodedString);
-			decodedStrings = this.encodeUtils.decode(encodedString);
+			try {
+				decodedStrings = this.encodeUtils.decode(encodedString);
+			}
+			catch (e) {
+				continue;
+			}
 		}
 		for (var g = 0; g < groups.length; g++) {
 			this.groups[g].load(decodedStrings.groupString.substring(g*12, g*12+12));
@@ -98,9 +106,8 @@ var Brazil2014 = (function() {
 	};
 	
 	this.updateTimes = function (offset) {
-		console.log(offset);
 		if (isNaN(offset)) {
-			return false;
+			throw new Error("Invalid time offset");
 		}
 		for (var g = 0; g < 8; g++) {
 			this.groups[g].updateTimes(offset);

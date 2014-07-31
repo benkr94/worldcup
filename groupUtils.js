@@ -7,9 +7,10 @@
 var Brazil2014 = (function (Tournament) {
 
 	/* teamCompare
-	 * The comparison function used to order groups' team-arrays by how the teams have performed,
-	 * using the appropriate tiebreak rules. It looks backwards (ie, better performance = "less than") 
-	 * so that I can just use it in Array.sort() without reversing it and get them from first to last.
+	 * The comparison function used to order groups' team-arrays by how the teams have performed, using the appropriate tiebreak
+	 * rules. It looks backwards (ie, better performance = "less than") so that I can just use it in Array.sort() without reversing it
+	 * and get the teams from first to last. If teams are tied on points, goalDifference, and goalsFor, it flags the teams as
+	 * requiring advanced tiebreaking (see function below)
 	 */ 
 	function teamCompare(a, b) {
 		if (a.getStat("points") > b.getStat("points")) {
@@ -42,24 +43,24 @@ var Brazil2014 = (function (Tournament) {
 	 * again using only the matches between the teams in question. Yet to be implemented is the case where they are
 	 * still tied after this, and the rules call for a drawing of lots by FIFA (!).
 	 */
-	function advancedTiebreak(teams, matches) {
+	function advancedTiebreak(minigroup, matches) {
 		for (var m = 0; m < matches.length; m++) {
 		    var matched1 = -1;
 		    var matched2 = -1;
-		    for (var t = 0; t < teams.length; t++) {
-		        if (matches[m].team1.id === teams[t].id) {
+		    for (var t = 0; t < minigroup.length; t++) {
+		        if (matches[m].team1.id === minigroup[t].id) {
 		            matched1 = t;
 		        }
-		        if (matches[m].team2.id === teams[t].id) {
+		        if (matches[m].team2.id === minigroup[t].id) {
 		            matched2 = t;
 		        }
 		    }
 		    if (matched1 !== -1 && matched2 !== -1) {
-		        teams[matched1].play(matches[m].getScore(1), matches[m].getScore(2));
-		        teams[matched2].play(matches[m].getScore(2), matches[m].getScore(1));
+		        minigroup[matched1].play(matches[m].getScore(1), matches[m].getScore(2));
+		        minigroup[matched2].play(matches[m].getScore(2), matches[m].getScore(1));
 		    }
 		}
-		return teams.sort(teamCompare);
+		return minigroup.sort(teamCompare);
 	}
 	
 	/* threat
@@ -67,26 +68,19 @@ var Brazil2014 = (function (Tournament) {
 	 * either cannot catch up with evalTeam, or cannot be caught by evalTeam
 	 */
 	function threat(threatener, evalTeam) {
-		if (threatener.getStat("played") < 2) {	//Will have already filtered out teams that have > 6 points
+		if (threatener.getStat("played") === 3 || evalTeam.getStat("points") < 2 || evalTeam.getStat("points") > 6) {
+			throw "Improper use of threat function";
+		}
+		if (threatener.getStat("played") < 2) {
 			return true;
 		}
 		if (threatener.isEliminated === 1 || threatener.hasClinched === 1) {
 			console.log("Deciding non-threat based on known eliminated/clinching status.");
 			return false;
 		}
-		ptsBetween = evalTeam.getStat("points") - threatener.getStat("points");
-		goalDifferenceBetween = evalTeam.getStat("goalDifference") - threatener.getStat("goalDifference");
-		goalsForBetween = evalTeam.getStat("goalsFor") - threatener.getStat("goalsFor");
+		var ptsBetween = evalTeam.getStat("points") - threatener.getStat("points");
 		if (ptsBetween > 3 || ptsBetween < 0) {
 			console.log("Deciding non-threat based on points differential: "+threatener.countryName+" has "+threatener.getStat("points")+", "+evalTeam.countryName+" has "+evalTeam.getStat("points"));
-			return false;
-		} //below tests should never be entered; should not be evaluating team with no games to play. Will put in error handling.
-		if (ptsBetween === 3 && goalDifferenceBetween > 0 && threatener.getStat("played") === 3) {
-			console.log("You shouldn't be here!");
-			return false;
-		}
-		if (ptsBetween === 0 && goalDifferenceBetween < 0 && threatener.getStat("played") === 3) {
-			console.log("You shouldn't be here!");
 			return false;
 		}
 		return true;
@@ -247,7 +241,7 @@ var Brazil2014 = (function (Tournament) {
 				if (leagueTable[t].requiresAdvancedTiebreak === leagueTable[1].requiresAdvancedTiebreak && leagueTable[t].requiresAdvancedTiebreak > -1) {
 					break; //Do not want to mark teams relying on lot-drawing as eliminated.
 				}
-				teams[teamIndex].eliminate();
+				//teams[teamIndex].eliminate();
 				console.log("Eliminating "+teams[teamIndex].countryName);
 				finalStatus = true;
 			}
@@ -330,7 +324,7 @@ var Brazil2014 = (function (Tournament) {
 				if (leagueTable[t].requiresAdvancedTiebreak === leagueTable[2].requiresAdvancedTiebreak && leagueTable[t].requiresAdvancedTiebreak > -1) {
 					break; //Do not want to mark teams relying on lot-drawing as clinched.
 				}
-				teams[teamIndex].clinch();
+				//teams[teamIndex].clinch();
 				console.log("Clinching "+teams[teamIndex].countryName);
 				finalStatus = true;
 			}

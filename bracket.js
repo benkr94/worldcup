@@ -18,9 +18,9 @@ var Brazil2014 = (function (Tournament) {
  *  setFirstTeams: Given an array of teams, populates the first round of the bracket.
  *  nodeClicked: Allows clicking on a team in a knockout match to toggle whether it has won that match.
  *  updateTimes: Updates the view with the match times in the user's selected time zone.
- *  getSaveString: returns a string that uniquely identifies the user's choices of match winners. (15-character string; compressed to
- *    4 in encodeUtils)
- *  load: Given a saveString, advances teams through the Bracket in accordance with the user's chosen winners.
+ *  getWinnerString: returns a string that uniquely identifies the user's choices of match winners. (15-character string; compressed
+ *    to 4 in encodeUtils)
+ *  load: Given a winnerString, advances teams through the Bracket in accordance with the user's chosen winners.
  *  clear: Sets all matches as unplayed. Teams are filled in for first round, all other Nodes are empty.
  */
 	Tournament.Bracket = function (rounds, matchDetails) {
@@ -77,33 +77,33 @@ var Brazil2014 = (function (Tournament) {
 			}
 		}
 		
-		this.getSaveString = function () {
-			var saveString = '';
+		this.getWinnerString = function () {
+			var winnerString = '';
 			for (var r = nodeArr.length-1; r >= 0; r--) {
 				for (var m = nodeArr[r].length-1; m >= 0; m--) {
 					if (nodeArr[r][m][0].hasWon()) {
-						saveString += 1;
+						winnerString += 1;
 					}
 					else if (nodeArr[r][m][1].hasWon()) {
-						saveString += 2;
+						winnerString += 2;
 					}
 					else {
-						saveString += 0;		//want this as zero so mostly-unset brackets have fewer characters
+						winnerString += 0;		//want this as zero so mostly-unset brackets have fewer characters
 					}
 				}
 			}
-			return saveString;
+			return winnerString;
 		};
 		
-		this.load = function (saveString) {
-			saveString = saveString.split('').reverse().join('');
+		this.load = function (winnerString) {
+			winnerString = winnerString.split('').reverse().join('');
 			for (var r = 0; r < nodeArr.length; r++) {
 				for (var m = 0; m < nodeArr[r].length; m++) {
-					if (saveString.charAt(0) == 0) {
+					if (winnerString.charAt(0) == 0) {
 						continue;
 					}
-					nodeArr[r][m][parseInt(saveString.charAt(0))-1].win();
-					saveString = saveString.slice(1);
+					nodeArr[r][m][parseInt(winnerString.charAt(0))-1].win();
+					winnerString = winnerString.slice(1);
 				}
 			}
 		};

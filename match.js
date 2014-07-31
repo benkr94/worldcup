@@ -55,8 +55,7 @@ var Brazil2014 = (function (Tournament) {
 				case 2:
 					return score2;
 				default:
-					console.log("Invalid score selection.");
-					return false;
+					throw new Error("getScore called with an argument other than 1 or 2");
 			}
 		};
 		
