@@ -77,7 +77,7 @@ var Brazil2014 = (function() {
         alert("To recover this tournament, click \"Load scores\" and enter this string:\n\n"+encodedString+"\n\nor enter this into the address bar:\n\nhttp://www.fantagraphy.net/worldcup?"+urlSafeEncodedString); 
     };
     
-    this.load = function (encodedString) {
+    this.load = function (encodedString, groupID) {
         var decodedStrings, message;
         while (true) {
             message = "Sorry, the provided save code is invalid. Please try again, or enter 'empty' for an empty tournament";
@@ -102,8 +102,14 @@ var Brazil2014 = (function() {
             }
             encodedString = prompt(message, encodedString);
         }
-        for (var g = 0; g < groups.length; g++) {
-            this.groups[g].load(decodedStrings.groupString.substring(g*12, g*12+12));
+        console.log(decodedStrings.groupString);
+        if (typeof groupID === "number" && parseInt(groupID) >= 0 && parseInt(groupID) < this.groups.length) {
+        	this.groups[groupID].load(decodedStrings.groupString.substring(groupID*12, groupID*12+12));
+        }
+        else {
+            for (var g = 0; g < this.groups.length; g++) {
+                this.groups[g].load(decodedStrings.groupString.substring(g*12, g*12+12));
+            }
         }
         this.populateBracket();
         this.knockout.clear();
