@@ -2,7 +2,7 @@
 
 body {
     font-family: 'Gill Sans', Helvetica, sans-serif;
-    min-width:1075px; /*fits all tabs, knockout bracket*/
+    min-width: 1075px; /*fits all tabs, knockout bracket*/
 }
 
 @font-face {
@@ -13,9 +13,9 @@ body {
 /*the bit above the tabs*/
 
 #header h1, #header p {
-    margin:0;
-    padding:0;
-    font-family:"Brasil2014";
+    margin: 0;
+    padding: 0;
+    font-family: "Brasil2014";
     text-align: center;
 }
 
@@ -73,90 +73,90 @@ h1 {
 /*line below tabs*/
 
 hr {
-    height:5px;
-    margin:-5px 0px 0px 0px;
+    height: 5px;
+    margin: -5px 0px 0px 0px;
     color: #ACACAC;
-    background-color:#ACACAC;
-    border-width:0px;
-    position:relative;
-    z-index:3;
+    background-color: #ACACAC;
+    border-width: 0px;
+    position: relative;
+    z-index: 3;
 }
 
 /*group stage matches*/
 
 .matches {
-    margin-bottom:10px;
+    margin-bottom: 10px;
 }
 
 .matchRow {
-    width:55%;
-    margin-left:auto;
-    margin-right:auto;
+    width: 55%;
+    margin-left: auto;
+    margin-right: auto;
     padding: 10;
     color: #333333;
-    font-size:large;
+    font-size: large;
 }
 
 .matchRow::after {
-    visibility:hidden;
-    display:block;
-    content:"";
-    clear:both;   
+    visibility: hidden;
+    display: block;
+    content: "";
+    clear: both;   
 }
 
 .details {
     color: #333333;
     font-family: Georgia, serif;
-    font-size:small;
+    font-size: small;
 }
 
 .details::after {
-    visibility:hidden;
-    display:block;
-    content:"";
-    clear:both;   
+    visibility: hidden;
+    display: block;
+    content: "";
+    clear: both;   
 }
 
 .location {
     float: left;
-    text-align:left;
-    width:50%;
+    text-align: left;
+    width: 50%;
 }
 
 .time {
     float: right;
-    text-align:right;
-    width:50%;
+    text-align: right;
+    width: 50%;
 }
 
 .team1 {
     float: left;
-    text-align:right;
-    width:33.33333%;
-    text-weight:bold;
+    text-align: right;
+    width: 33.33333%;
+    text-weight: bold;
 }
 
 .result {
     float: left;
-    text-align:center;
-    width:33.33333%;
+    text-align: center;
+    width: 33.33333%;
 }
 
 .score1, .score2 {
-    width:20px;
+    width: 20px;
 }
 
 .team2 {
     float: right;
-    text-align:left;
+    text-align: left;
     width: 33.33333%;
-    text-weight:bold;
+    text-weight: bold;
 }
 
 /*group tables*/
 
 .groupTable table {
-    margin:0 auto;
+    margin: 0 auto;
 }
 
 th {
@@ -173,73 +173,73 @@ th {
 }
 
 .groupTable tr > th:first-child {
-    border-radius:6px 0px 0px 0px;
+    border-radius: 6px 0px 0px 0px;
 }
 
 .groupTable tr > th:last-child {
-    border-radius:0px 6px 0px 0px;
+    border-radius: 0px 6px 0px 0px;
 }
 
 .groupTable td > div {
-    position:relative;
-    height:30px;
+    position: relative;
+    height: 30px;
     border-top: 1px solid #ACACAC;
     background: #fff;
 }
 
 .groupTable td, .groupTable div {
-    padding:0px;
+    padding: 0px;
 }
 
 .groupTable .content {
-    vertical-align:middle;
-    display:inline-block;
+    vertical-align: middle;
+    display: inline-block;
 }
 
 .groupTable .stat {
-    text-align:right;
-    padding-right:5px !important;
+    text-align: right;
+    padding-right: 5px !important;
 }
 
 .groupTable .clinched {
-    background:#ccffcc;
+    background: #ccffcc;
 }
 
 .groupTable .eliminated {
-    background:#ffcccc;
+    background: #ffcccc;
 }
 
 /*Country names and flags*/
 
 .heightfix {
-    display:inline-block;
-    width:1px;
-    height:30px;
-    vertical-align:middle;
+    display: inline-block;
+    width: 1px;
+    height: 30px;
+    vertical-align: middle;
 }
 
 .countryName .content, .countryName .heightfix {
-    display:table-cell;
+    display: table-cell;
 }
 
 td {
-    vertical-align:middle;
+    vertical-align: middle;
 }
 
 .outerwrap {
-    display:inline-block;
+    display: inline-block;
 }
 
 .innerwrap {
-    display:table-cell;
-    vertical-align:middle;
+    display: table-cell;
+    vertical-align: middle;
 }
 
 .flagwrap {
-    width:24px;
-    text-align:center;
+    width: 24px;
+    text-align: center;
 }
 
 .matchRow .flag {
-    border:1px solid #ACACAC;
+    border: 1px solid #ACACAC;
 }

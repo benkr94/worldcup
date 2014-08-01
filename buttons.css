@@ -3,24 +3,24 @@
 /*alignment and spacing*/
 
 #buttons {
-    text-align:center;
+    text-align: center;
 }
 
 #buttons > div {
-    display:table;
-    margin:auto;
-    border-collapse:separate;
+    display: table;
+    margin: auto;
+    border-collapse: separate;
     border-spacing: 5px 2px;
 }
 
 /*The buttons themselves*/
 
 .glossybutton {
-    height:20px;
-    font-size:small;
-    display:inline-block;
-    vertical-align:center;
-    cursor:pointer;
+    height: 20px;
+    font-size: small;
+    display: inline-block;
+    vertical-align: center;
+    cursor: pointer;
     border: 1px solid #4864a9;  
     text-shadow: 1px 1px 0px rgba(255,255,255,.5);  
     position: relative;  
@@ -35,9 +35,9 @@
     padding: 0px 6px;
     text-align: center;   
     text-decoration: none;  
-    position:relative;
-    top:2px;
-    z-index:1;
+    position: relative;
+    top: 2px;
+    z-index: 1;
 }
 
 /*before pseudo-element adds some sheen.*/
@@ -46,7 +46,7 @@
     height: 12px; 
     display: block;  
     position: absolute;
-    left:5px; 
+    left: 5px; 
 
     -webkit-border-radius: 6px;  
     -moz-border-radius: 6px;  
@@ -65,7 +65,7 @@
  *longer text, but equal for symmetry*/ 
 
 #row1 .glossybutton {
-    width:80px;
+    width: 80px;
     color: #fff;  
     text-shadow: 1px 1px 0px rgba(0,0,0,.5);
     
@@ -80,11 +80,11 @@
 }
 
 #row1 .glossybutton::before {
-    width:70px;
+    width: 70px;
 }
 
 #row2 .glossybutton {
-    width:160px;
+    width: 160px;
     
     background: rgba(255,255,136,1);
     background: -moz-linear-gradient(top, rgba(255,255,136,1) 0%, rgba(255,255,136,1) 50%, rgba(255,204,41,1) 100%);
@@ -97,11 +97,11 @@
 }
 
 #row2 .glossybutton::before {
-    width:150px;
+    width: 150px;
 }
 
 #row3 .glossybutton {
-    width:190px;
+    width: 190px;
     
     background: rgba(0,255,136,1);
     background: -moz-linear-gradient(top, rgba(0,255,136,1) 0%, rgba(0,255,136,1) 50%, rgba(0,168,89,1) 100%);
@@ -114,11 +114,11 @@
 }
 
 #row3 .glossybutton::before {
-    width:180px;
+    width: 180px;
 }
 
-/*:hover and :active selector styling give an impression of the button being pressed. This is done symmetrically, using :first-child
- *and :last-child selectors -- buttons on the left go down and to the left, buttons to the right go down and to the right. The button
+/*: hover and :active selector styling give an impression of the button being pressed. This is done symmetrically, using :first-child
+ *and : last-child selectors -- buttons on the left go down and to the left, buttons to the right go down and to the right. The button
  *on a row by itself goes down and to the middle.*/
 
 .glossybutton:first-child:hover {
@@ -140,24 +140,24 @@
 }
 
 .glossybutton:first-child:active {
-    left:-3px;
-    top:2px;
+    left: -3px;
+    top: 2px;
     -webkit-box-shadow: none;
     -moz-box-shadow: none; 
     box-shadow: none;
 }
 
 .glossybutton:last-child:active {
-    left:3px;
-    top:2px;
+    left: 3px;
+    top: 2px;
     -webkit-box-shadow: none;
     -moz-box-shadow: none; 
     box-shadow: none;
 }
 
 #knockout-buttons .glossybutton:active {
-    left:0px;
-    top:2px;
+    left: 0px;
+    top: 2px;
     -webkit-box-shadow: none;
     -moz-box-shadow: none; 
     box-shadow: none;
@@ -165,5 +165,5 @@
 
 /*The buttons in row 2 change based on what tab is selected*/
 #buttons #row2 > div {
-    display:none;
+    display: none;
 }
