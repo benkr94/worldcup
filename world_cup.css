@@ -1,91 +1,91 @@
 /*world_cup.css: most styling for the page, except the tabs, bracket, and buttons, which are complicated enough for their own files*/
 
 body {
-	font-family: 'Gill Sans', Helvetica, sans-serif;
-	min-width:1075px; /*fits all tabs, knockout bracket*/
+    font-family: 'Gill Sans', Helvetica, sans-serif;
+    min-width:1075px; /*fits all tabs, knockout bracket*/
 }
 
 @font-face {
-	font-family: "Brasil2014";
-	src: url('brasil2014.otf') format('opentype');
+    font-family: "Brasil2014";
+    src: url('brasil2014.otf') format('opentype');
 }
 
 /*the bit above the tabs*/
 
 #header h1, #header p {
-	margin:0;
-	padding:0;
-	font-family:"Brasil2014";
-	text-align: center;
+    margin:0;
+    padding:0;
+    font-family:"Brasil2014";
+    text-align: center;
 }
 
 #header {
-	position: relative;
+    position: relative;
 }
 
 #tzwrapper {
-	position: absolute;
-	top: 60%;
+    position: absolute;
+    top: 60%;
 }
 
 h1 {
-	font-size: 2.5em;
-	color: red;
+    font-size: 2.5em;
+    color: red;
 }
 
 /*The background is 4 separate corner images. No repeats, regardless of window size*/
 
 .border {
-	position: fixed;
-	width: auto;
-	height: auto;
-	z-index: -1;
+    position: fixed;
+    width: auto;
+    height: auto;
+    z-index: -1;
 }
 
 #top-left {
-	top: 0px;
-	left: 0px;
-	max-width: 40.205%;
-	max-height: 26.758%
+    top: 0px;
+    left: 0px;
+    max-width: 40.205%;
+    max-height: 26.758%
 }
 
 #top-right {
-	top: 0px;
-	right: 0px;
-	max-width: 41.575%;
-	max-height: 27.397%
+    top: 0px;
+    right: 0px;
+    max-width: 41.575%;
+    max-height: 27.397%
 }
 
 #bottom-left {
-	bottom: 0px;
-	left: 0px;
-	max-width: 31.233%;
-	max-height: 26.393%
+    bottom: 0px;
+    left: 0px;
+    max-width: 31.233%;
+    max-height: 26.393%
 }
 
 #bottom-right {
-	bottom: 0px;
-	right: 0px;
-	max-width: 19.726%;
-	max-height: 30.502%;
+    bottom: 0px;
+    right: 0px;
+    max-width: 19.726%;
+    max-height: 30.502%;
 }
 
 /*line below tabs*/
 
 hr {
-	height:5px;
-	margin:-5px 0px 0px 0px;
-	color: #ACACAC;
-	background-color:#ACACAC;
-	border-width:0px;
-	position:relative;
-	z-index:3;
+    height:5px;
+    margin:-5px 0px 0px 0px;
+    color: #ACACAC;
+    background-color:#ACACAC;
+    border-width:0px;
+    position:relative;
+    z-index:3;
 }
 
 /*group stage matches*/
 
 .matches {
-	margin-bottom:10px;
+    margin-bottom:10px;
 }
 
 .matchRow {
@@ -93,8 +93,8 @@ hr {
     margin-left:auto;
     margin-right:auto;
     padding: 10;
-	color: #333333;
-	font-size:large;
+    color: #333333;
+    font-size:large;
 }
 
 .matchRow::after {
@@ -105,8 +105,8 @@ hr {
 }
 
 .details {
-	color: #333333;
-	font-family: Georgia, serif;
+    color: #333333;
+    font-family: Georgia, serif;
     font-size:small;
 }
 
@@ -156,90 +156,90 @@ hr {
 /*group tables*/
 
 .groupTable table {
-	margin:0 auto;
+    margin:0 auto;
 }
 
 th {
-	text-shadow: 1px 2px 3px #def, 0 0 0 #000, 1px 2px 3px #def;
-	
-	background: rgba(243,243,243,1);
-	background: -moz-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
-	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(243,243,243,1)), color-stop(50%, rgba(191,193,194,1)), color-stop(100%, rgba(172,172,172,1)));
-	background: -webkit-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
-	background: -o-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
-	background: -ms-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
-	background: linear-gradient(to bottom, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', endColorstr='#acacac', GradientType=0 );
+    text-shadow: 1px 2px 3px #def, 0 0 0 #000, 1px 2px 3px #def;
+    
+    background: rgba(243,243,243,1);
+    background: -moz-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(243,243,243,1)), color-stop(50%, rgba(191,193,194,1)), color-stop(100%, rgba(172,172,172,1)));
+    background: -webkit-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
+    background: -o-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
+    background: -ms-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
+    background: linear-gradient(to bottom, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', endColorstr='#acacac', GradientType=0 );
 }
 
 .groupTable tr > th:first-child {
-			border-radius:6px 0px 0px 0px;
+    border-radius:6px 0px 0px 0px;
 }
 
 .groupTable tr > th:last-child {
-			border-radius:0px 6px 0px 0px;
+    border-radius:0px 6px 0px 0px;
 }
 
 .groupTable td > div {
-	position:relative;
-	height:30px;
-	border-top: 1px solid #ACACAC;
-	background: #fff;
+    position:relative;
+    height:30px;
+    border-top: 1px solid #ACACAC;
+    background: #fff;
 }
 
 .groupTable td, .groupTable div {
-	padding:0px;
+    padding:0px;
 }
 
 .groupTable .content {
     vertical-align:middle;
-	display:inline-block;
+    display:inline-block;
 }
 
 .groupTable .stat {
-	text-align:right;
-	padding-right:5px !important;
+    text-align:right;
+    padding-right:5px !important;
 }
 
 .groupTable .clinched {
-	background:#ccffcc;
+    background:#ccffcc;
 }
 
 .groupTable .eliminated {
-	background:#ffcccc;
+    background:#ffcccc;
 }
 
 /*Country names and flags*/
 
 .heightfix {
-	display:inline-block;
-	width:1px;
-	height:30px;
-	vertical-align:middle;
+    display:inline-block;
+    width:1px;
+    height:30px;
+    vertical-align:middle;
 }
 
 .countryName .content, .countryName .heightfix {
-	display:table-cell;
+    display:table-cell;
 }
 
 td {
-	vertical-align:middle;
+    vertical-align:middle;
 }
 
 .outerwrap {
-	display:inline-block;
+    display:inline-block;
 }
 
 .innerwrap {
-	display:table-cell;
-	vertical-align:middle;
+    display:table-cell;
+    vertical-align:middle;
 }
 
 .flagwrap {
-	width:24px;
-	text-align:center;
+    width:24px;
+    text-align:center;
 }
 
 .matchRow .flag {
-	border:1px solid #ACACAC;
+    border:1px solid #ACACAC;
 }

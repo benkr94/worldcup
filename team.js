@@ -28,82 +28,82 @@
  *  loadStats: Sets the teams' stats to the values in the array passed as an argument.
  */
 var Brazil2014 = (function (Tournament) {
-	Tournament.Team = function (id, countryName) {
-	    this.id = id;
-	    this.countryName = countryName;
-	    this.flagLeft = function () {
-	    	return '<div class="outerwrap"><div class="innerwrap flagwrap"><img class="flag" src="flags/'+this.id+'.png"></div><div class="innerwrap">&nbsp;'+this.countryName+'</div></div>';
-	    };
-	    this.flagRight = function () {
-	    	return '<div class="outerwrap"><div class="innerwrap">'+this.countryName+'&nbsp;</div><div class="innerwrap flagwrap"><img class="flag" src="flags/'+this.id+'.png"></div></div>';
-	    };
-	    
-	    this.requiresAdvancedTiebreak = -1;
-	    this.prevRank = id % 4;
-	    this.isEliminated = 0;
-	    this.hasClinched = 0;
-	    this.eliminate = function () {
-	    	this.isEliminated = 1;
-	    	this.hasClinched = -1;
-	    };
-	    this.clinch = function () {
-	    	this.isEliminated = -1;
-	    	this.hasClinched = 1;
-	    };
-	    this.resetGroupStatus = function() {
-	    	this.isEliminated = 0;
-	    	this.hasClinched = 0;
-	    };
-	    this.knownStatus = function() {
-	    	return (this.isEliminated !== 0 && this.hasClinched !== 0);
-	    };
-	    
-	    var stats = {"played": 0, "won": 0, "drawn": 0, "lost": 0, "goalsFor": 0, "goalsAgainst": 0};
-	    this.getStat = function (stat) {
-	    	if (stat === "points") {
-	    		return 3 * stats.won + stats.drawn;
-	    	}
-	    	else if (stat === "goalDifference") {
-	    		return stats.goalsFor - stats.goalsAgainst;
-	    	}
-	    	else {
-	    		return stats[stat];
-	    	}
-	    };
-	    this.play = function (gfor, against) {
-	        stats.played++;
-	        stats.goalsFor += gfor;
-	        stats.goalsAgainst += against;
-	        if (gfor > against) {
-	            stats.won++;
-	        } else if (gfor === against) {
-	            stats.drawn++;
-	        } else {
-	            stats.lost++;
-	        }
-	    };
-	    this.unplay = function (gfor, against) {
-	        stats.played--;
-	        stats.goalsFor -= gfor;
-	        stats.goalsAgainst -= against;
-	        if (gfor > against) {
-	            stats.won--;
-	        } else if (gfor === against) {
-	            stats.drawn--;
-	        } else {
-	            stats.lost--;
-	        }
-	    };
-	    this.reset = function () {
-	        var savedState = stats;
-	        stats = {"played": 0, "won": 0, "drawn": 0, "lost": 0, "goalsFor": 0, "goalsAgainst": 0};
-	        return savedState;
-	    };
-	    this.loadStats = function(save) {
-	        stats = save;
-	        this.requiresAdvancedTiebreak = -1;
-	    };
-	};
-	
-	return Tournament;
+    Tournament.Team = function (id, countryName) {
+        this.id = id;
+        this.countryName = countryName;
+        this.flagLeft = function () {
+            return '<div class="outerwrap"><div class="innerwrap flagwrap"><img class="flag" src="flags/'+this.id+'.png"></div><div class="innerwrap">&nbsp;'+this.countryName+'</div></div>';
+        };
+        this.flagRight = function () {
+            return '<div class="outerwrap"><div class="innerwrap">'+this.countryName+'&nbsp;</div><div class="innerwrap flagwrap"><img class="flag" src="flags/'+this.id+'.png"></div></div>';
+        };
+        
+        this.requiresAdvancedTiebreak = -1;
+        this.prevRank = id % 4;
+        this.isEliminated = 0;
+        this.hasClinched = 0;
+        this.eliminate = function () {
+            this.isEliminated = 1;
+            this.hasClinched = -1;
+        };
+        this.clinch = function () {
+            this.isEliminated = -1;
+            this.hasClinched = 1;
+        };
+        this.resetGroupStatus = function() {
+            this.isEliminated = 0;
+            this.hasClinched = 0;
+        };
+        this.knownStatus = function() {
+            return (this.isEliminated !== 0 && this.hasClinched !== 0);
+        };
+        
+        var stats = {"played": 0, "won": 0, "drawn": 0, "lost": 0, "goalsFor": 0, "goalsAgainst": 0};
+        this.getStat = function (stat) {
+            if (stat === "points") {
+                return 3 * stats.won + stats.drawn;
+            }
+            else if (stat === "goalDifference") {
+                return stats.goalsFor - stats.goalsAgainst;
+            }
+            else {
+                return stats[stat];
+            }
+        };
+        this.play = function (gfor, against) {
+            stats.played++;
+            stats.goalsFor += gfor;
+            stats.goalsAgainst += against;
+            if (gfor > against) {
+                stats.won++;
+            } else if (gfor === against) {
+                stats.drawn++;
+            } else {
+                stats.lost++;
+            }
+        };
+        this.unplay = function (gfor, against) {
+            stats.played--;
+            stats.goalsFor -= gfor;
+            stats.goalsAgainst -= against;
+            if (gfor > against) {
+                stats.won--;
+            } else if (gfor === against) {
+                stats.drawn--;
+            } else {
+                stats.lost--;
+            }
+        };
+        this.reset = function () {
+            var savedState = stats;
+            stats = {"played": 0, "won": 0, "drawn": 0, "lost": 0, "goalsFor": 0, "goalsAgainst": 0};
+            return savedState;
+        };
+        this.loadStats = function(save) {
+            stats = save;
+            this.requiresAdvancedTiebreak = -1;
+        };
+    };
+    
+    return Tournament;
 }(Brazil2014));

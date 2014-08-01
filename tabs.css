@@ -9,8 +9,8 @@
 /*The tabs themselves, the bits you click on to show the tabbed content*/
     
 #tab-links {
-	margin-top:5px;
-	display:inline-block;
+    margin-top:5px;
+    display:inline-block;
     text-align: center;
 }
 
@@ -19,39 +19,39 @@
     display: inline-block;
     vertical-align:bottom;
     position:relative;
-	z-index:0;
+    z-index:0;
 }
  
 #tab-links a {
-	padding:9px 9px;
+    padding:9px 9px;
     display:inline-block;
     border-radius:6px 6px 0px 0px; 
     font-size:x-large;
     font-weight:600;
     font-family:"Brasil2014";
     color: rgba(0,0,0, 0.6);
-	text-shadow: 1px 4px 6px #def, 0 0 0 #000, 1px 4px 6px #def;
+    text-shadow: 1px 4px 6px #def, 0 0 0 #000, 1px 4px 6px #def;
     text-decoration:none;
     border-bottom: 5px solid #ACACAC;
     opacity:0.95;
     
-	background: rgba(243,243,243,1);
-	background: -moz-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
-	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(243,243,243,1)), color-stop(50%, rgba(191,193,194,1)), color-stop(100%, rgba(172,172,172,1)));
-	background: -webkit-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
-	background: -o-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
-	background: -ms-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
-	background: linear-gradient(to bottom, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', endColorstr='#acacac', GradientType=0 );
-			
-	-webkit-background-size: 100% 100%;
-	-moz-background-size: 100% 100%; 
+    background: rgba(243,243,243,1);
+    background: -moz-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(243,243,243,1)), color-stop(50%, rgba(191,193,194,1)), color-stop(100%, rgba(172,172,172,1)));
+    background: -webkit-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
+    background: -o-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
+    background: -ms-linear-gradient(top, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
+    background: linear-gradient(to bottom, rgba(243,243,243,1) 0%, rgba(191,193,194,1) 50%, rgba(172,172,172,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', endColorstr='#acacac', GradientType=0 );
+            
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%; 
     background-size:100% 100%;  
 
     webkit-box-shadow: 2px -2px 4px #000;
     moz-box-shadow: 2px -2px 4px #000;
     box-shadow: 2px -2px 4px #000;
-    		
+            
     -webkit-transition:all linear 0s;
     -moz-transition:all linear 0s;
     -ms-transition:all linear 0s;
@@ -60,19 +60,19 @@
 }
 
 #tab-links img {
-	padding: 2px;
+    padding: 2px;
 }
         
 #tab-links .leftflags {
-	display:inline-block;
-	vertical-align:middle;
-	margin-right:5px;
+    display:inline-block;
+    vertical-align:middle;
+    margin-right:5px;
 }
 
 #tab-links .rightflags {
-	display:inline-block;
-	vertical-align:middle;
-	margin-left:5px;
+    display:inline-block;
+    vertical-align:middle;
+    margin-left:5px;
 }
 
 /*Hovering over a tab makes it transition to a different color and no shadow (as if pressed in). Clicking keeps that style until
@@ -81,9 +81,9 @@
 #tab-links a:hover {
     text-decoration:none;
 
-	-webkit-background-size: 100% 500%;
-	-moz-background-size: 100% 500%;
-	background-size:100% 500%;
+    -webkit-background-size: 100% 500%;
+    -moz-background-size: 100% 500%;
+    background-size:100% 500%;
     
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
@@ -97,26 +97,26 @@
 }
 
 #tab-links .active-tab a, #tab-links .active-tab a:hover {
-	text-decoration:none;
-	
-	-webkit-background-size: 100% 500%;
-	-moz-background-size: 100% 500%;
-	background-size:100% 500%;
+    text-decoration:none;
+    
+    -webkit-background-size: 100% 500%;
+    -moz-background-size: 100% 500%;
+    background-size:100% 500%;
 
-   	-webkit-box-shadow: none;
+    -webkit-box-shadow: none;
     -moz-box-shadow: none;
-	box-shadow: none;
+    box-shadow: none;
 }
 
 /*The "Knockout" tab has two invisible flag-height spacers to keep it the same size as the others, with text in line*/
         
 #bracket-tab-link .leftflags {
-	margin-right:0px;
+    margin-right:0px;
 }
         
 #bracket-tab-link img {
-	padding-left:0px;
-	padding-right:0px;
+    padding-left:0px;
+    padding-right:0px;
 }
 
 /*Some padding so the line below the tabs goes out a bit on either end*/
@@ -126,11 +126,11 @@
 }
     
 #bracket-tab-link {
-	padding: 0px 20px 0px 0px;
+    padding: 0px 20px 0px 0px;
 }
 
 /*The tabbed content*/
  
 .under-tab {
-	display:none;
+    display:none;
 }

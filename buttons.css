@@ -3,24 +3,24 @@
 /*alignment and spacing*/
 
 #buttons {
-	text-align:center;
+    text-align:center;
 }
 
 #buttons > div {
-	display:table;
-	margin:auto;
-	border-collapse:separate;
-	border-spacing: 5px 2px;
+    display:table;
+    margin:auto;
+    border-collapse:separate;
+    border-spacing: 5px 2px;
 }
 
 /*The buttons themselves*/
 
 .glossybutton {
-	height:20px;
-	font-size:small;
-	display:inline-block;
-	vertical-align:center;
-	cursor:pointer;
+    height:20px;
+    font-size:small;
+    display:inline-block;
+    vertical-align:center;
+    cursor:pointer;
     border: 1px solid #4864a9;  
     text-shadow: 1px 1px 0px rgba(255,255,255,.5);  
     position: relative;  
@@ -42,79 +42,79 @@
 
 /*before pseudo-element adds some sheen.*/
 .glossybutton::before {  
-	content: "";  
-	height: 12px; 
-	display: block;  
-	position: absolute;
-	left:5px; 
+    content: "";  
+    height: 12px; 
+    display: block;  
+    position: absolute;
+    left:5px; 
 
-	-webkit-border-radius: 6px;  
-	-moz-border-radius: 6px;  
-	border-radius: 6px;  
-	 
-	background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(255,255,255,0.7) 8%, rgba(255,255,255,0) 100%);  
-	background: -webkit-gradient(linear, left top, left bottombottom, color-stop(0%,rgba(255,255,255,1)), color-stop(8%,rgba(255,255,255,0.7)), color-stop(100%,rgba(255,255,255,0)));  
-	background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.7) 8%,rgba(255,255,255,0) 100%);  
-	background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.7) 8%,rgba(255,255,255,0) 100%);  
-	background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.7) 8%,rgba(255,255,255,0) 100%);  
-	background: linear-gradient(to bottombottom,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.7) 8%,rgba(255,255,255,0) 100%);  
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 );  
+    -webkit-border-radius: 6px;  
+    -moz-border-radius: 6px;  
+    border-radius: 6px;  
+     
+    background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(255,255,255,0.7) 8%, rgba(255,255,255,0) 100%);  
+    background: -webkit-gradient(linear, left top, left bottombottom, color-stop(0%,rgba(255,255,255,1)), color-stop(8%,rgba(255,255,255,0.7)), color-stop(100%,rgba(255,255,255,0)));  
+    background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.7) 8%,rgba(255,255,255,0) 100%);  
+    background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.7) 8%,rgba(255,255,255,0) 100%);  
+    background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.7) 8%,rgba(255,255,255,0) 100%);  
+    background: linear-gradient(to bottombottom,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.7) 8%,rgba(255,255,255,0) 100%);  
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 );  
 }
 
 /*Styling by row. Each row has the same color (blue, yellow, or green, for Brazilian flag) and same width (large enough to fit the
  *longer text, but equal for symmetry*/ 
 
 #row1 .glossybutton {
-	width:80px;
+    width:80px;
     color: #fff;  
     text-shadow: 1px 1px 0px rgba(0,0,0,.5);
-	
-	background: rgba(0,136,255,1);
-	background: -moz-linear-gradient(top, rgba(0,136,255,1) 0%, rgba(0,136,255,1) 50%, rgba(62,64,149,1) 100%);
-	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(0,136,255,1)), color-stop(50%, rgba(0,136,255,1)), color-stop(100%, rgba(62,64,149,1)));
-	background: -webkit-linear-gradient(top, rgba(0,136,255,1) 0%, rgba(0,136,255,1) 50%, rgba(62,64,149,1) 100%);
-	background: -o-linear-gradient(top, rgba(0,136,255,1) 0%, rgba(0,136,255,1) 50%, rgba(62,64,149,1) 100%);
-	background: -ms-linear-gradient(top, rgba(0,136,255,1) 0%, rgba(0,136,255,1) 50%, rgba(62,64,149,1) 100%);
-	background: linear-gradient(to bottom, rgba(0,136,255,1) 0%, rgba(0,136,255,1) 50%, rgba(62,64,149,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0088ff', endColorstr='#0000ff', GradientType=0 );
+    
+    background: rgba(0,136,255,1);
+    background: -moz-linear-gradient(top, rgba(0,136,255,1) 0%, rgba(0,136,255,1) 50%, rgba(62,64,149,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(0,136,255,1)), color-stop(50%, rgba(0,136,255,1)), color-stop(100%, rgba(62,64,149,1)));
+    background: -webkit-linear-gradient(top, rgba(0,136,255,1) 0%, rgba(0,136,255,1) 50%, rgba(62,64,149,1) 100%);
+    background: -o-linear-gradient(top, rgba(0,136,255,1) 0%, rgba(0,136,255,1) 50%, rgba(62,64,149,1) 100%);
+    background: -ms-linear-gradient(top, rgba(0,136,255,1) 0%, rgba(0,136,255,1) 50%, rgba(62,64,149,1) 100%);
+    background: linear-gradient(to bottom, rgba(0,136,255,1) 0%, rgba(0,136,255,1) 50%, rgba(62,64,149,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0088ff', endColorstr='#0000ff', GradientType=0 );
 }
 
 #row1 .glossybutton::before {
-	width:70px;
+    width:70px;
 }
 
 #row2 .glossybutton {
-	width:160px;
-	
-	background: rgba(255,255,136,1);
-	background: -moz-linear-gradient(top, rgba(255,255,136,1) 0%, rgba(255,255,136,1) 50%, rgba(255,204,41,1) 100%);
-	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,136,1)), color-stop(50%, rgba(255,255,136,1)), color-stop(100%, rgba(255,204,41,1)));
-	background: -webkit-linear-gradient(top, rgba(255,255,136,1) 0%, rgba(255,255,136,1) 50%, rgba(255,204,41,1) 100%);
-	background: -o-linear-gradient(top, rgba(255,255,136,1) 0%, rgba(255,255,136,1) 50%, rgba(255,204,41,1) 100%);
-	background: -ms-linear-gradient(top, rgba(255,255,136,1) 0%, rgba(255,255,136,1) 50%, rgba(255,204,41,1) 100%);
-	background: linear-gradient(to bottom, rgba(255,255,136,1) 0%, rgba(255,255,136,1) 50%, rgba(255,204,41,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffff88', endColorstr='#ffff00', GradientType=0 );
+    width:160px;
+    
+    background: rgba(255,255,136,1);
+    background: -moz-linear-gradient(top, rgba(255,255,136,1) 0%, rgba(255,255,136,1) 50%, rgba(255,204,41,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,136,1)), color-stop(50%, rgba(255,255,136,1)), color-stop(100%, rgba(255,204,41,1)));
+    background: -webkit-linear-gradient(top, rgba(255,255,136,1) 0%, rgba(255,255,136,1) 50%, rgba(255,204,41,1) 100%);
+    background: -o-linear-gradient(top, rgba(255,255,136,1) 0%, rgba(255,255,136,1) 50%, rgba(255,204,41,1) 100%);
+    background: -ms-linear-gradient(top, rgba(255,255,136,1) 0%, rgba(255,255,136,1) 50%, rgba(255,204,41,1) 100%);
+    background: linear-gradient(to bottom, rgba(255,255,136,1) 0%, rgba(255,255,136,1) 50%, rgba(255,204,41,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffff88', endColorstr='#ffff00', GradientType=0 );
 }
 
 #row2 .glossybutton::before {
-	width:150px;
+    width:150px;
 }
 
 #row3 .glossybutton {
-	width:190px;
-	
-	background: rgba(0,255,136,1);
-	background: -moz-linear-gradient(top, rgba(0,255,136,1) 0%, rgba(0,255,136,1) 50%, rgba(0,168,89,1) 100%);
-	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(0,255,136,1)), color-stop(50%, rgba(0,255,136,1)), color-stop(100%, rgba(0,168,89,1)));
-	background: -webkit-linear-gradient(top, rgba(0,255,136,1) 0%, rgba(0,255,136,1) 50%, rgba(0,168,89,1) 100%);
-	background: -o-linear-gradient(top, rgba(0,255,136,1) 0%, rgba(0,255,136,1) 50%, rgba(0,168,89,1) 100%);
-	background: -ms-linear-gradient(top, rgba(0,255,136,1) 0%, rgba(0,255,136,1) 50%, rgba(0,168,89,1) 100%);
-	background: linear-gradient(to bottom, rgba(0,255,136,1) 0%, rgba(0,255,136,1) 50%, rgba(0,168,89,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ff88', endColorstr='#00a859', GradientType=0 );
+    width:190px;
+    
+    background: rgba(0,255,136,1);
+    background: -moz-linear-gradient(top, rgba(0,255,136,1) 0%, rgba(0,255,136,1) 50%, rgba(0,168,89,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(0,255,136,1)), color-stop(50%, rgba(0,255,136,1)), color-stop(100%, rgba(0,168,89,1)));
+    background: -webkit-linear-gradient(top, rgba(0,255,136,1) 0%, rgba(0,255,136,1) 50%, rgba(0,168,89,1) 100%);
+    background: -o-linear-gradient(top, rgba(0,255,136,1) 0%, rgba(0,255,136,1) 50%, rgba(0,168,89,1) 100%);
+    background: -ms-linear-gradient(top, rgba(0,255,136,1) 0%, rgba(0,255,136,1) 50%, rgba(0,168,89,1) 100%);
+    background: linear-gradient(to bottom, rgba(0,255,136,1) 0%, rgba(0,255,136,1) 50%, rgba(0,168,89,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ff88', endColorstr='#00a859', GradientType=0 );
 }
 
 #row3 .glossybutton::before {
-	width:180px;
+    width:180px;
 }
 
 /*:hover and :active selector styling give an impression of the button being pressed. This is done symmetrically, using :first-child
@@ -140,30 +140,30 @@
 }
 
 .glossybutton:first-child:active {
-	left:-3px;
-	top:2px;
-	-webkit-box-shadow: none;
+    left:-3px;
+    top:2px;
+    -webkit-box-shadow: none;
     -moz-box-shadow: none; 
     box-shadow: none;
 }
 
 .glossybutton:last-child:active {
-	left:3px;
-	top:2px;
-	-webkit-box-shadow: none;
+    left:3px;
+    top:2px;
+    -webkit-box-shadow: none;
     -moz-box-shadow: none; 
     box-shadow: none;
 }
 
 #knockout-buttons .glossybutton:active {
-	left:0px;
-	top:2px;
-	-webkit-box-shadow: none;
+    left:0px;
+    top:2px;
+    -webkit-box-shadow: none;
     -moz-box-shadow: none; 
     box-shadow: none;
 }
 
 /*The buttons in row 2 change based on what tab is selected*/
 #buttons #row2 > div {
-	display:none;
+    display:none;
 }
