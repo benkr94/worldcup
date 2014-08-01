@@ -101,7 +101,12 @@ var Brazil2014 = (function (Tournament) {
 		this.submitAdvancers = function (advanceList) {
 			for (var t = 0; t < 2; t++) {
 				var matchIndex = Math.floor(id/2) + 4 * Math.abs((t - (id % 2)));
-				advanceList[matchIndex*2+t] = teams[t];
+				if (teams[t].getStat("played") === 0) {
+					advanceList[matchIndex*2+t] = {id: null};
+				}
+				else {
+					advanceList[matchIndex*2+t] = teams[t];
+				}
 			}
 		};
 
