@@ -107,6 +107,7 @@ var Brazil2014 = (function (Tournament) {
 				}
 			}
 		};
+		
 		this.clear = function() {
 			for (var m = 0; m < nodeArr[0].length; m++) {
 				nodeArr[0][m][0].unWin();
@@ -137,12 +138,12 @@ var Brazil2014 = (function (Tournament) {
  *  won (private): boolean, whether the team in this Node has won. Do not want this set without updating nodes dependent upon the 
  *                 outcome of this match
  * Methods:
- *  clearForward: Called when a team loses, to clear them from the remainder of the bracket, if the user previously had them winning
+ *  hasWon: getter for private member 'won'
  *  win: Called when a team is chosen to win its match. Sets the 'won' variable and sets passes the team to the 'next' Node
  *  unWin: Updates the bracket when the user decides not to predict this team as the winner. (Not the same thing as saying they've
  *         lost, or the other team has won). Removes 'winner' styling from view and removes this team from future rounds
- *  hasWon: getter for private member 'won'
  *  setTeam: sets the private teamAt member. If there was another team here, clears that one from future rounds
+ *  clearForward: Called when a team loses, to clear them from the remainder of the bracket, if the user previously had them winning
  *  updateView: puts the teamAt's name and flag in the team-cell (see bracket.css) representing this node,
  *              and adds additional styling if 'won' is true
  */
@@ -161,15 +162,11 @@ var Brazil2014 = (function (Tournament) {
 		this.teamNum = teamNum;
 		var teamAt = {id: null};
 		var won = false;
+		
 		this.hasWon = function () {
 			return won;
-		}
-		this.clearForward = function (team) {
-			if (teamAt.id === team.id) {
-				won = false;
-				this.setTeam({id: null});
-			}
 		};
+		
 		this.win = function () {
 			if (teamAt.id !== null) {
 				won = true;
@@ -179,13 +176,15 @@ var Brazil2014 = (function (Tournament) {
 			}
 			this.updateView();
 		};
+		
 		this.unWin = function () {
 			won = false;
 			if (this.next !== null) {
 				this.next.clearForward(teamAt);
 			}
 			this.updateView();
-		}
+		};
+		
 		this.setTeam = function (team) {
 			if (teamAt.id !== team.id) {
 				if (this.next !== null) {
@@ -196,10 +195,18 @@ var Brazil2014 = (function (Tournament) {
 				this.updateView();
 			}
 		};
+		
+		this.clearForward = function (team) {
+			if (teamAt.id === team.id) {
+				won = false;
+				this.setTeam({id: null});
+			}
+		};
+		
 		this.updateView = function () {
 			if (this.next === null) {		//condition matched by champion
 				if (teamAt.id === null) {
-					$('#champion').hide();
+					$('.champion').hide();
 				}
 				else {
 					$('.champion').css('display','inline-block');
@@ -223,6 +230,7 @@ var Brazil2014 = (function (Tournament) {
 				}
 			}
 		};
+		
 	};
 	
 	return Tournament;

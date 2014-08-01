@@ -16,7 +16,7 @@
  */
 var Brazil2014 = (function() {
 	
-	this.init = function (countryNames, matchDetails, realScores) {
+	this.init = function (countryNames, matchDetails) {
 		if (countryNames.length !== 32) {
 			throw new Error("ERROR: Wrong number of teams for constructing World Cup tournament");
 		}
@@ -54,9 +54,9 @@ var Brazil2014 = (function() {
 		else {
 			this.updateTimes(userOffset);
 		}
-		this.decodedGroupStage = this.load(realScores);
 		$("#group-tab-links").children().unwrap();
 		$("#group-tab-content").children().unwrap();
+		//this.load(realScores);
 	};
 	
 	this.populateBracket = function () {
@@ -72,29 +72,35 @@ var Brazil2014 = (function() {
 		for (var g = 0; g < this.groups.length; g++) {
 			groupString += this.groups[g].getScoreString();
 		}
-		encodedString = this.encodeUtils.encode(groupString, this.knockout.getSaveString());
-		console.log(encodedString);
+		var encodedString = this.encodeUtils.encode(groupString, this.knockout.getWinnerString());
+		var urlSafeEncodedString = encodeURIComponent(encodedString);
+		alert("To recover this tournament, click \"Load scores\" and enter this string:\n\n"+encodedString+"\n\nor enter this into the address bar:\n\nhttp://www.fantagraphy.net/worldcup?"+urlSafeEncodedString); 
 	};
 	
 	this.load = function (encodedString) {
-		if (encodedString === '') { 
-			encodedString = prompt("Enter your save code","");
-		}
-		try {
-			var decodedStrings = this.encodeUtils.decode(encodedString);
-		}
-		catch (e) {
-			var decodedStrings = {groupString: "", bracketString: ""};
-		}
-		console.log(decodedStrings.groupString.length+" "+decodedStrings.bracketString.length);
-		while (decodedStrings.groupString.length !== 96 || decodedStrings.bracketString.length !== 15) { 
-			encodedString = prompt("That string is invalid. Please try again, or enter '__+0' for an empty tournament",encodedString);
+		var decodedStrings, message;
+		while (true) {
+			message = "Sorry, the provided save code is invalid. Please try again, or enter 'empty' for an empty tournament";
+			if (encodedString === null) {
+				console.log("Load cancelled.");
+				return false;
+			}
+			if (encodedString.indexOf('%') !== -1) {
+				encodedString = decodeURIComponent(encodedString);
+			}			
 			try {
 				decodedStrings = this.encodeUtils.decode(encodedString);
 			}
 			catch (e) {
-				continue;
+				if (encodedString === '') {
+					message = "Please enter a code to load a saved tournament";
+				}
+				decodedStrings = {groupString: "", bracketString: ""};
 			}
+			if (decodedStrings.groupString.length === 96 || decodedStrings.bracketString.length === 15) {
+				break;
+			}
+			encodedString = prompt(message, encodedString);
 		}
 		for (var g = 0; g < groups.length; g++) {
 			this.groups[g].load(decodedStrings.groupString.substring(g*12, g*12+12));
@@ -102,7 +108,6 @@ var Brazil2014 = (function() {
 		this.populateBracket();
 		this.knockout.clear();
 		this.knockout.load(decodedStrings.bracketString);
-		return decodedStrings.groupString;
 	};
 	
 	this.updateTimes = function (offset) {

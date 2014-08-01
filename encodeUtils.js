@@ -4,7 +4,7 @@
 
 var Brazil2014 = (function (Tournament) {
 	var groupKeyString = 'OPQRSTU|VWX}YZ&;@,:(0123456789abcde)fghijklmnopqrst{uvwxyzABCDEFGHI=JKL]MN^/$*!\\[`?<~.\'>"#';
-	var bracketKeyString = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwx';
+	var bracketKeyString = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 	var encodeUtils = {};
 	
 	/* groupEncode
@@ -26,7 +26,7 @@ var Brazil2014 = (function (Tournament) {
 	 *   after, the blanks would be represented like '_#_O' (91 then 2), since there are only 90 characters in the keyString.
 	 */
 	groupEncode = function (scoreString) {
-		console.log("String to encode: "+scoreString);
+		//console.log("String to encode: "+scoreString);
 		if (scoreString.length === 0) {
 			return '';
 		}
@@ -43,14 +43,14 @@ var Brazil2014 = (function (Tournament) {
 					}
 					miniString += scoreString.charAt(i);
 				}
-				console.log("miniString is "+miniString);
+				//console.log("miniString is "+miniString);
 				var baseConverted = 0;
 				var offset = -1;
 				for (var i = 0; i < miniString.length; i++) {
 					baseConverted += miniString.charAt(i)*Math.pow(4, miniString.length - 1 - i);
 					offset += Math.pow(4, i);
 				}
-				console.log("baseConverted: "+baseConverted+" offset: "+offset+" yields: "+groupKeyString.charAt(offset+baseConverted));
+				//console.log("baseConverted: "+baseConverted+" offset: "+offset+" yields: "+groupKeyString.charAt(offset+baseConverted));
 				return groupKeyString.charAt(offset + baseConverted) + groupEncode(scoreString.slice(miniString.length));
 				break;
 			case "4":
@@ -59,7 +59,7 @@ var Brazil2014 = (function (Tournament) {
 			case "7":
 			case "8":
 			case "9":
-				console.log("index "+(80+parseInt(scoreString.charAt(0)))+" yields "+groupKeyString.charAt(80 + parseInt(scoreString.charAt(0))));
+				//console.log("index "+(80+parseInt(scoreString.charAt(0)))+" yields "+groupKeyString.charAt(80 + parseInt(scoreString.charAt(0))));
 				return groupKeyString.charAt(80 + parseInt(scoreString.charAt(0))) + groupEncode(scoreString.slice(1));
 				break;
 			case "-":
@@ -71,20 +71,22 @@ var Brazil2014 = (function (Tournament) {
 					counter++;
 				}
 				if (counter === 1) {
-					console.log("One space");
+					//console.log("One space");
 					return "-"+groupEncode(scoreString.slice(counter));
 				}
 				else if (counter === scoreString.length) {
-					console.log("spaces till end");
+					//console.log("spaces till end");
 					return "__";
 				}
 				else {
-					console.log(counter+" spaces yields _"+groupKeyString.charAt(counter));
+					//console.log(counter+" spaces yields _"+groupKeyString.charAt(counter));
 					return "_"+groupKeyString.charAt(counter-2)+groupEncode(scoreString.slice(counter));
 				}
 				break;
 			default:
-				throw new Error("ERROR: Invalid character "+scoreString.charAt(0)+" in group's scoreString; only digits and dashes are acceptable");
+				var message = "ERROR: Invalid character "+scoreString.charAt(0)+" in group's scoreString; only digits and dashes are acceptable"
+				console.log(message);
+				throw new Error(message);
 		}
 	};
 	
@@ -95,34 +97,34 @@ var Brazil2014 = (function (Tournament) {
 	groupDecode = function (encodedString) {
 		var decodedString = '';
 		for (var i = 0; i < encodedString.length; i++) {
-			console.log("Found "+encodedString.charAt(i));
+			//console.log("Found "+encodedString.charAt(i));
 			switch (encodedString.charAt(i)) {
 				case '-':
 					decodedString += '-';
-					console.log("Adding '-'.");
+					//console.log("Adding '-'.");
 					break;
 				case '_':
 					if (encodedString.charAt(i+1) === '_') {
 						while (decodedString.length < 96) {
 							decodedString += '-';
 						}
-						console.log("Found __. Filling with '-'.");
+						//console.log("Found __. Filling with '-'.");
 						return decodedString;
 					}
 					var numSpaces = groupKeyString.indexOf(encodedString.charAt(i+1)) + 2;
 					/*if (numSpaces === 1) {
-						console.log("ERROR: Invalid score string: "+encodedString);
+						//console.log("ERROR: Invalid score string: "+encodedString);
 						return false;
 					}*/
 					for (var j = 0; j < numSpaces; j++) {
 						decodedString += '-';
 					}
-					console.log("Found _"+encodedString.charAt(i+1)+". Adding "+numSpaces+" -'s. ");
+					//console.log("Found _"+encodedString.charAt(i+1)+". Adding "+numSpaces+" -'s. ");
 					i++; //skip next character, as it's been interpreted
 					break;
 				default:
 					var keyStringIndex = groupKeyString.indexOf(encodedString.charAt(i));
-					console.log("keyStringIndex is "+keyStringIndex);
+					//console.log("keyStringIndex is "+keyStringIndex);
 					if (keyStringIndex === -1) {
 						var message = "Invalid character "+encodedString.charAt(i)+" at position "+i+" in encoded group string";
 						console.log(message);
@@ -130,7 +132,7 @@ var Brazil2014 = (function (Tournament) {
 					}
 					if (keyStringIndex >= 84) {
 						decodedString += '' + (keyStringIndex - 80);
-						console.log("Adding "+(keyStringIndex - 80));
+						//console.log("Adding "+(keyStringIndex - 80));
 					}
 					else {
 						var digits = 1;
@@ -140,20 +142,20 @@ var Brazil2014 = (function (Tournament) {
 							digits++;
 							nextOffset = Math.pow(4, digits);
 						}
-						console.log("Indicates a "+digits+"-digit number representing "+keyStringIndex);
+						//console.log("Indicates a "+digits+"-digit number representing "+keyStringIndex);
 						var scores = [];
 						for (var j = digits-1; j >= 0; j--) {
 							score = Math.floor((keyStringIndex)/Math.pow(4,j))
-							console.log("Got a score of "+score);
+							//console.log("Got a score of "+score);
 							scores.push(score);
 							keyStringIndex -= score * Math.pow(4,j);
 						}
 						decodedString += scores.join('');
-						console.log("Adding "+scores.join(''));
+						//console.log("Adding "+scores.join(''));
 					}
-				console.log("Decoded string is now "+decodedString);
+				//console.log("Decoded string is now "+decodedString);
 			}
-		console.log("Length is "+decodedString.length);
+		//console.log("Length is "+decodedString.length);
 		}
 		return decodedString;	
 	};
@@ -163,9 +165,12 @@ var Brazil2014 = (function (Tournament) {
 	 * number.
 	 */
 	bracketEncode = function(winnerString) {
+		console.log("winnerString: "+winnerString);
 		var decimal = 0;
 		for (var i = 0; i < winnerString.length; i++) {
+			console.log("character at position "+i+" is "+winnerString.charAt(i)+", represents "+winnerString.charAt(i)+"*3^"+(winnerString.length-i-1)+" = "+Math.pow(3, winnerString.length-i-1));
 			decimal += Math.pow(3, winnerString.length-i-1)*parseInt(winnerString.charAt(i));
+			console.log("running total is "+decimal);
 		}
 		var numDigits = 1;
 		while (true) {
@@ -174,10 +179,12 @@ var Brazil2014 = (function (Tournament) {
 			}
 			numDigits++;
 		}
+		console.log("decimal is greater than or equal to 62^"+(numDigits-1)+" = "+Math.pow(62, (numDigits-1))+" but less than 62^"+numDigits+" = "+Math.pow(62,numDigits)+", so code will be "+numDigits+" digits long"); 
 		var encodedString = '';
 		for (var i = numDigits-1; i >= 0; i--) {
 			nextDigit = Math.floor(decimal/Math.pow(62,i));
 			encodedString += bracketKeyString.charAt(nextDigit);
+			console.log("next digit is "+bracketKeyString.charAt(nextDigit)+", representing "+nextDigit); 
 			decimal -= nextDigit*Math.pow(62,i);
 		}
 		return encodedString;
