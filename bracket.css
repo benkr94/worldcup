@@ -70,11 +70,11 @@ td.details {
     vertical-align: bottom;
     color: white;
     text-shadow:
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000;  
-       ms-filter: progid:DXImageTransform.Microsoft.Glow(color=#000000, strength=1);
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;  
+    ms-filter: progid:DXImageTransform.Microsoft.Glow(color=#000000, strength=1);
 }
 
 .kolocation, .kotime {
