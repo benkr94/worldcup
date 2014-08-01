@@ -237,6 +237,9 @@ var Brazil2014 = (function (Tournament) {
      * loaded by the Group's and Bracket's load methods, respectively.
      */
     encodeUtils.decode = function(encodedString) {
+    	if (encodedString === 'empty') {
+    		encodedString = '__+0';
+    	}
         var stageSplit = encodedString.split('+');
         return { groupString: groupDecode(stageSplit[0]), bracketString: bracketDecode(stageSplit[1]) };
     };
