@@ -204,7 +204,7 @@ var Brazil2014 = (function (Tournament) {
                 }
                 else {
                     $('.champion').css('display','inline-block');
-                    $('.champion .flag').attr('src', "bigflags/"+teamAt.id+".png");
+                    $('.champion .flag').attr('src', "images/bigflags/"+teamAt.id+".png");
                     $('.champion .countryName').text(teamAt.countryName.replace("& Herz.","and Herzegovina"));	//Font doesn't have &
                 }
             }

@@ -39,13 +39,13 @@ var Brazil2014 = (function (Tournament) {
         this.drawTab = function() {
             var groupTab = '<div><a href="#'+idChar+'">'+
                                 '<div class="leftflags">'+
-                                    '<img src="flags/'+teams[0].id+'.png"><br>'+
-                                    '<img src="flags/'+teams[1].id+'.png">'+
+                                    '<img src="images/flags/'+teams[0].id+'.png"><br>'+
+                                    '<img src="images/flags/'+teams[1].id+'.png">'+
                                 '</div>'+
                                 idChar+
                                 '<div class="rightflags">'+
-                                    '<img src="flags/'+teams[2].id+'.png"><br>'+
-                                    '<img src="flags/'+teams[3].id+'.png"><br>'+
+                                    '<img src="images/flags/'+teams[2].id+'.png"><br>'+
+                                    '<img src="images/flags/'+teams[3].id+'.png"><br>'+
                                 '</div>'+
                            '</a></div>';
             $('#group-tab-links').append(groupTab);

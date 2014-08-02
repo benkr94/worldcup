@@ -32,10 +32,10 @@ var Brazil2014 = (function (Tournament) {
         this.id = id;
         this.countryName = countryName;
         this.flagLeft = function () {
-            return '<div class="outerwrap"><div class="innerwrap flagwrap"><img class="flag" src="flags/'+this.id+'.png"></div><div class="innerwrap">&nbsp;'+this.countryName+'</div></div>';
+            return '<div class="outerwrap"><div class="innerwrap flagwrap"><img class="flag" src="images/flags/'+this.id+'.png"></div><div class="innerwrap">&nbsp;'+this.countryName+'</div></div>';
         };
         this.flagRight = function () {
-            return '<div class="outerwrap"><div class="innerwrap">'+this.countryName+'&nbsp;</div><div class="innerwrap flagwrap"><img class="flag" src="flags/'+this.id+'.png"></div></div>';
+            return '<div class="outerwrap"><div class="innerwrap">'+this.countryName+'&nbsp;</div><div class="innerwrap flagwrap"><img class="flag" src="images/flags/'+this.id+'.png"></div></div>';
         };
         
         this.requiresAdvancedTiebreak = -1;

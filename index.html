@@ -1,18 +1,19 @@
 <html>
 <head>
-<title> FIFA World Cup 2014 - Choose Your Own Adventure</title>
-<link rel='stylesheet' href='world_cup.css' />
-<link rel='stylesheet' href='tabs.css' />
-<link rel='stylesheet' href='bracket.css' />
-<link rel='stylesheet' href='buttons.css' />
-<link rel="icon" type="image/png" href="favicon.png">
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+    <title> FIFA World Cup 2014 - Choose Your Own Adventure</title>
+    <link rel='stylesheet' href='css/world_cup.css' />
+    <link rel='stylesheet' href='css/tabs.css' />
+    <link rel='stylesheet' href='css/bracket.css' />
+    <link rel='stylesheet' href='css/buttons.css' />
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+    <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
 </head>
 <body>
-    <img class="border" id="top-left" src="borders/top-left.png">
-    <img class="border" id="top-right" src="borders/top-right.png">
-    <img class="border" id="bottom-left" src="borders/bottom-left.png">
-    <img class="border" id="bottom-right" src="borders/bottom-right.png">
+    <img class="border" id="top-left" src="images/borders/top-left.png">
+    <img class="border" id="top-right" src="images/borders/top-right.png">
+    <img class="border" id="bottom-left" src="images/borders/bottom-left.png">
+    <img class="border" id="bottom-right" src="images/borders/bottom-right.png">
     <div id="header">
         <div id="tzwrapper">
             <select>
@@ -62,7 +63,7 @@
     <div id="tabs">
         <div id="tab-links">
             <div id="group-tab-links"></div><!--
-            --><div id="bracket-tab-link"><a href="#Bracket"><div class="leftflags"><img src="flags/spacer.png"><br><img src="flags/spacer.png"></div>Knockout</a></div>
+            --><div id="bracket-tab-link"><a href="#Bracket"><div class="leftflags"><img src="images/flags/spacer.png"><br><img src="images/flags/spacer.png"></div>Knockout</a></div>
             <hr>
         </div>
         <div id="tab-content">
@@ -349,13 +350,13 @@
             <div class="glossybutton" id="blankAll"><a>Reset tournament to blank</a></div>
         </div>
     </div>
-    <script src="main.js"></script>
-    <script src="bracket.js"></script>
-    <script src="encodeUtils.js"></script>
-    <script src="groupUtils.js"></script>
-    <script src="group.js"></script>
-    <script src="match.js"></script>
-    <script src="team.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/bracket.js"></script>
+    <script src="js/encodeUtils.js"></script>
+    <script src="js/groupUtils.js"></script>
+    <script src="js/group.js"></script>
+    <script src="js/match.js"></script>
+    <script src="js/team.js"></script>
     <script>
         var NAMES = ["Brazil", "Croatia", "Mexico", "Cameroon", "Spain", "Netherlands", "Chile", "Australia", "Colombia", "Greece", "Ivory Coast", "Japan", "Uruguay", "Costa Rica", "England", "Italy", "Switzerland", "Ecuador", "France", "Honduras", "Argentina", "Bosnia & Herz.", "Iran", "Nigeria", "Germany", "Portugal", "Ghana", "United States", "Belgium", "Algeria", "Russia", "Korea Republic"];
         var MATCH_DETAILS = [["Arena de Sao Paulo, Sao Paulo", [5,12,20,0]],["Arena das Dunas, Natal", [5,13,16,0]],["Arena Fonte Nova, Salvador", [5,13,19,0]],["Arena Pantanal, Cuiaba", [5,13,22,0]],["Estadio Mineirao, Belo Horizonte", [5,14,16,0]],["Arena Pernambuco, Recife", [5,15,1,0]],["Estadio Castelao, Fortaleza", [5,14,19,0]],["Arena Amazonia, Manaus", [5,14,22,0]],["Estadio Nacional Mane Garrincha, Brasilia", [5,15,16,0]],["Estadio Beira-Rio, Porto Alegre", [5,15,19,0]],["Estadio do Maracana, Rio de Janeiro", [5,15,22,0]],["Arena da Baixada, Curitiba", [5,16,19,0]],["Arena Fonte Nova, Salvador", [5,16,16,0]],["Arena das Dunas, Natal", [5,16,22,0]],["Estadio Mineirao, Belo Horizonte", [5,17,16,0]],["Arena Pantanal, Cuiaba", [5,17,22,0]],["Estadio Castelao, Fortaleza", [5,17,19,0]],["Arena Amazonia, Manaus", [5,18,22,0]],["Estadio do Maracana, Rio de Janeiro", [5,18,19,0]],["Estadio Beira-Rio, Porto Alegre", [5,18,16,0]],["Estadio Nacional Mane Garrincha, Brasilia", [5,19,16,0]],["Arena das Dunas, Natal", [5,19,22,0]],["Arena de Sao Paulo, Sao Paulo", [5,19,19,0]],["Arena Pernambuco, Recife", [5,20,16,0]],["Arena Fonte Nova, Salvador", [5,20,19,0]],["Arena da Baixada, Curitiba", [5,20,22,0]],["Estadio Mineirao, Belo Horizonte", [5,21,16,0]],["Arena Pantanal, Cuiaba", [5,21,22,0]],["Estadio Castelao, Fortaleza", [5,21,19,0]],["Arena Amazonia, Manaus", [5,22,22,0]],["Estadio do Maracana, Rio de Janeiro", [5,22,16,0]],["Estadio Beira-Rio, Porto Alegre", [5,22,19,0]],["Estadio Nacional Mane Garrincha, Brasilia", [5,23,20,0]],["Arena Pernambuco, Recife", [5,23,20,0]],["Arena da Baixada, Curitiba", [5,23,16,0]],["Arena de Sao Paulo, Sao Paulo", [5,23,16,0]],["Arena Pantanal, Cuiaba", [5,24,20,0]],["Estadio Castelao, Fortaleza", [5,24,20,0]],["Arena das Dunas, Natal", [5,24,16,0]],["Estadio Mineirao, Belo Horizonte", [5,24,16,0]],["Arena Amazonia, Manaus", [5,25,20,0]],["Estadio do Maracana, Rio de Janeiro", [5,25,20,0]],["Estadio Beira-Rio, Porto Alegre", [5,25,16,0]],["Arena Fonte Nova, Salvador", [5,26,16,0]],["Arena Pernambuco, Recife", [5,26,16,0]],["Estadio Nacional Mane Garrincha, Brasilia", [5,26,16,0]],["Arena de Sao Paulo, Sao Paulo", [5,26,20,0]],["Arena da Baixada, Curitiba", [5,26,20,0]],["Belo Horizonte", [5,28,16,0]],["Fortaleza", [6,4,16,0]],["Rio de Janeiro", [5,28,20,0]],["Belo Horizonte", [6,8,20,0]],["Brasilia", [5,30,16,0]],["Rio de Janeiro", [6,4,20,0]],["Porto Alegre", [5,30,20,0]],["Rio de Janeiro", [6,13,19,0]],["Fortaleza", [5,29,16,0]],["Salvador", [6,5,16,0]],["Recife", [5,29,20,0]],["Sao Paulo", [6,9,20,0]],["Sao Paulo", [6,1,16,0]],["Brasilia", [6,5,20,0]],["Salvador", [6,1,20,0]]];
