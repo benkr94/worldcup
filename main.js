@@ -72,6 +72,7 @@ var Brazil2014 = (function() {
         for (var g = 0; g < this.groups.length; g++) {
             groupString += this.groups[g].getScoreString();
         }
+        console.log(groupString);
         var encodedString = this.encodeUtils.encode(groupString, this.knockout.getWinnerString());
         var urlSafeEncodedString = encodeURIComponent(encodedString);
         alert("To recover this tournament, click \"Load scores\" and enter this string:\n\n"+encodedString+"\n\nor enter this into the address bar:\n\nhttp://www.fantagraphy.net/worldcup?"+urlSafeEncodedString); 

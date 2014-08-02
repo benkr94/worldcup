@@ -69,6 +69,7 @@ var Brazil2014 = (function (Tournament) {
                         break;
                     }
                     counter++;
+                    console.log(counter);
                 }
                 if (counter === 1) {
                     //console.log("One space");
@@ -79,12 +80,11 @@ var Brazil2014 = (function (Tournament) {
                     return "__";
                 }
                 else if (counter > groupKeyString.length+1) {	//allow counting spaces past what can encoded into 2 chars so that
-                	counter = groupKeyString.length+1;			//spaces-till-end can be detected, but resume encoding from no further
+                	counter = (groupKeyString.length+1);		//spaces-till-end can be detected, but resume encoding from no further
                 }												//if it is not detected
-                else {
-                    //console.log(counter+" spaces yields _"+groupKeyString.charAt(counter));
-                    return "_"+groupKeyString.charAt(counter-2)+groupEncode(scoreString.slice(counter));
-                }
+                console.log(groupKeyString.length);
+                console.log(counter+" spaces found, adding "+groupKeyString.charAt(counter-2));
+                return "_"+groupKeyString.charAt(counter-2)+groupEncode(scoreString.slice(counter));
                 break;
             default:
                 var message = "ERROR: Invalid character "+scoreString.charAt(0)+" in group's scoreString; only digits and dashes are acceptable"

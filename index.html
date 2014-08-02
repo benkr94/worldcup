@@ -390,7 +390,7 @@
         $(document).on('blur', '.score1, .score2', function() {
                 var groupIndex = $(this).parents('.under-tab').attr('id').charCodeAt(0)-65;
                 var matchID = parseInt($(this).parents(".matchRow").attr('id').substring(5));
-                var matchIndex = Math.floor(2*(matchID-1)/16) + ((matchID-1) % 2);
+                var matchIndex = 2*Math.floor((matchID-1)/16) + ((matchID-1) % 2);
                 console.log("id is "+matchID+", index is "+matchIndex);
                 var score1 = $(this).parent(".result").children(".score1").val();
                 var score2 = $(this).parent(".result").children(".score2").val()
@@ -401,7 +401,7 @@
              if ( e.which == 13 ) {
                 var groupIndex = $(this).parents('.under-tab').attr('id').charCodeAt(0)-65;
                 var matchID = $(this).parents(".matchRow").attr('id').substring(5);
-                var matchIndex = Math.floor(2*(matchID-1)/16) + ((matchID-1) % 2);
+                var matchIndex = 2*Math.floor((matchID-1)/16) + ((matchID-1) % 2);
                 console.log("id is "+matchID+", index is "+matchIndex);
                 var score1 = $(this).parent(".result").children(".score1").val();
                 var score2 = $(this).parent(".result").children(".score2").val()

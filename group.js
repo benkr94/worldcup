@@ -147,6 +147,7 @@ var Brazil2014 = (function (Tournament) {
         
         function updateTable() {
             rankAll();
+            //console.log("TABLE: "+teams[0].countryName+" "+teams[0].getStat("points")+" "+teams[1].countryName+teams[1].getStat("points")+" "+teams[2].countryName+teams[2].getStat("points")+" "+teams[3].countryName+teams[3].getStat("points"));
             reorderTable();
             colorRows();
         };
