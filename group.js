@@ -24,7 +24,6 @@
 var Brazil2014 = (function (Tournament) {
     Tournament.Group = function (id, teams, matchDetails) {
         var idChar = String.fromCharCode(id+65);
-        //this.teams = teams;
         var matches = [];
         matches[0] = new Tournament.Match(2 * id + 1, teams[0], teams[1], matchDetails[0][0], matchDetails[0][1]);
         matches[1] = new Tournament.Match(2 * id + 2, teams[2], teams[3], matchDetails[1][0], matchDetails[1][1]);
@@ -58,7 +57,6 @@ var Brazil2014 = (function (Tournament) {
         };
         
         this.drawTable = function () {
-            //this.rankAll();
             var statKeys = ["played", "won", "drawn", "lost", "goalsFor", "goalsAgainst", "goalDifference", "points"]; //avoiding forEach for the benefit of IE8 users
             var html = '<table cellspacing="0"><tr>'+
                            '<th width="130">Team</th>'+
@@ -80,7 +78,6 @@ var Brazil2014 = (function (Tournament) {
                 html += '</tr>';
             }
             html += "</table>";
-            //alert(html);
             $("#"+idChar+" .groupTable").html(html);
         };
         
@@ -147,7 +144,6 @@ var Brazil2014 = (function (Tournament) {
         
         function updateTable() {
             rankAll();
-            //console.log("TABLE: "+teams[0].countryName+" "+teams[0].getStat("points")+" "+teams[1].countryName+teams[1].getStat("points")+" "+teams[2].countryName+teams[2].getStat("points")+" "+teams[3].countryName+teams[3].getStat("points"));
             reorderTable();
             colorRows();
         };
@@ -190,7 +186,6 @@ var Brazil2014 = (function (Tournament) {
             var statKeys = ["played", "won", "drawn", "lost", "goalsFor", "goalsAgainst", "goalDifference", "points"];
                for (var t = 0; t < teams.length; t++) {
                 for (var s = 0; s < statKeys.length; s++) {
-                    //alert($("#"+idChar+" .groupTable #row"+teams[t].id+" ."+statKeys[s]).text());
                     $("#"+idChar+" .groupTable #row"+teams[t].id+" ."+statKeys[s]+" .content").text(teams[t].getStat(statKeys[s]));
                 }
             }
@@ -206,8 +201,7 @@ var Brazil2014 = (function (Tournament) {
          * Colors the table green for teams that have clinched a berth in the knockout round, red for those that have been eliminated.
          * Uses helper functions in groupUtils.js. I couldn't come up with a nice, graph-theoretic proof, so I just tried a bunch of
          * scenarios and coded the heuristics that I, as a human, used to determine who had clinched and who was eliminated.
-         * Try/catch/finally statements are used as general control flow statements, rather than for error handling, to make skipping
-         * to the end easy.
+         * Try/catch/finally statements are primarily used as general control flow statements, to make skipping to the end easy.
          */
         function colorRows () {
             var matchesPlayed = 0;
@@ -221,11 +215,9 @@ var Brazil2014 = (function (Tournament) {
             }
             try {
                 if (matchesPlayed <= 2) { //If 2 or fewer games have been played, no team can have clinched or been eliminated.
-                    console.log("2 or fewer games played, not evaluating.");
                     throw matchesPlayed;
                 }
                 if (matchesPlayed === 6) {//If all games have been played, the top 2 teams have clinched and the bottom 2 are eliminated.
-                    console.log("All games played, clinching top 2 and eliminating bottom two.");
                     teams[0].clinch();
                     teams[1].clinch();
                     teams[2].eliminate();
@@ -237,30 +229,25 @@ var Brazil2014 = (function (Tournament) {
                 var teamsKnownStatus = 0;
                 for (var t = 0; t < teams.length; t++) {
                     if (teams[t].getStat("points") >= 7) { //7 points clinches. (There are only 18 points up for grabs.)
-                        console.log("Clinching "+teams[t].countryName+" for having 7 or more points");
                         teams[t].clinch();
                         teamsClinched++;
                         teamsKnownStatus++;
                     }
                     else if (teams[t].getStat("played") === 3 && teams[t].getStat("points") <= 1) {
-                        console.log("Eliminating "+teams[t].countryName+" for finishing with 1 or fewer points");
                         teams[t].eliminate(); //Finishing with 2 points eliminates.
                         teamsEliminated++;
                         teamsKnownStatus++;
                     }
                     else if (teams[t].getStat("played") <= 1) { //You cannot be eliminated, or clinch, after only one match.
-                        console.log(teams[t].countryName+" has played only one game, marking status known");
                         teams[t].isEliminated = -1;
                         teams[t].hasClinched = -1;
                         teamsKnownStatus++;
                     }
                     else if (teams[t].getStat("played") === 2) {
                         if (teams[t].getStat("points") <= 3) {
-                            console.log(teams[t].countryName+" has at most 3 points through 2 matches so has not clinched");
                             teams[t].hasClinched = -1; //If you've only scored 3 points through 2 matches, you haven't clinched.	    				
                         }
                         if (teams[t].getStat("points") >= 3) {
-                            console.log(teams[t].countryName+" has at least 3 points through 2 matches so is not eliminated");
                             teams[t].isEliminated = -1; //If you've scored at least 3 points through 2 matches, you aren't eliminated.
                         }
                         if (teams[t].isEliminated == -1 && teams[t].hasClinched == -1) {
@@ -274,10 +261,8 @@ var Brazil2014 = (function (Tournament) {
                  * possible and see if they can finish in 3rd or 4th. More info is in groupUtils.js.
                  */
                 for (var t = teams.length-1; t >= 0; t--) {
-                    console.log("Evaluating team: "+teams[t].countryName+", which has "+teams[t].getStat("points")+" points");
                     if (!teams[t].knownStatus()) {
                         var matchesLeft = [];
-                        //var leagueTable = teams.slice(0);
                         for (var m = 0; m < matches.length; m++) {
                             if (!matches[m].played()) {
                                 if (matches[m].team1.id === teams[t].id || matches[m].team2.id === teams[t].id) {
@@ -288,16 +273,12 @@ var Brazil2014 = (function (Tournament) {
                                 }
                             }
                         }
-                        //console.log("The team at leagueTable index t is: "+leagueTable[t].countryName);
                         if (teams[t].isEliminated !== -1 && Tournament.groupUtils.determineIfEliminated(t, matchesLeft, teams)) {
                             teams[t].eliminate();
-                            console.log("Match sims have determined that "+teams[t].countryName+" is eliminated.");
                             teamsEliminated++;
                         }
-                        //console.log("The team at leagueTable index t is: "+leagueTable[t].countryName);
                         else if (teams[t].hasClinched !== -1 && Tournament.groupUtils.determineIfClinched(t, matchesLeft, teams)) {
                             teams[t].clinch();
-                            console.log("Match sims have determined that "+teams[t].countryName+" has clinched.");
                             teamsClinched++;
                         }
                         else {
@@ -322,7 +303,6 @@ var Brazil2014 = (function (Tournament) {
                 if (e === "clinchRest") {	//If two teams are eliminated, the other two have clinched.
                     for (var t = 0; t < teams.length; t++) {
                         if (!teams[t].knownStatus()) {
-                            console.log("2 teams eliminated, clinching remainder (including "+teams[t].countryName+")");
                             teams[t].clinch();
                         }
                     }
@@ -330,7 +310,6 @@ var Brazil2014 = (function (Tournament) {
                 else if (e === "eliminateRest") {
                     for (var t = 0; t < teams.length; t++) {
                         if (!teams[t].knownStatus()) {
-                            console.log("2 teams clinched, eliminating remainder (including "+teams[t].countryName+")");
                             teams[t].eliminate();
                         }
                     }
@@ -343,7 +322,6 @@ var Brazil2014 = (function (Tournament) {
             finally {
                 for (var t = 0; t < teams.length; t++) {
                     if (teams[t].hasClinched === 1) {
-                        //alert("I got to here too!");
                         $("#"+idChar+" .groupTable #row"+teams[t].id+" div").removeClass("eliminated");
                         $("#"+idChar+" .groupTable #row"+teams[t].id+" div").addClass("clinched");
                     }

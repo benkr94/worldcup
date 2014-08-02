@@ -56,7 +56,6 @@ var Brazil2014 = (function() {
         }
         $("#group-tab-links").children().unwrap();
         $("#group-tab-content").children().unwrap();
-        //this.load(realScores);
     };
     
     this.populateBracket = function () {
@@ -72,7 +71,6 @@ var Brazil2014 = (function() {
         for (var g = 0; g < this.groups.length; g++) {
             groupString += this.groups[g].getScoreString();
         }
-        console.log(groupString);
         var encodedString = this.encodeUtils.encode(groupString, this.knockout.getWinnerString());
         var urlSafeEncodedString = encodeURIComponent(encodedString);
         alert("To recover this tournament, click \"Load scores\" and enter this string:\n\n"+encodedString+"\n\nor enter this into the address bar:\n\nhttp://www.fantagraphy.net/worldcup?"+urlSafeEncodedString); 
@@ -103,7 +101,6 @@ var Brazil2014 = (function() {
             }
             encodedString = prompt(message, encodedString);
         }
-        console.log(decodedStrings.groupString);
         if (typeof groupID === "number" && parseInt(groupID) >= 0 && parseInt(groupID) < this.groups.length) {
         	this.groups[groupID].load(decodedStrings.groupString.substring(groupID*12, groupID*12+12));
         }

@@ -55,7 +55,7 @@ var Brazil2014 = (function (Tournament) {
                 case 2:
                     return score2;
                 default:
-                    throw new Error("getScore called with an argument other than 1 or 2");
+                    throw new Error("ERROR: getScore called with an argument other than 1 or 2");
             }
         };
         

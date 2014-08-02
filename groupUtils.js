@@ -32,9 +32,7 @@ var Brazil2014 = (function (Tournament) {
             return 1;
         }
         else if (a.getStat("played") > 0) {
-            console.log("setting advanced tiebreak! "+a.countryName+" "+a.getStat("points"));
             a.requiresAdvancedTiebreak = a.getStat("points");
-            console.log("setting advanced tiebreak! "+b.countryName+" "+b.getStat("points"));
             b.requiresAdvancedTiebreak = b.getStat("points");
         }
         return 0;
@@ -71,18 +69,16 @@ var Brazil2014 = (function (Tournament) {
      */
     function threat(threatener, evalTeam) {
         if (threatener.getStat("played") === 3 || evalTeam.getStat("points") < 2 || evalTeam.getStat("points") > 6) {
-            throw "Improper use of threat function";
+            throw new Error("ERROR: Improper use of threat function");
         }
         if (threatener.getStat("played") < 2) {
             return true;
         }
         if (threatener.isEliminated === 1 || threatener.hasClinched === 1) {
-            //console.log("Deciding non-threat based on known eliminated/clinching status.");
             return false;
         }
         var ptsBetween = evalTeam.getStat("points") - threatener.getStat("points");
         if (ptsBetween > 3 || ptsBetween < 0) {
-            //console.log("Deciding non-threat based on points differential: "+threatener.countryName+" has "+threatener.getStat("points")+", "+evalTeam.countryName+" has "+evalTeam.getStat("points"));
             return false;
         }
         return true;
@@ -173,7 +169,6 @@ var Brazil2014 = (function (Tournament) {
                 break;
             case 0: //If the threatener is tied, have them lose by enough to just win the tiebreak, or tie if that's not possible.
                 loseBy = (goalDifferenceBetween < 0) ? 0 - goalDifferenceBetween : 0
-                //alert(loseBy);
                 return [99, 99+loseBy];
                 break;
         }
@@ -184,29 +179,24 @@ var Brazil2014 = (function (Tournament) {
      */
     function determineIfEliminated(teamIndex, matches, teams) {
         var leagueTable = teams.slice(0);
-        //console.log("Successfully called determineIfEliminated");
         var teamID = leagueTable[teamIndex].id;
         var alreadyPlayed = [];
         if (matches[0].team1.id === teamID) { //First, if the team has a match remaining, make it a landslide win. 
-            //console.log("Simming 99-0 win for team's remaining match");
             matches[0].play(99,0);
             alreadyPlayed.push(matches.shift());
         }
         else if (matches[0].team2.id === teamID) {
-            //console.log("Simming 99-0 win for team's remaining match");
             matches[0].play(0,99);
             alreadyPlayed.push(matches.shift());
         }
         for (var m = 0; m < matches.length; m++) { //Next, make any non-contending teams win 99-0 to limit threat from their opponents.
             if (!threat(matches[m].team1, leagueTable[teamIndex])) {
-                //console.log(matches[m].team1.countryName+" doesn't threaten "+leagueTable[teamIndex].countryName+". Simming 99-0 win.");
                 matches[m].play(99,0);
                 alreadyPlayed.push(matches[m]);
                 matches.splice(m,1);
                 m--; //since we have removed the match at this index, need to retry this index on next iteration.
             }
             else if (!threat(matches[m].team2, leagueTable[teamIndex])) {
-                //console.log(matches[m].team1.countryName+" doesn't threaten "+leagueTable[teamIndex].countryName+". Simming 99-0 win.");
                 matches[m].play(0,99);
                 alreadyPlayed.push(matches[m]);
                 matches.splice(m,1);
@@ -215,18 +205,14 @@ var Brazil2014 = (function (Tournament) {
         }
         for (var m = 0; m < matches.length; m++) { //Finally, simulate remaining match(es) to minimize damage, per testEliminationMatch.
             if (matches[m].team1.getStat("played") === 2) {
-                //console.log("Calling testEliminationMatch");
                 var result = testEliminationMatch(matches[m].team1, leagueTable[teamIndex]);
-                //console.log("testEliminationMatch. The result of this sim is "+matches[m].team1.countryName+result[0]+matches[m].team2.countryName+result[1]);
                 matches[m].play(result[0], result[1]);
                 alreadyPlayed.push(matches[m]);
                 matches.splice(m,1);
                 m--;
             }
             else if (matches[m].team2.getStat("played") === 2) {
-                //console.log("Calling testEliminationMatch");
                 var result = testEliminationMatch(matches[m].team2, leagueTable[teamIndex]);
-                //console.log("testEliminationMatch. The result of this sim is "+matches[m].team1.countryName+result[0]+matches[m].team2.countryName+result[1]);
                 matches[m].play(result[1], result[0]);
                 alreadyPlayed.push(matches[m]);
                 matches.splice(m,1);
@@ -243,18 +229,17 @@ var Brazil2014 = (function (Tournament) {
                 if (leagueTable[t].requiresAdvancedTiebreak === leagueTable[1].requiresAdvancedTiebreak && leagueTable[t].requiresAdvancedTiebreak > -1) {
                     break; //Do not want to mark teams relying on lot-drawing as eliminated.
                 }
-                //teams[teamIndex].eliminate();
-                //console.log("Eliminating "+teams[teamIndex].countryName);
                 finalStatus = true;
             }
         }
+        //We used shallow copy of the league table because the matches' 'play' method would not affect a deep one , so we need to
+        //unplay the matches and reset rAT from the array sort, so when we return, the teams will be in the condition they came in
         for (var t = 0; t < leagueTable.length; t++) {
         	leagueTable[t].requiresAdvancedTiebreak = -1;
         }
         for (var m = 0; m < alreadyPlayed.length; m++) {
             alreadyPlayed[m].unplay();
             matches.push(alreadyPlayed[m]);
-            //console.log("Unplaying the match between "+alreadyPlayed[m].team1.countryName+" and "+alreadyPlayed[m].team2.countryName);
         }
         return finalStatus;
     }
@@ -264,32 +249,24 @@ var Brazil2014 = (function (Tournament) {
      */
     function determineIfClinched(teamIndex, matches, teams) {
         var leagueTable = teams.slice(0);
-        ////console.log(matches.length);
-        //console.log("Successfully called determineIfClinched");
         var teamID = leagueTable[teamIndex].id;
-        ////console.log("TeamID being evaluated: "+leagueTable[teamIndex].id);
-        ////console.log("First match is between "+matches[0].team1.id+" and "+matches[0].team2.id);
         var alreadyPlayed = [];
         if (matches[0].team1.id === teamID) { //First, if the team has a match remaining, make it a landslide loss. 
-            //console.log("Simming 99-0 loss for "+matches[0].team1.countryName+"'s remaining match against "+matches[0].team2.countryName);
             matches[0].play(0, 99);
             alreadyPlayed.push(matches.shift());
         }
         else if (matches[0].team2.id === teamID) {
-            //console.log("Simming 99-0 loss for "+matches[0].team2.countryName+"'s remaining match against "+matches[0].team1.countryName);
             matches[0].play(99,0);
             alreadyPlayed.push(matches.shift());
         }
         for (var m = 0; m < matches.length; m++) { //Next, make any non-contending teams lose 99-0 to maximize threat from their opponents.
             if (!threat(matches[m].team1, leagueTable[teamIndex])) {
-                //console.log(matches[m].team1.countryName+" doesn't threaten "+leagueTable[teamIndex].countryName+". Simming 99-0 loss.");
                 matches[m].play(0,99);
                 alreadyPlayed.push(matches[m]);
                 matches.splice(m,1);
                 m--; //since we have removed the match at this index, need to retry this index on next iteration.
             }
             else if (!threat(matches[m].team2, leagueTable[teamIndex])) {
-                //console.log(matches[m].team2.countryName+" doesn't threaten "+leagueTable[teamIndex].countryName+". Simming 99-0 loss.");
                 matches[m].play(99,0);
                 alreadyPlayed.push(matches[m]);
                 matches.splice(m,1);
@@ -299,8 +276,6 @@ var Brazil2014 = (function (Tournament) {
         for (var m = 0; m < matches.length; m++) { //Finally, simulate remaining match(es) to maximize damage, per testClinchingMatch.
             if (matches[m].team1.getStat("played") === 2) {
                 var result = testClinchingMatch(matches[m].team1, leagueTable[teamIndex]);
-                //alert(result);
-                ////console.log("testClinchingMatch. The result of this sim is "+matches[m].team1.countryName+result[0]+matches[m].team2.countryName+result[1]);
                 matches[m].play(result[0], result[1]);
                 alreadyPlayed.push(matches[m]);
                 matches.splice(m,1);
@@ -308,8 +283,6 @@ var Brazil2014 = (function (Tournament) {
             }
             else if (matches[m].team2.getStat("played") === 2) {
                 var result = testClinchingMatch(matches[m].team2, leagueTable[teamIndex]);
-                //alert(result);
-                ////console.log("testClinchingMatch. The result of this sim is "+matches[m].team1.countryName+result[0]+matches[m].team2.countryName+result[1]
                 matches[m].play(result[1], result[0]);
                 alreadyPlayed.push(matches[m]);
                 matches.splice(m,1);
@@ -319,27 +292,23 @@ var Brazil2014 = (function (Tournament) {
         if (matches.length != 0) {	//If all other teams have 2 games remaining and this team does not have 7 pts, they cannot have clinched 
             return false;
         }
-        //console.log("In this simulation, "+leagueTable[teamIndex].countryName+" gets "+leagueTable[teamIndex].getStat("points")+" points");
         leagueTable.sort(teamCompare);
-        //console.log(leagueTable[0].countryName+" "+leagueTable[0].getStat("points")+" "+leagueTable[1].countryName+leagueTable[1].getStat("points")+" "+leagueTable[2].countryName+leagueTable[2].getStat("points")+" "+leagueTable[3].countryName+leagueTable[3].getStat("points"));
         var finalStatus = false;
         for (var t = 0; t < 2; t++) {
             if (leagueTable[t].id === teamID) {
-                //console.log("entered here. team's rAT is "+leagueTable[t].requiresAdvancedTiebreak+", 3rd place's is "+leagueTable[2].requiresAdvancedTiebreak);
                 if (leagueTable[t].requiresAdvancedTiebreak === leagueTable[2].requiresAdvancedTiebreak && leagueTable[t].requiresAdvancedTiebreak > -1) {
                     break; //Do not want to mark teams relying on lot-drawing as clinched.
                 }
-                //teams[teamIndex].clinch();
-                //console.log("Clinching "+teams[teamIndex].countryName);
                 finalStatus = true;
             }
         }
+        //We used shallow copy of the league table because the matches' 'play' method would not affect a deep one , so we need to
+        //unplay the matches and reset rAT from the array sort, so when we return, the teams will be in the condition they came in
         for (var t = 0; t < leagueTable.length; t++) {
         	leagueTable[t].requiresAdvancedTiebreak = -1;
         }
         for (var m = 0; m < alreadyPlayed.length; m++) {
             alreadyPlayed[m].unplay();
-            //console.log("Unplaying the match between "+alreadyPlayed[m].team1.countryName+" and "+alreadyPlayed[m].team2.countryName);
             matches.push(alreadyPlayed[m]);
         }
         return finalStatus;

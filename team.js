@@ -102,7 +102,6 @@ var Brazil2014 = (function (Tournament) {
         this.loadStats = function(save) {
             stats = save;
             this.requiresAdvancedTiebreak = -1;
-            console.log(this.countryName+".requiresAdvancedTiebreak should be -1. It is: "+this.requiresAdvancedTiebreak);
         };
     };
     

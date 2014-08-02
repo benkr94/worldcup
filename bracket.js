@@ -27,8 +27,6 @@ var Brazil2014 = (function (Tournament) {
         var nodeArr = [];							//Initialize array representing the entire bracket;
         for (var r = 0; r < rounds; r++) {  		
             nodeArr.push(new Array(Math.pow(2, rounds-r-1)));	//Initialize rounds to contain the appropriate no. of matches;
-            //console.log("I have pushed an array of size "+(Math.pow(2, rounds-r-1))+" to nodeArr["+r+"]");
-            //console.log("nodeArr["+r+"].length: "+nodeArr[r].length);
         }
         for (var r = 0; r < rounds; r++) {
             for (var m = 0; m < nodeArr[r].length; m++)
@@ -37,16 +35,13 @@ var Brazil2014 = (function (Tournament) {
         var champion = new Node(rounds, 0);
         var next;
         for (var r = rounds - 1; r >= 0; r--) {
-            //console.log("r is "+r+", nodeArr[r].length is "+nodeArr[r].length);
             for (var m = 0; m < nodeArr[r].length; m++) {
                 if (r === rounds - 1) {
                     next = champion; 
                 }
                 else {
-                    //console.log("I am setting next to nodeArr["+(r+1)+"]["+(Math.floor(m/2))+"]["+(m%2)+"]");
                     next = nodeArr[r+1][Math.floor(m/2)][m%2];
                 }
-                //console.log("Creating nodes for "+r+"-"+m);
                 nodeArr[r][m][0] = new Node(next, 0);
                 nodeArr[r][m][1] = new Node(next, 1);
             }
@@ -116,7 +111,6 @@ var Brazil2014 = (function (Tournament) {
         };
         
         this.updateTimes = function (offset) {
-            //console.log("Doing this.");
             for (var i = 0; i < times.length; i++) {
                 var localTime = new Date(times[i].getTime());
                 localTime.setMinutes(localTime.getMinutes()+offset);
