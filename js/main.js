@@ -24,7 +24,7 @@ var Brazil2014 = (function() {
             throw new Error("ERROR: Wrong number of match details for constructing World Cup tournament");
         }
         this.groups = [];
-        for (var g=0; g<8; g++) {
+        for (var g = 0; g < 8; g++) {
             var teams = [];
             var groupMatchDetails = [];
             groupMatchDetails.push(matchDetails[2*g]);
@@ -33,7 +33,7 @@ var Brazil2014 = (function() {
             groupMatchDetails.push(matchDetails[16+2*g+1]);
             groupMatchDetails.push(matchDetails[32+2*g]);
             groupMatchDetails.push(matchDetails[32+2*g+1]);
-            for (var t=0; t < 4; t++) {
+            for (var t = 0; t < 4; t++) {
                 teams[t] = new this.Team(4*g+t, countryNames[4*g+t]);
             }
             this.groups[g] = new this.Group(g, teams, groupMatchDetails);

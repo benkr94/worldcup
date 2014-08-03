@@ -24,10 +24,9 @@ var Brazil2014 = (function (Tournament) {
         this.id = id;
         this.team1 = team1;
         this.team2 = team2;
-        location = location;
-        time = new Date(Date.UTC(2014,time[0],time[1],time[2],time[3]));
-        var score1 = '';
-        var score2 = '';
+        var location = location;
+        var time = new Date(Date.UTC(2014,time[0],time[1],time[2],time[3]));
+        var score1 = '-', score2 = '-';
         
         this.draw = function () {
             return '<div id="match'+id+'" class="matchRow">'+
@@ -64,7 +63,7 @@ var Brazil2014 = (function (Tournament) {
          */
         function isNonNegativeInteger(n) {
             return parseInt(n) === Number(n) && n >= 0;
-        };
+        }
         
         this.play = function (goals1, goals2) {
             var updateTable = false;

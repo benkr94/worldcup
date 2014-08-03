@@ -97,11 +97,10 @@ var Brazil2014 = (function (Tournament) {
         if (!threat(threatener, evalTeam)) { //"Threatener" doesn't actually threaten evalTeam. Return heavy loss for opponent.
             return [99,0];
         }
-        ptsBetween = evalTeam.getStat("points") - threatener.getStat("points");
-        goalDifferenceBetween = evalTeam.getStat("goalDifference") - threatener.getStat("goalDifference");
-        goalsForBetween = evalTeam.getStat("goalsFor") - threatener.getStat("goalsFor");
-        var winBy = 0;
-        var loseBy = 0;
+        var ptsBetween = evalTeam.getStat("points") - threatener.getStat("points");
+        var goalDifferenceBetween = evalTeam.getStat("goalDifference") - threatener.getStat("goalDifference");
+        var goalsForBetween = evalTeam.getStat("goalsFor") - threatener.getStat("goalsFor");
+        var winBy, loseBy;
         switch (ptsBetween) {
             case 3: //If the threatener trails by 3 points, they can safely win by as many points as they are behind in goal difference.
                 winBy = (goalDifferenceBetween <= goalsForBetween) ? goalDifferenceBetween : goalDifferenceBetween - 1;
@@ -113,7 +112,7 @@ var Brazil2014 = (function (Tournament) {
                 break;         
             case 1: //If the threatener trails by one point, return a 0-0 draw, unless they would win the tiebreak. Then return 0-1 loss.
                 if (goalDifferenceBetween < 0 || (goalDifferenceBetween === 0 && goalsForBetween < 0)) {
-                    return [0,1]
+                    return [0,1];
                 }
                 else {
                     return [0,0];
@@ -147,10 +146,10 @@ var Brazil2014 = (function (Tournament) {
         if (!threat(threatener, evalTeam)) { //"Threatener" doesn't actually threaten evalTeam. Return heavy win for opponent.
             return [0,99];
         }
-        ptsBetween = evalTeam.getStat("points") - threatener.getStat("points");
-        goalDifferenceBetween = evalTeam.getStat("goalDifference") - threatener.getStat("goalDifference");
-        goalsForBetween = evalTeam.getStat("goalsFor") - threatener.getStat("goalsFor");
-        winBy = 0;
+        var ptsBetween = evalTeam.getStat("points") - threatener.getStat("points");
+        var goalDifferenceBetween = evalTeam.getStat("goalDifference") - threatener.getStat("goalDifference");
+        //use of unrealistically high scores means no need for goalsForBetween variable -- both competitors will always pass evalTeam
+        var winBy, loseBy;
         switch (ptsBetween) {
             case 3: //If the threatener trails by 3 points, have them win by enough to win the GD tiebreak, while allowing tons of goals.
                 winBy = (goalDifferenceBetween < 1) ? 1 : goalDifferenceBetween;
@@ -168,7 +167,7 @@ var Brazil2014 = (function (Tournament) {
                 }
                 break;
             case 0: //If the threatener is tied, have them lose by enough to just win the tiebreak, or tie if that's not possible.
-                loseBy = (goalDifferenceBetween < 0) ? 0 - goalDifferenceBetween : 0
+                loseBy = (goalDifferenceBetween < 0) ? 0 - goalDifferenceBetween : 0;
                 return [99, 99+loseBy];
                 break;
         }
@@ -181,6 +180,7 @@ var Brazil2014 = (function (Tournament) {
         var leagueTable = teams.slice(0);
         var teamID = leagueTable[teamIndex].id;
         var alreadyPlayed = [];
+        var result;
         if (matches[0].team1.id === teamID) { //First, if the team has a match remaining, make it a landslide win. 
             matches[0].play(99,0);
             alreadyPlayed.push(matches.shift());
@@ -205,21 +205,21 @@ var Brazil2014 = (function (Tournament) {
         }
         for (var m = 0; m < matches.length; m++) { //Finally, simulate remaining match(es) to minimize damage, per testEliminationMatch.
             if (matches[m].team1.getStat("played") === 2) {
-                var result = testEliminationMatch(matches[m].team1, leagueTable[teamIndex]);
+                result = testEliminationMatch(matches[m].team1, leagueTable[teamIndex]);
                 matches[m].play(result[0], result[1]);
                 alreadyPlayed.push(matches[m]);
                 matches.splice(m,1);
                 m--;
             }
             else if (matches[m].team2.getStat("played") === 2) {
-                var result = testEliminationMatch(matches[m].team2, leagueTable[teamIndex]);
+                result = testEliminationMatch(matches[m].team2, leagueTable[teamIndex]);
                 matches[m].play(result[1], result[0]);
                 alreadyPlayed.push(matches[m]);
                 matches.splice(m,1);
                 m--;
             }
         }
-        if (matches.length != 0) {	//If all other teams have 2 games remaining and this team does not have <=1 pt, they cannot be eliminated 
+        if (matches.length !== 0) {	//If all other teams have 2 games remaining and this team does not have <=1 pt, they cannot be eliminated 
             return false;
         }
         leagueTable.sort(teamCompare);
@@ -251,6 +251,7 @@ var Brazil2014 = (function (Tournament) {
         var leagueTable = teams.slice(0);
         var teamID = leagueTable[teamIndex].id;
         var alreadyPlayed = [];
+        var result;
         if (matches[0].team1.id === teamID) { //First, if the team has a match remaining, make it a landslide loss. 
             matches[0].play(0, 99);
             alreadyPlayed.push(matches.shift());
@@ -275,21 +276,21 @@ var Brazil2014 = (function (Tournament) {
         }
         for (var m = 0; m < matches.length; m++) { //Finally, simulate remaining match(es) to maximize damage, per testClinchingMatch.
             if (matches[m].team1.getStat("played") === 2) {
-                var result = testClinchingMatch(matches[m].team1, leagueTable[teamIndex]);
+                result = testClinchingMatch(matches[m].team1, leagueTable[teamIndex]);
                 matches[m].play(result[0], result[1]);
                 alreadyPlayed.push(matches[m]);
                 matches.splice(m,1);
                 m--;
             }
             else if (matches[m].team2.getStat("played") === 2) {
-                var result = testClinchingMatch(matches[m].team2, leagueTable[teamIndex]);
+                result = testClinchingMatch(matches[m].team2, leagueTable[teamIndex]);
                 matches[m].play(result[1], result[0]);
                 alreadyPlayed.push(matches[m]);
                 matches.splice(m,1);
                 m--;
             }
         }
-        if (matches.length != 0) {	//If all other teams have 2 games remaining and this team does not have 7 pts, they cannot have clinched 
+        if (matches.length !== 0) {	//If all other teams have 2 games remaining and this team does not have 7 pts, they cannot have clinched 
             return false;
         }
         leagueTable.sort(teamCompare);

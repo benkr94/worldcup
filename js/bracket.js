@@ -70,7 +70,7 @@ var Brazil2014 = (function (Tournament) {
                 opponent.unWin();
                 node.win();
             }
-        }
+        };
         
         this.getWinnerString = function () {
             var winnerString = '';
@@ -94,7 +94,7 @@ var Brazil2014 = (function (Tournament) {
             winnerString = winnerString.split('').reverse().join('');
             for (var r = 0; r < nodeArr.length; r++) {
                 for (var m = 0; m < nodeArr[r].length; m++) {
-                    if (winnerString.charAt(0) == 0) {
+                    if (winnerString.charAt(0) === "0") {
                         continue;
                     }
                     nodeArr[r][m][parseInt(winnerString.charAt(0))-1].win();
@@ -116,7 +116,7 @@ var Brazil2014 = (function (Tournament) {
                 localTime.setMinutes(localTime.getMinutes()+offset);
                 $('#Bracket .details').eq(i).children('.kotime').text(localTime.toUTCString().split(' ').splice(1).join(' ').split(':',2).join(':').replace('2014',''));
             }
-        }
+        };
     };
     
 /* Node

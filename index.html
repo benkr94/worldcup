@@ -367,7 +367,7 @@
         $('#tabs #tab-links a').first().parent('div').addClass('active-tab');
         $('#row2 #group-buttons').show();
         var user_scores = location.search.slice(1);
-        Brazil2014.load(user_scores == '' ? SCORES: user_scores);
+        Brazil2014.load(user_scores === '' ? SCORES: user_scores);
         
         $('#tabs #tab-links a').on('click', function(e)  {
             var currentAttrValue = $(this).attr('href');
@@ -393,7 +393,7 @@
                 var matchID = parseInt($(this).parents(".matchRow").attr('id').substring(5));
                 var matchIndex = 2*Math.floor((matchID-1)/16) + ((matchID-1) % 2);
                 var score1 = $(this).parent(".result").children(".score1").val();
-                var score2 = $(this).parent(".result").children(".score2").val()
+                var score2 = $(this).parent(".result").children(".score2").val();
                 Brazil2014.groups[groupIndex].play(matchIndex, score1, score2);
         });
         
@@ -403,7 +403,7 @@
                 var matchID = $(this).parents(".matchRow").attr('id').substring(5);
                 var matchIndex = 2*Math.floor((matchID-1)/16) + ((matchID-1) % 2);
                 var score1 = $(this).parent(".result").children(".score1").val();
-                var score2 = $(this).parent(".result").children(".score2").val()
+                var score2 = $(this).parent(".result").children(".score2").val();
                 Brazil2014.groups[groupIndex].play(matchIndex, score1, score2);
             }
         });

@@ -96,8 +96,9 @@ var Brazil2014 = (function (Tournament) {
         };
         
         this.submitAdvancers = function (advanceList) {
+            var matchIndex;
             for (var t = 0; t < 2; t++) {
-                var matchIndex = Math.floor(id/2) + 4 * Math.abs((t - (id % 2)));
+                matchIndex = Math.floor(id/2) + 4 * Math.abs((t - (id % 2)));
                 if (teams[t].getStat("played") === 0) {
                     advanceList[matchIndex*2+t] = {id: null};
                 }
@@ -123,12 +124,13 @@ var Brazil2014 = (function (Tournament) {
         };
         
         this.load = function (scoreString) {
+        	var score1, score2;
             if (id % 2 === 1) {
                 scoreString = scoreString.split('').reverse().join('');
             }
             for (var m = 0; m < matches.length; m++) {
-                var score1 = (scoreString.charAt(m*2) !== '-') ? scoreString.charAt(m*2) : '';
-                   var score2 = (scoreString.charAt(m*2+1) !== '-') ? scoreString.charAt(m*2+1) : '';
+                score1 = (scoreString.charAt(m*2) !== '-') ? scoreString.charAt(m*2) : '';
+                score2 = (scoreString.charAt(m*2+1) !== '-') ? scoreString.charAt(m*2+1) : '';
                 $('#'+idChar+' #match'+matches[m].id+' .score1').val(score1);
                 $('#'+idChar+' #match'+matches[m].id+' .score2').val(score2);
                 matches[m].play(score1, score2);
@@ -146,7 +148,7 @@ var Brazil2014 = (function (Tournament) {
             rankAll();
             reorderTable();
             colorRows();
-        };
+        }
         
         /* rankAll
          * First tries to sort the teams array just using teamCompare, which places teams with more points above those with less and
@@ -156,10 +158,11 @@ var Brazil2014 = (function (Tournament) {
          * restored.
          */
         function rankAll() {
+        	var minigroup, correctOrder;
+        	var saves = [];
             teams.sort(Tournament.groupUtils.teamCompare);
             for (var t = 0; t < teams.length; t++) {
                 if (teams[t].requiresAdvancedTiebreak !== -1) {
-                    saves = {};
                     saves[teams[t].id] = teams[t].reset();
                     minigroup = [teams[t]];
                     for (var u = t+1; u < teams.length; u++) {
@@ -171,7 +174,7 @@ var Brazil2014 = (function (Tournament) {
                             break;
                         }
                     }
-                    var correctOrder = Tournament.groupUtils.advancedTiebreak(minigroup, matches);
+                    correctOrder = Tournament.groupUtils.advancedTiebreak(minigroup, matches);
                     for (var v = 0; v < minigroup.length; v++) {
                         teams[t+v] = minigroup[v];
                         teams[t+v].loadStats(saves[teams[t+v].id]);
@@ -180,7 +183,7 @@ var Brazil2014 = (function (Tournament) {
                 }
             }
             return teams;
-        };
+        }
         
         function reorderTable() {
             var statKeys = ["played", "won", "drawn", "lost", "goalsFor", "goalsAgainst", "goalDifference", "points"];
@@ -189,13 +192,14 @@ var Brazil2014 = (function (Tournament) {
                     $('#'+idChar+' .groupTable #row'+teams[t].id+' .'+statKeys[s]+' .content').text(teams[t].getStat(statKeys[s]));
                 }
             }
+            var rankChange;
             for (var t = 0; t < teams.length; t++) { //two iterations over same array intentional; want to change stats before beginning animation
-                var rankChange = t - teams[t].prevRank;
+                rankChange = t - teams[t].prevRank;
                 $('#'+idChar+' .groupTable #row'+teams[t].id+' td > div').css('z-index',rankChange);
                    $('#'+idChar+' .groupTable #row'+teams[t].id+' td > div').animate({'top':'+='+(rankChange*31)+'px'});
                    teams[t].prevRank = t;
             }
-        };
+        }
         
         /* colorRows
          * Colors the table green for teams that have clinched a berth in the knockout round, red for those that have been eliminated.
@@ -260,9 +264,10 @@ var Brazil2014 = (function (Tournament) {
                  * finish in 1st or 2nd.  To determine whether a team has clinched, we make the sims as unfavorable to that team as
                  * possible and see if they can finish in 3rd or 4th. More info is in groupUtils.js.
                  */
+                var matchesLeft;
                 for (var t = teams.length-1; t >= 0; t--) {
                     if (!teams[t].knownStatus()) {
-                        var matchesLeft = [];
+                        matchesLeft = [];
                         for (var m = 0; m < matches.length; m++) {
                             if (!matches[m].played()) {
                                 if (matches[m].team1.id === teams[t].id || matches[m].team2.id === teams[t].id) {
@@ -335,7 +340,7 @@ var Brazil2014 = (function (Tournament) {
                     }
                 }
             }
-        };
+        }
         
     };
     

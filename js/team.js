@@ -50,11 +50,11 @@ var Brazil2014 = (function (Tournament) {
             this.isEliminated = -1;
             this.hasClinched = 1;
         };
-        this.resetGroupStatus = function() {
+        this.resetGroupStatus = function () {
             this.isEliminated = 0;
             this.hasClinched = 0;
         };
-        this.knownStatus = function() {
+        this.knownStatus = function () {
             return (this.isEliminated !== 0 && this.hasClinched !== 0);
         };
         
