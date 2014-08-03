@@ -95,6 +95,7 @@ var Brazil2014 = (function (Tournament) {
             for (var r = 0; r < nodeArr.length; r++) {
                 for (var m = 0; m < nodeArr[r].length; m++) {
                     if (winnerString.charAt(0) === "0") {
+                        winnerString = winnerString.slice(1);
                         continue;
                     }
                     nodeArr[r][m][parseInt(winnerString.charAt(0))-1].win();

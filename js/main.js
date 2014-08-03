@@ -66,7 +66,7 @@ var Brazil2014 = (function() {
         this.knockout.setFirstTeams(advanceList);
     };
 
-    this.save = function() {
+    this.save = function () {
         var groupString = '';
         for (var g = 0; g < this.groups.length; g++) {
             groupString += this.groups[g].getScoreString();
@@ -79,7 +79,7 @@ var Brazil2014 = (function() {
     this.load = function (encodedString, groupID) {
         var decodedStrings, message;
         while (true) {
-            message = "Sorry, the provided save code is invalid. Please try again, or enter \"empty\" for an empty tournament";
+            message = "Sorry, the provided save code is invalid. Please try again, or enter \"empty\" for an empty tournament.";
             if (encodedString === null) {
                 console.log("Load cancelled.");
                 return false;
@@ -92,7 +92,7 @@ var Brazil2014 = (function() {
             }
             catch (e) {
                 if (encodedString === '') {
-                    message = "Please enter a code to load a saved tournament";
+                    message = "Please enter a code to load a saved tournament.";
                 }
                 decodedStrings = {groupString: '', bracketString: ''};
             }

@@ -85,7 +85,7 @@
 }
 
 #row2 .glossybutton {
-    width: 170px;
+    width: 175px;
     
     background: rgba(255,255,136,1);
     background: -moz-linear-gradient(top, rgba(255,255,136,1) 0%, rgba(255,255,136,1) 50%, rgba(255,204,41,1) 100%);
@@ -98,7 +98,7 @@
 }
 
 #row2 .glossybutton::before {
-    width: 160px;
+    width: 165px;
 }
 
 #row3 .glossybutton {

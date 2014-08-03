@@ -99,7 +99,7 @@ var Brazil2014 = (function (Tournament) {
             stats = {"played": 0, "won": 0, "drawn": 0, "lost": 0, "goalsFor": 0, "goalsAgainst": 0};
             return savedState;
         };
-        this.loadStats = function(save) {
+        this.loadStats = function (save) {
             stats = save;
             this.requiresAdvancedTiebreak = -1;
         };

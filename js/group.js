@@ -59,7 +59,7 @@ var Brazil2014 = (function (Tournament) {
         this.drawTable = function () {
             var statKeys = ["played", "won", "drawn", "lost", "goalsFor", "goalsAgainst", "goalDifference", "points"]; //avoiding forEach for the benefit of IE8 users
             var html = '<table cellspacing="0"><tr>'+
-                           '<th width="130">Team</th>'+
+                           '<th width="140">Team</th>'+
                            '<th width="28"><abbr title="Played">Pld</abbr></th>'+
                            '<th width="28"><abbr title="Won">W</abbr></th>'+
                            '<th width="28"><abbr title="Drawn">D</abbr></th>'+
