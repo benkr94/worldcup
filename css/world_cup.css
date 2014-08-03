@@ -1,7 +1,7 @@
 /*world_cup.css: most styling for the page, except the tabs, bracket, and buttons, which are complicated enough for their own files*/
 
 body {
-    font-family: 'Gill Sans', Helvetica, sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', Tahoma, Verdana, Helvetica, sans-serif;
     min-width: 1075px; /*fits all tabs, knockout bracket*/
 }
 

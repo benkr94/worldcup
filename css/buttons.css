@@ -19,6 +19,7 @@
     height: 20px;
     font-size: small;
     display: inline-block;
+    white-space: nowrap;
     vertical-align: center;
     cursor: pointer;
     border: 1px solid #4864a9;  
@@ -36,7 +37,7 @@
     text-align: center;   
     text-decoration: none;  
     position: relative;
-    top: 2px;
+    top: 1px;
     z-index: 1;
 }
 
@@ -65,7 +66,7 @@
  *longer text, but equal for symmetry*/ 
 
 #row1 .glossybutton {
-    width: 80px;
+    width: 120px;
     color: #fff;  
     text-shadow: 1px 1px 0px rgba(0,0,0,.5);
     
@@ -80,11 +81,11 @@
 }
 
 #row1 .glossybutton::before {
-    width: 70px;
+    width: 110px;
 }
 
 #row2 .glossybutton {
-    width: 160px;
+    width: 170px;
     
     background: rgba(255,255,136,1);
     background: -moz-linear-gradient(top, rgba(255,255,136,1) 0%, rgba(255,255,136,1) 50%, rgba(255,204,41,1) 100%);
@@ -97,11 +98,11 @@
 }
 
 #row2 .glossybutton::before {
-    width: 150px;
+    width: 160px;
 }
 
 #row3 .glossybutton {
-    width: 190px;
+    width: 200px;
     
     background: rgba(0,255,136,1);
     background: -moz-linear-gradient(top, rgba(0,255,136,1) 0%, rgba(0,255,136,1) 50%, rgba(0,168,89,1) 100%);
@@ -114,7 +115,7 @@
 }
 
 #row3 .glossybutton::before {
-    width: 180px;
+    width: 190px;
 }
 
 /*: hover and :active selector styling give an impression of the button being pressed. This is done symmetrically, using :first-child
