@@ -31,13 +31,13 @@ var Brazil2014 = (function (Tournament) {
         }
         var miniString = '';
         switch(scoreString.charAt(0)) {
-            case "0":
-            case "1":
-            case "2":
-            case "3":
+            case '0':
+            case '1':
+            case '2':
+            case '3':
                 miniString += scoreString.charAt(0);
                 for (var i = 1; i < 3; i++) {
-                    if ($.inArray(scoreString.charAt(i).toString(), ["0","1","2","3"]) === -1) { //JQuery used as IE<9 does not have array.indexOf
+                    if ($.inArray(scoreString.charAt(i).toString(), ['0','1','2','3']) === -1) { //JQuery used as IE<9 does not have array.indexOf
                         break;
                     }
                     miniString += scoreString.charAt(i);
@@ -50,15 +50,15 @@ var Brazil2014 = (function (Tournament) {
                 }
                 return groupKeyString.charAt(offset + baseConverted) + groupEncode(scoreString.slice(miniString.length));
                 break;
-            case "4":
-            case "5":
-            case "6":
-            case "7":
-            case "8":
-            case "9":
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
                 return groupKeyString.charAt(80 + parseInt(scoreString.charAt(0))) + groupEncode(scoreString.slice(1));
                 break;
-            case "-":
+            case '-':
                 var counter = 1;
                 while (counter < scoreString.length) {
                     if (scoreString.charAt(counter) !== '-') {
@@ -67,15 +67,15 @@ var Brazil2014 = (function (Tournament) {
                     counter++;
                 }
                 if (counter === 1) {
-                    return "-"+groupEncode(scoreString.slice(counter));
+                    return '-'+groupEncode(scoreString.slice(counter));
                 }
                 else if (counter === scoreString.length) {
-                    return "__";
+                    return '__';
                 }
                 else if (counter > groupKeyString.length+1) {	//allow counting spaces past what can encoded into 2 chars so that
                 	counter = (groupKeyString.length+1);		//spaces-till-end can be detected, but resume encoding from no further
                 }												//if it is not detected
-                return "_"+groupKeyString.charAt(counter-2)+groupEncode(scoreString.slice(counter));
+                return '_'+groupKeyString.charAt(counter-2)+groupEncode(scoreString.slice(counter));
                 break;
             default:
                 var message = "ERROR: Invalid character "+scoreString.charAt(0)+" in group's scoreString; only digits and dashes are acceptable"
@@ -211,7 +211,7 @@ var Brazil2014 = (function (Tournament) {
      * loaded by the Group's and Bracket's load methods, respectively.
      */
     encodeUtils.decode = function(encodedString) {
-    	if (encodedString === 'empty') {
+    	if (encodedString === "empty") {
     		encodedString = '__+0';
     	}
         var stageSplit = encodedString.split('+');

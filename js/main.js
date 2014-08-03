@@ -48,14 +48,14 @@ var Brazil2014 = (function() {
         var userOffset = 0 - userTime.getTimezoneOffset();
         $('#tzwrapper select').val(userOffset);
         if ($('#tzwrapper select').val() === null) {
-            $('#tzwrapper select').val("");
+            $('#tzwrapper select').val('');
             this.updateTimes(-180); //default to Rio time if user's browser gives us a funky offset
         }
         else {
             this.updateTimes(userOffset);
         }
-        $("#group-tab-links").children().unwrap();
-        $("#group-tab-content").children().unwrap();
+        $('#group-tab-links').children().unwrap();
+        $('#group-tab-content').children().unwrap();
     };
     
     this.populateBracket = function () {
@@ -73,13 +73,13 @@ var Brazil2014 = (function() {
         }
         var encodedString = this.encodeUtils.encode(groupString, this.knockout.getWinnerString());
         var urlSafeEncodedString = encodeURIComponent(encodedString);
-        alert("To recover this tournament, click \"Load scores\" and enter this string:\n\n"+encodedString+"\n\nor enter this into the address bar:\n\nhttp://www.fantagraphy.net/worldcup?"+urlSafeEncodedString); 
+        alert("To recover this tournament, click \"Load tournament\" and enter this string:\n\n"+encodedString+"\n\nor enter this into the address bar:\n\nhttp://www.fantagraphy.net/worldcup?"+urlSafeEncodedString); 
     };
     
     this.load = function (encodedString, groupID) {
         var decodedStrings, message;
         while (true) {
-            message = "Sorry, the provided save code is invalid. Please try again, or enter 'empty' for an empty tournament";
+            message = "Sorry, the provided save code is invalid. Please try again, or enter \"empty\" for an empty tournament";
             if (encodedString === null) {
                 console.log("Load cancelled.");
                 return false;
@@ -94,7 +94,7 @@ var Brazil2014 = (function() {
                 if (encodedString === '') {
                     message = "Please enter a code to load a saved tournament";
                 }
-                decodedStrings = {groupString: "", bracketString: ""};
+                decodedStrings = {groupString: '', bracketString: ''};
             }
             if (decodedStrings.groupString.length === 96 || decodedStrings.bracketString.length === 15) {
                 break;

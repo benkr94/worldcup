@@ -77,8 +77,8 @@ var Brazil2014 = (function (Tournament) {
                 }
                 html += '</tr>';
             }
-            html += "</table>";
-            $("#"+idChar+" .groupTable").html(html);
+            html += '</table>';
+            $('#'+idChar+' .groupTable').html(html);
         };
         
         this.drawMatches = function () {
@@ -86,7 +86,7 @@ var Brazil2014 = (function (Tournament) {
             for (var m = 0; m < matches.length; m++) {
                 html += matches[m].draw();
             }
-            $("#"+idChar+" .matches").html(html);
+            $('#'+idChar+' .matches').html(html);
         };
         
         this.updateTimes = function (offset) {
@@ -129,8 +129,8 @@ var Brazil2014 = (function (Tournament) {
             for (var m = 0; m < matches.length; m++) {
                 var score1 = (scoreString.charAt(m*2) !== '-') ? scoreString.charAt(m*2) : '';
                    var score2 = (scoreString.charAt(m*2+1) !== '-') ? scoreString.charAt(m*2+1) : '';
-                $("#"+idChar+" #match"+matches[m].id+" .score1").val(score1);
-                $("#"+idChar+" #match"+matches[m].id+" .score2").val(score2);
+                $('#'+idChar+' #match'+matches[m].id+' .score1').val(score1);
+                $('#'+idChar+' #match'+matches[m].id+' .score2').val(score2);
                 matches[m].play(score1, score2);
             }
             updateTable();
@@ -186,13 +186,13 @@ var Brazil2014 = (function (Tournament) {
             var statKeys = ["played", "won", "drawn", "lost", "goalsFor", "goalsAgainst", "goalDifference", "points"];
                for (var t = 0; t < teams.length; t++) {
                 for (var s = 0; s < statKeys.length; s++) {
-                    $("#"+idChar+" .groupTable #row"+teams[t].id+" ."+statKeys[s]+" .content").text(teams[t].getStat(statKeys[s]));
+                    $('#'+idChar+' .groupTable #row'+teams[t].id+' .'+statKeys[s]+' .content').text(teams[t].getStat(statKeys[s]));
                 }
             }
             for (var t = 0; t < teams.length; t++) { //two iterations over same array intentional; want to change stats before beginning animation
                 var rankChange = t - teams[t].prevRank;
-                $("#"+idChar+" .groupTable #row"+teams[t].id+" td > div").css('z-index',rankChange);
-                   $("#"+idChar+" .groupTable #row"+teams[t].id+" td > div").animate({"top":"+="+(rankChange*31)+"px"});
+                $('#'+idChar+' .groupTable #row'+teams[t].id+' td > div').css('z-index',rankChange);
+                   $('#'+idChar+' .groupTable #row'+teams[t].id+' td > div').animate({'top':'+='+(rankChange*31)+'px'});
                    teams[t].prevRank = t;
             }
         };
@@ -322,16 +322,16 @@ var Brazil2014 = (function (Tournament) {
             finally {
                 for (var t = 0; t < teams.length; t++) {
                     if (teams[t].hasClinched === 1) {
-                        $("#"+idChar+" .groupTable #row"+teams[t].id+" div").removeClass("eliminated");
-                        $("#"+idChar+" .groupTable #row"+teams[t].id+" div").addClass("clinched");
+                        $('#'+idChar+' .groupTable #row'+teams[t].id+' div').removeClass('eliminated');
+                        $('#'+idChar+' .groupTable #row'+teams[t].id+' div').addClass('clinched');
                     }
                     else if (teams[t].isEliminated === 1) {
-                        $("#"+idChar+" .groupTable #row"+teams[t].id+" div").removeClass("clinched");
-                        $("#"+idChar+" .groupTable #row"+teams[t].id+" div").addClass("eliminated");
+                        $('#'+idChar+' .groupTable #row'+teams[t].id+' div').removeClass('clinched');
+                        $('#'+idChar+' .groupTable #row'+teams[t].id+' div').addClass('eliminated');
                     }
                     else {
-                        $("#"+idChar+" .groupTable #row"+teams[t].id+" div").removeClass("clinched");
-                        $("#"+idChar+" .groupTable #row"+teams[t].id+" div").removeClass("eliminated");
+                        $('#'+idChar+' .groupTable #row'+teams[t].id+' div').removeClass('clinched');
+                        $('#'+idChar+' .groupTable #row'+teams[t].id+' div').removeClass('eliminated');
                     }
                 }
             }
